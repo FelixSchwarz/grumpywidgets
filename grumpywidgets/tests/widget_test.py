@@ -2,17 +2,10 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
+from StringIO import StringIO
+
 from grumpywidgets.api import Widget
 from grumpywidgets.lib.pythonic_testcase import *
-
-
-class WidgetTest(PythonicTestCase):
-    def test_can_render_widget(self):
-        class DummyWidget(Widget):
-            def display(self, value):
-                return u'Hello %s!' % value
-        
-        assert_equals(u'Hello world!', DummyWidget().display('world'))
 
 
 class WidgetInitializationTest(PythonicTestCase):
@@ -52,4 +45,13 @@ class WidgetInitializationTest(PythonicTestCase):
             _secret = 42
         e = assert_raises(ValueError, lambda: CustomWidget(_secret=None))
         assert_equals("Must not override private attribute '_secret'", e.args[0])
+
+
+class WidgetJinjaTemplatesTest(PythonicTestCase):
+    def test_can_use_jinja_template(self):
+        class DummyWidget(Widget):
+            template = StringIO('Hello {{ value }}!')
+        
+        assert_equals(u'Hello world!', DummyWidget().display('world'))
+
 

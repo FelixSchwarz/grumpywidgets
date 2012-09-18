@@ -2,6 +2,9 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
+from jinja2 import Environment, PackageLoader, Template
+
+
 __all__ = ['Widget']
 
 class Widget(object):
@@ -9,6 +12,8 @@ class Widget(object):
     template = None
     css_classes = None
     children = ()
+    
+    _template_path = ('grumpywidgets', 'templates')
     
     def __init__(self, **kwargs):
         for key in kwargs.keys():
@@ -26,7 +31,17 @@ class Widget(object):
             first_key = kwargs.keys()[0]
             raise TypeError("__init__() got an unexpected keyword argument '%s'" % first_key)
     
+    def _render_template(self, values):
+        if hasattr(self.template, 'read'):
+            template = Template(self.template.read())
+        else:
+            env = Environment(loader=PackageLoader(*self._template_path))
+            template = env.get_template(self.template)
+        return template.render(**values)
+    
     def display(self, value):
-        return unicode(value)
+        if not isinstance(value, dict):
+            value = dict(value = value)
+        return self._render_template(value)
 
 

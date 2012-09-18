@@ -11,6 +11,11 @@ class InputWidget(Widget):
     validator = None
     name = None
     label = None
+    
+    def __init__(self, name=None, **kwargs):
+        if name is not None:
+            kwargs['name'] = name
+        super(InputWidget, self).__init__(**kwargs)
 
 
 class Form(InputWidget):

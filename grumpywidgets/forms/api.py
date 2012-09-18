@@ -31,6 +31,18 @@ class Form(InputWidget):
             form += 'name="%s" ' % unicode(self.name)
         if self.css_classes:
             form += 'class="%s" ' % ' '.join(self.css_classes)
-        form += 'action="%s" method="%s" accept-charset="%s"></form>' % (self.url, self.method, self.charset)
+        form += 'action="%s" method="%s" accept-charset="%s">' % (self.url, self.method, self.charset)
+        
+        child_values = value
+        for child in self.children:
+            child_value = None
+            if hasattr(child, 'name'):
+                child_name = getattr(child, 'name')
+                child_value = child_values.pop(child_name, None)
+            form += child.display(child_value)
+        if child_values:
+            first_key = child_values.keys()[0]
+            raise ValueError("Unknown parameter '%s' passed to display()" % first_key)
+        form += '</form>'
         return form
 

@@ -8,22 +8,15 @@ __all__ = ['SubmitButton']
 
 class SubmitButton(InputWidget):
     value = None
+    template = 'submit_button.jinja2'
     
-    def display(self, value=None):
-        button = '<input type="submit" '
-        
-        if self.id:
-            button += 'id="%s" ' % self.id
-        if self.name:
-            button += 'name="%s" ' % self.name
+    def template_variables(self, values):
+        variables = self.super()
         if self.value is not None:
             # self.value can be used to override any value from form data to 
             # prevent 'empty button text' as seen in ToscaWidgets
-            value = self.value
-        if value not in ('', None):
-            button += 'value="%s" ' % value
-        if self.css_classes:
-            button += 'class="%s" ' % ' '.join(self.css_classes)
-        button += '/>'
-        return button
+            variables['value'] = self.value
+        if ('value' in variables) and (variables['value'] in ('', None)):
+            del variables['value']
+        return variables
 

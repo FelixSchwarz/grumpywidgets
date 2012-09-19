@@ -2,7 +2,7 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
-from grumpywidgets.api import Widget
+from grumpywidgets.api import Context, Widget
 
 
 __all__ = ['InputWidget', 'Form']
@@ -22,27 +22,19 @@ class Form(InputWidget):
     url = ''
     method = 'POST'
     charset = 'UTF-8'
+    template = 'form.jinja2'
     
-    def display(self, value):
-        form = '<form '
-        if self.id is not None:
-            form += 'id="%s" ' % unicode(self.id)
-        if self.name is not None:
-            form += 'name="%s" ' % unicode(self.name)
-        if self.css_classes:
-            form += 'class="%s" ' % ' '.join(self.css_classes)
-        form += 'action="%s" method="%s" accept-charset="%s">' % (self.url, self.method, self.charset)
-        
-        child_values = value
+    def initialize_children(self, values):
         for child in self.children:
-            child_value = None
-            if hasattr(child, 'name'):
-                child_name = getattr(child, 'name')
-                child_value = child_values.pop(child_name, None)
-            form += child.display(child_value)
-        if child_values:
-            first_key = child_values.keys()[0]
+            child.context = Context()
+            child_name = getattr(child, 'name', None)
+            if (child_name is not None) and (child_name in values):
+                child.context.value = values.pop(child_name)
+        return values
+    
+    def display(self, value=None):
+        values = self.initialize_children(value or dict())
+        if values:
+            first_key = values.keys()[0]
             raise ValueError("Unknown parameter '%s' passed to display()" % first_key)
-        form += '</form>'
-        return form
-
+        return self.super(value=values)

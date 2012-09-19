@@ -4,8 +4,8 @@
 
 
 from grumpywidgets.forms.api import Form
-from grumpywidgets.lib.pythonic_testcase import *
 from grumpywidgets.forms.buttons import SubmitButton
+from grumpywidgets.lib.pythonic_testcase import *
 
 
 class FormChildrenRenderingTest(PythonicTestCase):

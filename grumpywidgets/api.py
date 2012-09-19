@@ -4,6 +4,8 @@
 
 from jinja2 import Environment, PackageLoader, Template
 
+from grumpywidgets.lib.simple_super import SuperProxy
+
 
 __all__ = ['Widget']
 
@@ -14,6 +16,8 @@ class Widget(object):
     children = ()
     
     _template_path = ('grumpywidgets', 'templates')
+    context = None
+    super = SuperProxy()
     
     def __init__(self, **kwargs):
         for key in kwargs.keys():
@@ -31,17 +35,36 @@ class Widget(object):
             first_key = kwargs.keys()[0]
             raise TypeError("__init__() got an unexpected keyword argument '%s'" % first_key)
     
-    def _render_template(self, values):
+    def template_variables(self, values):
+        
+        template_values = dict()
+        for key in dir(self):
+            if key.startswith('_'):
+                continue
+            value = getattr(self, key)
+            if callable(key):
+                continue
+            if (key == 'css_classes') and (value is not None):
+                value = ' '.join(value)
+            template_values[key] = value
+        template_values['this'] = self
+        if not isinstance(values, dict):
+            values = dict(value=values)
+        template_values.update(values)
+        return template_values
+    
+    def _render_template(self, value):
         if hasattr(self.template, 'read'):
             template = Template(self.template.read())
         else:
             env = Environment(loader=PackageLoader(*self._template_path))
             template = env.get_template(self.template)
-        return template.render(**values)
+        return template.render(**self.template_variables(value))
     
-    def display(self, value):
-        if not isinstance(value, dict):
-            value = dict(value = value)
+    def display(self, value=None):
         return self._render_template(value)
 
+
+class Context(object):
+    value = None
 

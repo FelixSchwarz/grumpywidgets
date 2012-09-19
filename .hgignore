@@ -3,3 +3,4 @@ syntax:glob
 .pydevproject
 *.pyc
 dist
+*.egg-info

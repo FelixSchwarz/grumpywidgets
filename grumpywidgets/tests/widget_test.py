@@ -48,10 +48,19 @@ class WidgetInitializationTest(PythonicTestCase):
 
 
 class WidgetJinjaTemplatesTest(PythonicTestCase):
+    def setUp(self):
+        self.widget = Widget(template=StringIO('{{ value }}'))
+    
     def test_can_use_jinja_template(self):
-        class DummyWidget(Widget):
-            template = StringIO('Hello {{ value }}!')
-        
-        assert_equals(u'Hello world!', DummyWidget().display('world'))
-
+        widget = Widget(template=StringIO('Hello {{ value }}!'))
+        assert_equals(u'Hello world!', 
+                      widget.display('world'))
+    
+    def test_can_use_value_from_context(self):
+        self.widget.context.value = 'baz'
+        assert_equals('baz', self.widget.display())
+    
+    def test_prefers_explicit_value(self):
+        self.widget.context.value = 'baz'
+        assert_equals('bar', self.widget.display('bar'))
 

@@ -5,7 +5,7 @@ import setuptools
 
 setuptools.setup(
     name = 'GrumpyWidgets',
-    version = '0.1',
+    version = '0.2dev',
     
     description = 'A grumpy widget library',
     license = 'MIT',

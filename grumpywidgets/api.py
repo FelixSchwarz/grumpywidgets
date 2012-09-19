@@ -13,13 +13,13 @@ class Widget(object):
     id = None
     template = None
     css_classes = None
-    children = ()
     
     _template_path = ('grumpywidgets', 'templates')
-    context = None
     super = SuperProxy()
     
     def __init__(self, **kwargs):
+        self.context = Context()
+        
         for key in kwargs.keys():
             if key.startswith('_'):
                 raise ValueError("Must not override private attribute '%s'" % key)
@@ -56,15 +56,32 @@ class Widget(object):
     def _render_template(self, value):
         if hasattr(self.template, 'read'):
             template = Template(self.template.read())
+            self.template.seek(0)
         else:
             env = Environment(loader=PackageLoader(*self._template_path))
             template = env.get_template(self.template)
         return template.render(**self.template_variables(value))
     
     def display(self, value=None):
+        if value is None:
+            value = self.context.value
         return self._render_template(value)
 
 
 class Context(object):
     value = None
+    errors = None
+    
+    def contains_errors(self):
+        if (self.errors is not None) and (len(self.errors) > 0):
+            return True
+        return False
+    
+    def rendered_errors(self):
+        if not self.contains_errors():
+            return ()
+        rendered = []
+        for error in self.errors:
+            rendered.append(error.details().msg())
+        return tuple(rendered)
 

@@ -4,6 +4,7 @@
 
 from grumpywidgets.forms.api import InputWidget
 
+
 __all__ = ['SubmitButton']
 
 class SubmitButton(InputWidget):

@@ -7,7 +7,7 @@ from grumpywidgets.forms.buttons import SubmitButton
 from grumpywidgets.lib.pythonic_testcase import *
 
 
-class SubmitButtonTest(PythonicTestCase):
+class SubmitButtonRenderingTest(PythonicTestCase):
     def test_can_render_basic_button(self):
         assert_equals('<input type="submit" />', SubmitButton().display())
         assert_equals('<input type="submit" />', SubmitButton().display(None))
@@ -42,4 +42,11 @@ class SubmitButtonTest(PythonicTestCase):
             css_classes = ('button', 'send')
         assert_equals('<input type="submit" class="button send" />', 
                       StyledButton().display())
+
+
+#class SubmitButtonValidationTest(PythonicTestCase):
+#    def test_can_validate(self):
+#        button = SubmitButton()
+#        assert_false(button.validate(None))
+#        assert_true(button.validate('on'))
 

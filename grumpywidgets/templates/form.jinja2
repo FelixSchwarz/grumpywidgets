@@ -1,12 +1,17 @@
 <form
     {%- if id %} id="{{ id }}"{% endif %}
     {%- if name %} name="{{ name }}"{% endif %}
-    {%- if value %} value="{{ value }}"{% endif %} 
-    {%- if css_classes %} class="{{ css_classes }}"{% endif %} 
-    {%- if True %} action="{{ url }}"{% endif %} 
-    {%- if True %} method="{{ method }}"{% endif %} 
+    {%- if value %} value="{{ value }}"{% endif %}
+    {%- if css_classes %} class="{{ css_classes }}"{% endif %}
+    {%- if True %} action="{{ url }}"{% endif %}
+    {%- if True %} method="{{ method }}"{% endif %}
     {%- if True %} accept-charset="{{ charset }}"{% endif %}>
-{%- for child in children -%}
-    {{ child.display(child.context.value) }}
-{%- endfor -%}
+    {%- for child in children -%}
+        {{ child.display() }}
+        {%- if child.context.contains_errors() -%}
+            {%- for rendered_msg in child.context.rendered_errors() -%}
+                <span class="fielderror">{{ rendered_msg }}</span>
+            {%- endfor -%}
+        {%- endif -%}
+    {%- endfor -%}
 </form>

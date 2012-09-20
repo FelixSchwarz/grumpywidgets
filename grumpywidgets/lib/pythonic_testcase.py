@@ -40,7 +40,7 @@ __all__ = ['assert_almost_equals', 'assert_callable', 'assert_contains',
            'assert_dict_contains', 'assert_equals', 'assert_false', 'assert_falseish',
            'assert_isinstance', 'assert_is_empty', 'assert_is_not_empty', 
            'assert_length', 'assert_none', 
-           'assert_not_none', 'assert_not_equals', 
+           'assert_not_contains', 'assert_not_none', 'assert_not_equals', 
            'assert_raises', 'assert_true', 'assert_trueish', 'PythonicTestCase', ]
 
 
@@ -189,5 +189,3 @@ class PythonicTestCase(TestCase):
 
 # smaller_than
 # greater_than
-# is_callable
-

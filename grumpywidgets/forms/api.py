@@ -49,10 +49,12 @@ class InputWidget(Widget):
         return label
     
     def css_classes_for_container(self):
-        classes = self.super()
-        if self.name is None:
-            return classes
-        return tuple(set(classes) | set([self.name+'-container']))
+        classes = set(self.super())
+        if self.name is not None:
+            classes.add(self.name+'-container')
+        if self.context.contains_errors():
+            classes.add('validationerror')
+        return tuple(classes)
 
 
 class Form(InputWidget):

@@ -52,6 +52,13 @@ class InputWidgetRenderingTest(PythonicTestCase):
         self.widget.name = 'username'
         
         assert_contains('username-container', self.widget.css_classes_for_container())
+    
+    def test_adds_css_class_to_container_on_validation_error(self):
+        # simulate failed validation
+        self.widget.context.errors = (InvalidDataError('bad input', 'abc'),)
+        assert_true(self.widget.context.contains_errors())
+
+        assert_contains('validationerror', self.widget.css_classes_for_container())
 
 
 

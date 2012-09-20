@@ -7,6 +7,10 @@
     {%- if True %} method="{{ method }}"{% endif %}
     {%- if True %} accept-charset="{{ charset }}"{% endif %}>
     {%- for child in children -%}
+        {%- set label = child.label_widget() -%}
+            {%- if label -%}
+                {{- label.display() -}}
+            {%- endif -%}
         {{ child.display() }}
         {%- if child.context.contains_errors() -%}
             {%- for rendered_msg in child.context.rendered_errors() -%}

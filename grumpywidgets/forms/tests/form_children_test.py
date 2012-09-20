@@ -57,6 +57,11 @@ class FormChildrenRenderingTest(PythonicTestCase):
         child_html = re.search('<form[^>]*>\s*(.+)\s*</form>', rendered_form).group(1)
         assert_equals(expected, child_html)
     
+    def assert_child_html(self, expected, rendered_form):
+        match = re.search('<form[^>]*>\s*(.+)\s*</form>', rendered_form.replace('\n', ''))
+        child_html = match.group(1)
+        assert_equals(expected, child_html)
+    
     def test_can_redisplay_previous_values_after_failed_validation(self):
         class SimpleForm(Form):
             children = (
@@ -66,8 +71,14 @@ class FormChildrenRenderingTest(PythonicTestCase):
         assert_raises(InvalidDataError, lambda: form.validate({'number': 'abc'}))
         expected = u'<input type="text" name="number" value="abc" />' + \
             '<span class="fielderror">Please enter a number.</span>'
-        rendered_form = form.display().replace('\n', '')
-        child_html = re.search('<form[^>]*>\s*(.+)\s*</form>', rendered_form).group(1)
-        assert_equals(expected, child_html)
-
+        self.assert_child_html(expected, form.display())
+    
+    def test_can_display_child_label(self):
+        class LabelledChildForm(Form):
+            children = (
+                TextField('number', label='items'),
+            )
+        form = LabelledChildForm()
+        expected = '<label>items</label><input type="text" name="number" />'
+        self.assert_child_html(expected, form.display())
 

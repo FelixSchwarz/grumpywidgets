@@ -2,11 +2,12 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
+from pycerberus.errors import InvalidDataError
 from pycerberus.schema import SchemaValidator
 
 from grumpywidgets.api import Widget
 from grumpywidgets.lib.pythonic_testcase import assert_none
-from pycerberus.errors import InvalidDataError
+from grumpywidgets.widgets import Label
 
 
 __all__ = ['InputWidget', 'Form']
@@ -15,7 +16,6 @@ class InputWidget(Widget):
     validator = None
     name = None
     label = None
-    children = ()
     
     def __init__(self, name=None, **kwargs):
         if name is not None:
@@ -40,6 +40,13 @@ class InputWidget(Widget):
         if (value is None) and (self.context.value is None):
             value = self.context.unvalidated_value
         return self.super(value=value)
+    
+    def label_widget(self):
+        if self.label is None:
+            return None
+        id_ = self.id and self.id+'-label' or None
+        label = Label(id=id_, for_=self.id, value=self.label)
+        return label
 
 
 class Form(InputWidget):
@@ -47,6 +54,7 @@ class Form(InputWidget):
     method = 'POST'
     charset = 'UTF-8'
     template = 'form.jinja2'
+    children = ()
     
     def validate(self, values):
         assert_none(self.validator) # not supported for now

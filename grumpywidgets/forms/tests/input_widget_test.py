@@ -9,6 +9,7 @@ from pycerberus.validators import IntegerValidator
 
 from grumpywidgets.forms.api import InputWidget
 from grumpywidgets.lib.pythonic_testcase import *
+from grumpywidgets.widgets import Label
 
 
 class InputWidgetInitializationTest(PythonicTestCase):
@@ -44,3 +45,42 @@ class InputWidgetRenderingTest(PythonicTestCase):
         assert_equals('bar', widget.display())
         assert_equals('', widget.display(''))
         assert_equals('baz', widget.display('baz'))
+
+
+class InputWidgetLabelTest(PythonicTestCase):
+    def setUp(self):
+        self.widget = InputWidget(id='user', label='user name',
+            template=StringIO('{{ value }}'))
+    
+    def test_input_widgets_have_no_labels_by_default(self):
+        widget = InputWidget(id='user', template=StringIO('{{ value }}'))
+        assert_none(widget.label)
+        
+        assert_none(widget.label_widget())
+    
+    def test_can_be_generated_from_string(self):
+        label = self.widget.label_widget()
+        
+        assert_not_none(label)
+        assert_equals('user', label.for_)
+        assert_contains('user name', label.display())
+    
+    def test_has_no_reference_if_parent_has_no_id(self):
+        self.widget.id = None
+        
+        label = self.widget.label_widget()
+        assert_none(label.for_)
+        assert_contains('user name', label.display())
+    
+    def test_can_autogenerate_id(self):
+        label = self.widget.label_widget()
+        assert_equals('user-label', label.id)
+        assert_contains('id="user-label"', label.display())
+    
+    def test_has_no_id_if_parent_has_no_id(self):
+        self.widget.id = None
+        
+        label = self.widget.label_widget()
+        assert_none(label.id)
+        assert_not_contains('id="', label.display())
+

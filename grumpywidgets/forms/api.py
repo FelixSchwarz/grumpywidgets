@@ -54,6 +54,9 @@ class InputWidget(Widget):
             classes.add(self.name+'-container')
         if self.context.contains_errors():
             classes.add('validationerror')
+        if (self.validator is not None):
+            if hasattr(self.validator, 'is_required') and self.validator.is_required():
+                classes.add('requiredfield')
         return tuple(classes)
 
 

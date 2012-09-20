@@ -4,7 +4,7 @@
 
 from StringIO import StringIO
 
-from pycerberus.api import InvalidDataError
+from pycerberus.api import BaseValidator, InvalidDataError
 from pycerberus.validators import IntegerValidator
 
 from grumpywidgets.forms.api import InputWidget
@@ -57,9 +57,24 @@ class InputWidgetRenderingTest(PythonicTestCase):
         # simulate failed validation
         self.widget.context.errors = (InvalidDataError('bad input', 'abc'),)
         assert_true(self.widget.context.contains_errors())
-
+        
         assert_contains('validationerror', self.widget.css_classes_for_container())
-
+    
+    def test_adds_css_class_to_container_for_required_fields(self):
+        assert_none(self.widget.validator)
+        assert_not_contains('requiredfield', self.widget.css_classes_for_container())
+        
+        self.widget.validator = IntegerValidator()
+        assert_true(self.widget.validator.is_required())
+        
+        assert_contains('requiredfield', self.widget.css_classes_for_container())
+    
+    def test_can_add_css_classes_for_containers_if_widget_uses_basevalidator(self):
+        self.widget.validator = BaseValidator()
+        assert_false(hasattr(self.widget.validator, 'is_required'))
+        
+        assert_equals(set(['fieldcontainer']), 
+                      set(self.widget.css_classes_for_container()))
 
 
 class InputWidgetLabelTest(PythonicTestCase):

@@ -16,7 +16,7 @@ from grumpywidgets.widgets import Label
 class FormChildrenRenderingTest(PythonicTestCase):
     def setUp(self):
         class SimpleForm(Form):
-            children = (TextField('number', validator=IntegerValidator()), )
+            children = (TextField('number', validator=IntegerValidator(required=False)), )
         self.form = SimpleForm()
     
     # --- tests ---------------------------------------------------------------

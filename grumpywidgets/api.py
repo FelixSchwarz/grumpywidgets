@@ -62,10 +62,13 @@ class Widget(object):
             template = env.get_template(self.template)
         return template.render(**self.template_variables(value))
     
+    def _display_value(self, value):
+        if value is not None:
+            return value
+        return self.context.value
+    
     def display(self, value=None):
-        if value is None:
-            value = self.context.value
-        return self._render_template(value)
+        return self._render_template(self._display_value(value))
 
 
 class Context(object):

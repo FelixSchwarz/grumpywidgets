@@ -43,10 +43,3 @@ class SubmitButtonRenderingTest(PythonicTestCase):
         assert_equals('<input type="submit" class="button send" />', 
                       StyledButton().display())
 
-
-#class SubmitButtonValidationTest(PythonicTestCase):
-#    def test_can_validate(self):
-#        button = SubmitButton()
-#        assert_false(button.validate(None))
-#        assert_true(button.validate('on'))
-

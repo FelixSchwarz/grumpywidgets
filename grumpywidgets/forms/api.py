@@ -28,10 +28,16 @@ class InputWidget(Widget):
             return value
         return self.validator.process(value)
     
+    def _display_value(self, value):
+        value = self.super(value)
+        if value is None:
+            value = self.context.unvalidated_value
+        if self.validator is None:
+            return value
+        return self.validator.stringify(value)
+    
     def display(self, value=None):
         if (value is None) and (self.context.value is None):
-            if not hasattr(self.context, 'unvalidated_value'):
-                print self
             value = self.context.unvalidated_value
         return self.super(value=value)
 

@@ -16,7 +16,7 @@
             {{ child.display() }}
             {%- if child.context.contains_errors() -%}
                 {%- for rendered_msg in child.context.rendered_errors() -%}
-                    <span class="fielderror">{{ rendered_msg }}</span>
+                    <span class="validationerror-message">{{ rendered_msg }}</span>
                 {%- endfor -%}
             {%- endif -%}
         </div>

@@ -41,13 +41,13 @@ class FormChildrenRenderingTest(PythonicTestCase):
         assert_true(textfield.context.contains_errors())
         
         expected = u'<input type="text" name="number" />' + \
-            '<span class="fielderror">bad input</span>'
+            '<span class="validationerror-message">bad input</span>'
         self.assert_child_html(expected, self.form.display())
     
     def test_can_redisplay_previous_values_after_failed_validation(self):
         assert_raises(InvalidDataError, lambda: self.form.validate({'number': 'abc'}))
         expected = u'<input type="text" name="number" value="abc" />' + \
-            '<span class="fielderror">Please enter a number.</span>'
+            '<span class="validationerror-message">Please enter a number.</span>'
         self.assert_child_html(expected, self.form.display())
     
     def test_can_display_child_label(self):

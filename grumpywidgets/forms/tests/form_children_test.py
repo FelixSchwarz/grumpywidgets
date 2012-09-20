@@ -8,7 +8,6 @@ from pycerberus.errors import InvalidDataError
 from pycerberus.validators import IntegerValidator
 
 from grumpywidgets.forms.api import Form
-from grumpywidgets.forms.buttons import SubmitButton
 from grumpywidgets.forms.fields import TextField
 from grumpywidgets.lib.pythonic_testcase import *
 
@@ -25,10 +24,6 @@ class FormChildrenRenderingTest(PythonicTestCase):
                                strip_container=False)
     
     def test_can_pass_values_to_children(self):
-        class SimpleForm(Form):
-            children = (
-                SubmitButton('submit'),
-            )
         expected = '<input type="text" name="number" value="send" />'
         self.assert_child_html(expected, self.form.display({'number': 'send'}))
     

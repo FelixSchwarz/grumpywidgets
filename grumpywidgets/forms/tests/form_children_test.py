@@ -19,22 +19,16 @@ class FormChildrenRenderingTest(PythonicTestCase):
             children = (
                 SubmitButton('submit'),
             )
-        expected = u'<form action="" method="POST" accept-charset="UTF-8">' + \
-            '<input type="submit" name="submit" />' + \
-            '</form>'
-        rendered = SimpleForm().display({}).replace('\n', '')
-        assert_equals(expected, rendered)
+        self.assert_child_html( '<input type="submit" name="submit" />', 
+                                SimpleForm().display({}))
     
     def test_can_pass_values_to_children(self):
         class SimpleForm(Form):
             children = (
                 SubmitButton('submit'),
             )
-        expected = u'<form action="" method="POST" accept-charset="UTF-8">' + \
-            '<input type="submit" name="submit" value="send" />' + \
-            '</form>'
-        rendered = SimpleForm().display({'submit': 'send'}).replace('\n', '')
-        assert_equals(expected, rendered)
+        self.assert_child_html( '<input type="submit" name="submit" value="send" />', 
+                                SimpleForm().display({'submit': 'send'}))
     
     def test_raises_error_if_unknown_parameters_are_passed_for_display(self):
         e = assert_raises(ValueError, lambda: Form().display({'invalid': None}))

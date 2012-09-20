@@ -68,10 +68,11 @@ class Form(InputWidget):
         try:
             validated_values = self.validation_schema().process(values)
         except InvalidDataError, e:
-            errors = e.error_dict()
-            for key, value in errors.items():
+            errors = dict()
+            for key, value in e.error_dict().items():
                 if not isinstance(value, (list, tuple)):
-                    errors[key] = (value, )
+                    value = (value, )
+                errors[key] = value
             self.initialize_children(errors, pop=False, attribute_name='errors')
             raise
         return validated_values

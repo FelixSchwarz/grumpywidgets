@@ -36,7 +36,6 @@ class Widget(object):
             raise TypeError("__init__() got an unexpected keyword argument '%s'" % first_key)
     
     def template_variables(self, values):
-        
         template_values = dict()
         for key in dir(self):
             if key.startswith('_'):
@@ -47,7 +46,6 @@ class Widget(object):
             if (key == 'css_classes') and (value is not None):
                 value = ' '.join(value)
             template_values[key] = value
-        template_values['this'] = self
         if not isinstance(values, dict):
             values = dict(value=values)
         template_values.update(values)

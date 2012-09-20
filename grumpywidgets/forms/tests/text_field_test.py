@@ -5,6 +5,7 @@
 
 from grumpywidgets.forms.fields import TextField
 from grumpywidgets.lib.pythonic_testcase import *
+from pycerberus.errors import InvalidDataError
 
 
 class TextFieldTest(PythonicTestCase):
@@ -32,4 +33,11 @@ class TextFieldTest(PythonicTestCase):
             css_classes = ('text', 'username')
         assert_equals('<input type="text" class="text username" />', 
                       StyledField().display())
+    
+    def test_has_string_validator_by_default(self):
+        text_field = TextField()
+        
+        assert_not_none(text_field.validator)
+        assert_raises(InvalidDataError, lambda: text_field.validate([]))
+        assert_equals(None, text_field.validate(''))
 

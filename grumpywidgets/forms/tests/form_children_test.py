@@ -14,21 +14,23 @@ from grumpywidgets.lib.pythonic_testcase import *
 
 
 class FormChildrenRenderingTest(PythonicTestCase):
-    def test_can_render_single_child(self):
+    def setUp(self):
         class SimpleForm(Form):
-            children = (
-                SubmitButton('submit'),
-            )
-        expected = '<div class="fieldcontainer"><input type="submit" name="submit" /></div>'
-        self.assert_child_html(expected, SimpleForm().display({}), strip_container=False)
+            children = (TextField('number', validator=IntegerValidator()), )
+        self.form = SimpleForm()
+    
+    def test_can_render_single_child(self):
+        expected = '<div class="fieldcontainer"><input type="text" name="number" /></div>'
+        self.assert_child_html(expected, self.form.display({}), 
+                               strip_container=False)
     
     def test_can_pass_values_to_children(self):
         class SimpleForm(Form):
             children = (
                 SubmitButton('submit'),
             )
-        expected = '<input type="submit" name="submit" value="send" />'
-        self.assert_child_html(expected, SimpleForm().display({'submit': 'send'}))
+        expected = '<input type="text" name="number" value="send" />'
+        self.assert_child_html(expected, self.form.display({'number': 'send'}))
     
     def test_raises_error_if_unknown_parameters_are_passed_for_display(self):
         e = assert_raises(ValueError, lambda: Form().display({'invalid': None}))
@@ -36,18 +38,14 @@ class FormChildrenRenderingTest(PythonicTestCase):
                       e.args[0])
     
     def test_can_display_errors_for_children(self):
-        class SimpleForm(Form):
-            children = (TextField('number', validator=IntegerValidator()), )
-        form = SimpleForm()
-        
-        textfield = form.children[0]
+        textfield = self.form.children[0]
         # simulate failed validation
         textfield.context.errors = (InvalidDataError('bad input', 'abc'),)
         assert_true(textfield.context.contains_errors())
         
         expected = u'<input type="text" name="number" />' + \
             '<span class="fielderror">bad input</span>'
-        self.assert_child_html(expected, form.display())
+        self.assert_child_html(expected, self.form.display())
     
     def assert_child_html(self, expected, rendered_form, strip_container=True):
         match = re.search('<form[^>]*>\s*(.+)\s*</form>', rendered_form.replace('\n', ''))
@@ -58,22 +56,14 @@ class FormChildrenRenderingTest(PythonicTestCase):
         assert_equals(expected, child_html)
     
     def test_can_redisplay_previous_values_after_failed_validation(self):
-        class SimpleForm(Form):
-            children = (
-                TextField('number', validator=IntegerValidator()),
-            )
-        form = SimpleForm()
-        assert_raises(InvalidDataError, lambda: form.validate({'number': 'abc'}))
+        assert_raises(InvalidDataError, lambda: self.form.validate({'number': 'abc'}))
         expected = u'<input type="text" name="number" value="abc" />' + \
             '<span class="fielderror">Please enter a number.</span>'
-        self.assert_child_html(expected, form.display())
+        self.assert_child_html(expected, self.form.display())
     
     def test_can_display_child_label(self):
-        class LabelledChildForm(Form):
-            children = (
-                TextField('number', label='items'),
-            )
-        form = LabelledChildForm()
+        self.form.children[0].label = 'items'
+        
         expected = '<label>items</label><input type="text" name="number" />'
-        self.assert_child_html(expected, form.display())
+        self.assert_child_html(expected, self.form.display())
 

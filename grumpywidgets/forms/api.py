@@ -45,6 +45,18 @@ class Form(InputWidget):
     def validate(self, values):
         assert_none(self.validator) # not supported for now
         self.initialize_children(values, pop=False, attribute_name='unvalidated_value')
+        try:
+            validated_values = self.validation_schema().process(values)
+        except InvalidDataError, e:
+            errors = e.error_dict()
+            for key, value in errors.items():
+                if not isinstance(value, (list, tuple)):
+                    errors[key] = (value, )
+            self.initialize_children(errors, pop=False, attribute_name='errors')
+            raise
+        return validated_values
+    
+    def validation_schema(self):
         schema = SchemaValidator()
         for child in self.children:
             child_name = getattr(child, 'name', None)
@@ -54,16 +66,7 @@ class Form(InputWidget):
             if child_validator is None:
                 continue
             schema.add(child_name, child_validator)
-        try:
-            validated_values = schema.process(values)
-        except InvalidDataError, e:
-            errors = e.error_dict()
-            for key, value in errors.items():
-                if not isinstance(value, (list, tuple)):
-                    errors[key] = (value, )
-            self.initialize_children(errors, pop=False, attribute_name='errors')
-            raise
-        return validated_values
+        return schema
     
     def initialize_children(self, values, pop=True, attribute_name='value'):
         for child in self.children:

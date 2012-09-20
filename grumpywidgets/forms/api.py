@@ -47,6 +47,12 @@ class InputWidget(Widget):
         id_ = self.id and self.id+'-label' or None
         label = Label(id=id_, for_=self.id, value=self.label)
         return label
+    
+    def css_classes_for_container(self):
+        classes = self.super()
+        if self.name is None:
+            return classes
+        return tuple(set(classes) | set([self.name+'-container']))
 
 
 class Form(InputWidget):

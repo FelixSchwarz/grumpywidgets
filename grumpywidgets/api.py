@@ -69,6 +69,9 @@ class Widget(object):
     
     def display(self, value=None):
         return self._render_template(self._display_value(value))
+    
+    def css_classes_for_container(self):
+        return ('fieldcontainer', )
 
 
 class Context(object):

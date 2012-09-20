@@ -36,15 +36,23 @@ class InputWidgetValidationTest(PythonicTestCase):
 
 
 class InputWidgetRenderingTest(PythonicTestCase):
+    def setUp(self):
+        self.widget = InputWidget(template=StringIO('{{ value }}'))
+    
     def test_use_value_from_context(self):
-        widget = InputWidget(template=StringIO('{{ value }}'))
-        widget.context.unvalidated_value = 'foo'
-        assert_equals('foo', widget.display())
+        self.widget.context.unvalidated_value = 'foo'
+        assert_equals('foo', self.widget.display())
         
-        widget.context.value = 'bar'
-        assert_equals('bar', widget.display())
-        assert_equals('', widget.display(''))
-        assert_equals('baz', widget.display('baz'))
+        self.widget.context.value = 'bar'
+        assert_equals('bar', self.widget.display())
+        assert_equals('', self.widget.display(''))
+        assert_equals('baz', self.widget.display('baz'))
+    
+    def test_uses_widget_name_in_css_container_class(self):
+        self.widget.name = 'username'
+        
+        assert_contains('username-container', self.widget.css_classes_for_container())
+
 
 
 class InputWidgetLabelTest(PythonicTestCase):

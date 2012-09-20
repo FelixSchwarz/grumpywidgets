@@ -19,16 +19,16 @@ class FormChildrenRenderingTest(PythonicTestCase):
             children = (
                 SubmitButton('submit'),
             )
-        self.assert_child_html( '<input type="submit" name="submit" />', 
-                                SimpleForm().display({}))
+        expected = '<div class="fieldcontainer"><input type="submit" name="submit" /></div>'
+        self.assert_child_html(expected, SimpleForm().display({}), strip_container=False)
     
     def test_can_pass_values_to_children(self):
         class SimpleForm(Form):
             children = (
                 SubmitButton('submit'),
             )
-        self.assert_child_html( '<input type="submit" name="submit" value="send" />', 
-                                SimpleForm().display({'submit': 'send'}))
+        expected = '<input type="submit" name="submit" value="send" />'
+        self.assert_child_html(expected, SimpleForm().display({'submit': 'send'}))
     
     def test_raises_error_if_unknown_parameters_are_passed_for_display(self):
         e = assert_raises(ValueError, lambda: Form().display({'invalid': None}))
@@ -47,13 +47,14 @@ class FormChildrenRenderingTest(PythonicTestCase):
         
         expected = u'<input type="text" name="number" />' + \
             '<span class="fielderror">bad input</span>'
-        rendered_form = form.display().replace('\n', '')
-        child_html = re.search('<form[^>]*>\s*(.+)\s*</form>', rendered_form).group(1)
-        assert_equals(expected, child_html)
+        self.assert_child_html(expected, form.display())
     
-    def assert_child_html(self, expected, rendered_form):
+    def assert_child_html(self, expected, rendered_form, strip_container=True):
         match = re.search('<form[^>]*>\s*(.+)\s*</form>', rendered_form.replace('\n', ''))
         child_html = match.group(1)
+        if strip_container:
+            match = re.search('<div[^>]*>\s*(.+)\s*</div>', child_html)
+            child_html = match.group(1)
         assert_equals(expected, child_html)
     
     def test_can_redisplay_previous_values_after_failed_validation(self):

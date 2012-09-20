@@ -69,6 +69,19 @@ class FormChildrenRenderingTest(PythonicTestCase):
         container_html = self.child_container_html(self.form.display({}))
         self.assert_contains('class="fieldcontainer"', container_html)
     
+    def test_can_derive_container_id_from_child(self):
+        self.form.children = [Label(value='text', id='foo'), ]
+        
+        self.assert_child_html('<label id="foo">text</label>', self.form.display())
+        container_html = self.child_container_html(self.form.display({}))
+        assert_contains('id="foo-container"', container_html)
+    
+    def test_adds_no_container_id_for_child_without_id(self):
+        assert_none(self.form.children[0].id)
+        
+        container_html = self.child_container_html(self.form.display({}))
+        assert_not_contains('id="', container_html)
+    
     # --- helpers -------------------------------------------------------------
     
     def _split_html(self, container_tag, html):

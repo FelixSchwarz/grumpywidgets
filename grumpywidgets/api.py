@@ -72,6 +72,11 @@ class Widget(object):
     
     def css_classes_for_container(self):
         return ('fieldcontainer', )
+    
+    def id_for_container(self):
+        if self.id is None:
+            return None
+        return '%s-container' % self.id
 
 
 class Context(object):

@@ -46,6 +46,11 @@ class WidgetInitializationTest(PythonicTestCase):
         e = assert_raises(ValueError, lambda: CustomWidget(_secret=None))
         assert_equals("Must not override private attribute '_secret'", e.args[0])
 
+class WidgetTest(PythonicTestCase):
+    def test_can_generate_container_id(self):
+        assert_none(Widget().id_for_container())
+        assert_equals('foo-container', Widget(id='foo').id_for_container())
+
 
 class WidgetJinjaTemplatesTest(PythonicTestCase):
     def setUp(self):

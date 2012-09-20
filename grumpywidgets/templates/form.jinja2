@@ -7,7 +7,8 @@
     {%- if True %} method="{{ method }}"{% endif %}
     {%- if True %} accept-charset="{{ charset }}"{% endif %}>
     {%- for child in children -%}
-        <div class="{{ ' '.join(child.css_classes_for_container()) }}">
+        <div {% if child.id_for_container() -%}id="{{ child.id_for_container() }}" {% endif -%}
+            class="{{ ' '.join(child.css_classes_for_container()) }}">
             {%- set label = child.label_widget and child.label_widget() or None -%}
                 {%- if label -%}
                     {{- label.display() -}}

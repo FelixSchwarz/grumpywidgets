@@ -35,38 +35,52 @@ class Widget(object):
             first_key = kwargs.keys()[0]
             raise TypeError("__init__() got an unexpected keyword argument '%s'" % first_key)
     
-    def template_variables(self, values):
-        template_values = dict()
+    def widget_attributes(self):
+        attributes = dict()
         for key in dir(self):
             if key.startswith('_'):
                 continue
             value = getattr(self, key)
-            if callable(key):
+            if callable(value):
                 continue
-            if (key == 'css_classes') and (value is not None):
-                value = ' '.join(value)
-            template_values[key] = value
-        if not isinstance(values, dict):
-            values = dict(value=values)
-        template_values.update(values)
+            attributes[key] = value
+        return attributes
+    
+    def template_variables(self, value, **widget_attributes):
+        template_values = self.widget_attributes()
+        css_classes = template_values.get('css_classes')
+        if css_classes is not None:
+            template_values['css_classes'] = ' '.join(css_classes)
+        template_values.update(widget_attributes)
+        
+        value = self._display_value(value)
+        if not isinstance(value, dict):
+            template_values['value'] = value
+        else:
+            template_values.update(value)
         return template_values
     
-    def _render_template(self, value):
+    def _render_template(self, template_variables):
         if hasattr(self.template, 'read'):
             template = Template(self.template.read())
             self.template.seek(0)
         else:
             env = Environment(loader=PackageLoader(*self._template_path))
             template = env.get_template(self.template)
-        return template.render(**self.template_variables(value))
+        return template.render(**template_variables)
     
     def _display_value(self, value):
         if value is not None:
             return value
         return self.context.value
     
-    def display(self, value=None):
-        return self._render_template(self._display_value(value))
+    def display(self, value=None, **kwargs):
+        unknown_parameters = set(kwargs).difference(set(self.widget_attributes()))
+        if unknown_parameters:
+            first = unknown_parameters.pop()
+            raise TypeError("__display__() got an unexpected keyword argument '%s'" % first)
+        variables = self.template_variables(value, **kwargs)
+        return self._render_template(variables)
     
     def css_classes_for_container(self):
         return ('fieldcontainer', )

@@ -46,20 +46,20 @@ class WidgetInitializationTest(PythonicTestCase):
         e = assert_raises(ValueError, lambda: CustomWidget(_secret=None))
         assert_equals("Must not override private attribute '_secret'", e.args[0])
 
+
 class WidgetTest(PythonicTestCase):
     def test_can_generate_container_id(self):
         assert_none(Widget().id_for_container())
         assert_equals('foo-container', Widget(id='foo').id_for_container())
 
 
-class WidgetJinjaTemplatesTest(PythonicTestCase):
+class WidgetRenderingTest(PythonicTestCase):
     def setUp(self):
         self.widget = Widget(template=StringIO('{{ value }}'))
     
     def test_can_use_jinja_template(self):
         widget = Widget(template=StringIO('Hello {{ value }}!'))
-        assert_equals(u'Hello world!', 
-                      widget.display('world'))
+        assert_equals(u'Hello world!', widget.display('world'))
     
     def test_can_use_value_from_context(self):
         self.widget.context.value = 'baz'
@@ -68,4 +68,14 @@ class WidgetJinjaTemplatesTest(PythonicTestCase):
     def test_prefers_explicit_value(self):
         self.widget.context.value = 'baz'
         assert_equals('bar', self.widget.display('bar'))
+    
+    def test_can_specify_attributes_on_display(self):
+        widget = Widget(template=StringIO('{{ verb }} {{ value }}'))
+        widget.verb = 'hello'
+        
+        assert_equals(u'hello foo', widget.display('foo'))
+        assert_equals(u'goodbye foo', widget.display('foo', verb='goodbye'))
+        e = assert_raises(TypeError, lambda: widget.display('foo', invalid='bar'))
+        assert_equals("__display__() got an unexpected keyword argument 'invalid'",
+                      e.args[0])
 

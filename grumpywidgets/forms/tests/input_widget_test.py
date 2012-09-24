@@ -74,6 +74,14 @@ class InputWidgetRenderingTest(PythonicTestCase):
         
         assert_equals(set(['fieldcontainer']), 
                       set(self.widget.css_classes_for_container()))
+    
+    def test_can_specify_attributes_on_display(self):
+        assert_false(hasattr(self.widget, 'user'))
+        self.widget.template = StringIO('Hello {{ user }}!')
+        
+        assert_raises(TypeError, lambda: self.widget.display(user='foo'))
+        self.widget.user = None
+        assert_equals('Hello foo!', self.widget.display(user='foo'))
 
 
 class InputWidgetLabelTest(PythonicTestCase):

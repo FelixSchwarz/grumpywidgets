@@ -49,4 +49,7 @@ class FormAttributesTest(PythonicTestCase):
             css_classes = ('foo', 'bar')
         assert_equals('<form class="foo bar" action="" method="POST" accept-charset="UTF-8"></form>', 
                       StyledForm().display(None))
+    
+    def test_can_specify_attributes_on_display(self):
+        assert_contains('action="/login"', Form().display(url='/login'))
 

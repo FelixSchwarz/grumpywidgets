@@ -36,10 +36,10 @@ class InputWidget(Widget):
             return value
         return self.validator.stringify(value)
     
-    def display(self, value=None):
+    def display(self, value=None, **kwargs):
         if (value is None) and (self.context.value is None):
             value = self.context.unvalidated_value
-        return self.super(value=value)
+        return self.super(value=value, **kwargs)
     
     def label_widget(self):
         if self.label is None:
@@ -105,9 +105,9 @@ class Form(InputWidget):
             setattr(child.context, attribute_name, value)
         return values
     
-    def display(self, value=None):
+    def display(self, value=None, **kwargs):
         values = self.initialize_children(value or dict())
         if values:
             first_key = values.keys()[0]
             raise ValueError("Unknown parameter '%s' passed to display()" % first_key)
-        return self.super(value=values)
+        return self.super(value=values, **kwargs)

@@ -9,7 +9,6 @@ from pycerberus.validators import IntegerValidator
 
 from grumpywidgets.forms.api import InputWidget
 from grumpywidgets.lib.pythonic_testcase import *
-from grumpywidgets.widgets import Label
 
 
 class InputWidgetInitializationTest(PythonicTestCase):

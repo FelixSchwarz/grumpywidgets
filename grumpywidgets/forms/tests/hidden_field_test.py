@@ -3,7 +3,7 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 
-from grumpywidgets.forms.widgets import HiddenField
+from grumpywidgets.forms.fields import HiddenField
 from grumpywidgets.lib.pythonic_testcase import *
 from pycerberus.errors import InvalidDataError
 

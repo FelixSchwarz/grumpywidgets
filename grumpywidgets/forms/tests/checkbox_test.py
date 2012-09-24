@@ -3,7 +3,7 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 
-from grumpywidgets.forms.widgets import Checkbox
+from grumpywidgets.forms.fields import Checkbox
 from grumpywidgets.lib.pythonic_testcase import *
 
 

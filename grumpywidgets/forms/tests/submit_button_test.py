@@ -3,7 +3,7 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 
-from grumpywidgets.forms.buttons import SubmitButton
+from grumpywidgets.forms.fields import SubmitButton
 from grumpywidgets.lib.pythonic_testcase import *
 
 

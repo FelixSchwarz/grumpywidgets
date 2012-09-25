@@ -2,6 +2,8 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
+from copy import deepcopy
+
 from jinja2 import Environment, PackageLoader, Template
 
 from grumpywidgets import template_helpers
@@ -37,6 +39,16 @@ class Widget(object):
         if kwargs:
             first_key = kwargs.keys()[0]
             raise TypeError("__init__() got an unexpected keyword argument '%s'" % first_key)
+    
+    def copy(self):
+        klass = self.__class__
+        attributes = self.widget_attributes()
+        for key in list(attributes):
+            value = attributes[key]
+            if not hasattr(value, 'copy'):
+                continue
+            attributes[key] = value.copy()
+        return klass(**attributes)
     
     def widget_attributes(self):
         attributes = dict()
@@ -103,6 +115,15 @@ class Context(object):
     def __init__(self, value=None, errors=None):
         self.value = value
         self.errors = errors
+    
+    def copy(self):
+        klass = self.__class__
+        attributes = dict(
+            value=deepcopy(self.value), 
+            errors=deepcopy(self.errors)
+        )
+        return klass(**attributes)
+    __deepcopy__ = copy
     
     def contains_errors(self):
         if (self.errors is not None) and (len(self.errors) > 0):

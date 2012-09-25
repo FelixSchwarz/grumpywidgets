@@ -4,7 +4,7 @@
 
 from StringIO import StringIO
 
-from grumpywidgets.api import Widget
+from grumpywidgets.api import Context, Widget
 from grumpywidgets import template_helpers
 from grumpywidgets.lib.pythonic_testcase import *
 
@@ -55,6 +55,15 @@ class WidgetTest(PythonicTestCase):
     
     def test_has_no_parent_by_default(self):
         assert_none(Widget().parent)
+    
+    def test_can_clone_itself(self):
+        w = Widget()
+        w.context = Context(value=42)
+        
+        cloned = w.copy()
+        w.context.value = 21
+        assert_equals(42, cloned.context.value)
+        assert_equals(21, w.context.value)
 
 
 class WidgetRenderingTest(PythonicTestCase):

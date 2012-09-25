@@ -2,9 +2,10 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
+from pycerberus.errors import InvalidDataError
+
 from grumpywidgets.api import Context
 from grumpywidgets.lib.pythonic_testcase import *
-from pycerberus.errors import InvalidDataError
 
 
 class ContextTest(PythonicTestCase):
@@ -20,6 +21,19 @@ class ContextTest(PythonicTestCase):
         
         error = self.error()
         assert_equals([error], Context(errors=[error]).errors)
+    
+    def test_can_clone_itself(self):
+        self.context.value = {}
+        self.context.errors = []
+        
+        clone = self.context.copy()
+        clone.errors.append('new error')
+        clone.value['new'] = 21
+        
+        assert_equals({}, self.context.value)
+        assert_equals([], self.context.errors)
+        assert_equals({'new': 21}, clone.value)
+        assert_equals(['new error'], clone.errors)
     
     def test_knows_if_context_contains_errors(self):
         self.context.errors = None

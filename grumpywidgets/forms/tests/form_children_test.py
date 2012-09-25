@@ -12,6 +12,15 @@ from grumpywidgets.forms.fields import TextField
 from grumpywidgets.lib.pythonic_testcase import *
 from grumpywidgets.widgets import Label
 
+class FormChildrenInitializationTest(PythonicTestCase):
+    def setUp(self):
+        class SimpleForm(Form):
+            children = (TextField('number'), )
+        self.form = SimpleForm()
+    
+    def test_sets_parent_parameter_on_its_children(self):
+        assert_equals(self.form, self.form.children[0].parent)
+
 
 class FormChildrenRenderingTest(PythonicTestCase):
     def setUp(self):

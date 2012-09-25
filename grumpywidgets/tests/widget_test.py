@@ -51,6 +51,9 @@ class WidgetTest(PythonicTestCase):
     def test_can_generate_container_id(self):
         assert_none(Widget().id_for_container())
         assert_equals('foo-container', Widget(id='foo').id_for_container())
+    
+    def test_has_no_parent_by_default(self):
+        assert_none(Widget().parent)
 
 
 class WidgetRenderingTest(PythonicTestCase):
@@ -78,4 +81,9 @@ class WidgetRenderingTest(PythonicTestCase):
         e = assert_raises(TypeError, lambda: widget.display('foo', invalid='bar'))
         assert_equals("__display__() got an unexpected keyword argument 'invalid'",
                       e.args[0])
+    
+    def test_widget_instance_available_in_template(self):
+        template_variables = self.widget.template_variables(None)
+        assert_contains('self_', template_variables)
+        assert_equals(self.widget, template_variables['self_'])
 

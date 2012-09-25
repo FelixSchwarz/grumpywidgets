@@ -58,6 +58,17 @@ class InputWidget(Widget):
             if hasattr(self.validator, 'is_required') and self.validator.is_required():
                 classes.add('requiredfield')
         return tuple(classes)
+    
+    def path(self):
+        parts = []
+        if self.parent is not None:
+            parts.extend(self.parent.path())
+        if self.name is not None:
+            parts.append(self.name)
+        return tuple(parts)
+    
+    def full_name(self):
+        return '.'.join(self.path())
 
 
 class Form(InputWidget):
@@ -66,6 +77,12 @@ class Form(InputWidget):
     charset = 'UTF-8'
     template = 'form.jinja2'
     children = ()
+    
+    def __init__(self, *args, **kwargs):
+        self.super.__init__(*args, **kwargs)
+        for child in self.children:
+            # TODO: use a weakref to avoid memory hogging
+            child.parent = self
     
     def validate(self, values):
         assert_none(self.validator) # not supported for now
@@ -111,3 +128,8 @@ class Form(InputWidget):
             first_key = values.keys()[0]
             raise ValueError("Unknown parameter '%s' passed to display()" % first_key)
         return self.super(value=values, **kwargs)
+    
+    def path(self):
+        if self.parent is None:
+            return ()
+        return self.super()

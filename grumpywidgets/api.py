@@ -14,6 +14,8 @@ class Widget(object):
     template = None
     css_classes = None
     
+    parent = None
+    
     _template_path = ('grumpywidgets', 'templates')
     super = SuperProxy()
     
@@ -58,6 +60,7 @@ class Widget(object):
             template_values['value'] = value
         else:
             template_values.update(value)
+        template_values['self_'] = self
         return template_values
     
     def _render_template(self, template_variables):

@@ -7,7 +7,7 @@ from StringIO import StringIO
 from pycerberus.api import BaseValidator, InvalidDataError
 from pycerberus.validators import IntegerValidator
 
-from grumpywidgets.forms.api import InputWidget
+from grumpywidgets.forms.api import InputWidget, Form
 from grumpywidgets.lib.pythonic_testcase import *
 
 
@@ -19,6 +19,34 @@ class InputWidgetInitializationTest(PythonicTestCase):
     def test_can_set_name_with_named_argument(self):
         widget = InputWidget(name='foobar')
         assert_equals('foobar', widget.name)
+
+
+class InputWidgetTest(PythonicTestCase):
+    def test_knows_its_parent(self):
+        widget = InputWidget('bar')
+        form = Form('foo')
+        widget.parent = form
+        
+        assert_equals(form, widget.parent)
+        assert_equals(('bar',), widget.path())
+    
+    def test_returns_empty_path_if_widget_has_no_name(self):
+        widget = InputWidget()
+        assert_none(widget.name)
+        
+        assert_equals((), widget.path())
+    
+    def test_can_return_full_name(self):
+        widget = InputWidget('bar')
+        assert_equals('bar', widget.full_name())
+        
+        inner = Form('inner')
+        widget.parent = inner
+        assert_equals('bar', widget.full_name())
+        
+        outer = Form('outer')
+        inner.parent = outer
+        assert_equals('inner.bar', widget.full_name())
 
 
 class InputWidgetValidationTest(PythonicTestCase):

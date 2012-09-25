@@ -95,6 +95,10 @@ class Context(object):
     value = None
     errors = None
     
+    def __init__(self, value=None, errors=None):
+        self.value = value
+        self.errors = errors
+    
     def contains_errors(self):
         if (self.errors is not None) and (len(self.errors) > 0):
             return True

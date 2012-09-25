@@ -15,6 +15,12 @@ class ContextTest(PythonicTestCase):
     def error(self, message='bad input', value=None):
         return InvalidDataError(message, value)
     
+    def test_can_set_attributes_during_initialization(self):
+        assert_equals(5, Context(value=5).value)
+        
+        error = self.error()
+        assert_equals([error], Context(errors=[error]).errors)
+    
     def test_knows_if_context_contains_errors(self):
         self.context.errors = None
         assert_false(self.context.contains_errors())

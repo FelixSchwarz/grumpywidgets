@@ -9,10 +9,7 @@
     {%- for child in children -%}
         <div {% if child.id_for_container() -%}id="{{ child.id_for_container() }}" {% endif -%}
             class="{{ ' '.join(child.css_classes_for_container()) }}">
-            {%- set label = child.label_widget and child.label_widget() or None -%}
-                {%- if label -%}
-                    {{- label.display() -}}
-                {%- endif -%}
+            {{- h.render_label(child) -}}
             {{ child.display() }}
             {%- if child.context.contains_errors() -%}
                 {%- for rendered_msg in child.context.rendered_errors() -%}

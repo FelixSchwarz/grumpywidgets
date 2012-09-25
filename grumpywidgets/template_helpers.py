@@ -6,3 +6,11 @@ def render_class(classes):
     if not classes:  # [], None, ''
         return None
     return ' '.join(classes)
+
+def render_label(widget):
+    if not hasattr(widget, 'label_widget'):
+        return ''
+    label = widget.label_widget()
+    if not label:
+        return ''
+    return label.display()

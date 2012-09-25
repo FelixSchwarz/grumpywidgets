@@ -4,6 +4,7 @@
 
 from jinja2 import Environment, PackageLoader, Template
 
+from grumpywidgets import template_helpers
 from grumpywidgets.lib.simple_super import SuperProxy
 
 
@@ -60,6 +61,7 @@ class Widget(object):
             template_values['value'] = value
         else:
             template_values.update(value)
+        template_values['h'] = template_helpers
         template_values['self_'] = self
         return template_values
     

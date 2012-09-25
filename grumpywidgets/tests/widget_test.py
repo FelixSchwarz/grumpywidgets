@@ -5,6 +5,7 @@
 from StringIO import StringIO
 
 from grumpywidgets.api import Widget
+from grumpywidgets import template_helpers
 from grumpywidgets.lib.pythonic_testcase import *
 
 
@@ -86,4 +87,9 @@ class WidgetRenderingTest(PythonicTestCase):
         template_variables = self.widget.template_variables(None)
         assert_contains('self_', template_variables)
         assert_equals(self.widget, template_variables['self_'])
+    
+    def test_helper_module_available_in_template(self):
+        template_variables = self.widget.template_variables(None)
+        assert_contains('h', template_variables)
+        assert_equals(template_helpers, template_variables['h'])
 

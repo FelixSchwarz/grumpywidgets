@@ -119,7 +119,7 @@ class Form(InputWidget):
             value = values[child_name]
             if pop:
                 del values[child_name]
-            setattr(child.context, attribute_name, value)
+            child.propagate_to_context(value, attribute_name)
         return values
     
     def display(self, value=None, **kwargs):

@@ -1,0 +1,21 @@
+<ul
+    {%- if id %} id="{{ id }}"{% endif %}
+    {%- if value %} value="{{ value }}"{% endif %}
+    class="{{ h.render_class(self_.css_classes_for_container()) }}">
+    {%- for children in context.children -%}
+        <li>
+        {%- for child in children -%}
+            <div {% if child.id_for_container() -%}id="{{ child.id_for_container() }}" {% endif -%}
+                class="{{ ' '.join(child.css_classes_for_container()) }}">
+                {{- h.render_label(child) -}}
+                {{ child.display() }}
+                {%- if child.context.contains_errors() -%}
+                    {%- for rendered_msg in child.context.rendered_errors() -%}
+                        <span class="validationerror-message">{{ rendered_msg }}</span>
+                    {%- endfor -%}
+                {%- endif -%}
+            </div>
+        {%- endfor -%}
+        </li>
+    {%- endfor -%}
+</ul>

@@ -35,7 +35,12 @@ class Widget(object):
             value = kwargs.pop(key)
             if isinstance(value, list):
                 value = tuple(value)
-            setattr(self, key, value)
+            try:
+                setattr(self, key, value)
+            except AttributeError:
+                # the actual attribute is likely a property without setter
+                # we can't detect that before...
+                pass
         if kwargs:
             first_key = kwargs.keys()[0]
             raise TypeError("__init__() got an unexpected keyword argument '%s'" % first_key)
@@ -49,6 +54,17 @@ class Widget(object):
                 continue
             attributes[key] = value.copy()
         return klass(**attributes)
+    
+    def propagate_to_context(self, value, attribute_name='value'):
+        # That's a bit of a hack, remove that if possible
+        if attribute_name == 'errors':
+            if not isinstance(value, (list, tuple)):
+                value = (value, )
+        if value == 'abc':
+            print 'setting %r = %r' % (attribute_name, value)
+        setattr(self.context, attribute_name, value)
+        if value == 'abc':
+            print self.context.unvalidated_value
     
     def widget_attributes(self):
         attributes = dict()
@@ -112,9 +128,9 @@ class Context(object):
     value = None
     errors = None
     
-    def __init__(self, value=None, errors=None):
-        self.value = value
-        self.errors = errors
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
     
     def copy(self):
         klass = self.__class__
@@ -122,6 +138,9 @@ class Context(object):
             value=deepcopy(self.value), 
             errors=deepcopy(self.errors)
         )
+        for key in ('unvalidated_value',):
+            if hasattr(self, key):
+                attributes[key] = getattr(self, key)
         return klass(**attributes)
     __deepcopy__ = copy
     

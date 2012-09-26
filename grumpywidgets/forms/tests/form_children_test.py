@@ -8,9 +8,10 @@ from pycerberus.errors import InvalidDataError
 from pycerberus.validators import IntegerValidator
 
 from grumpywidgets.forms.api import Form
-from grumpywidgets.forms.fields import TextField
+from grumpywidgets.forms.fields import ListField, TextField
 from grumpywidgets.lib.pythonic_testcase import *
 from grumpywidgets.widgets import Label
+
 
 class FormChildrenInitializationTest(PythonicTestCase):
     def setUp(self):
@@ -91,11 +92,44 @@ class FormChildrenRenderingTest(PythonicTestCase):
         container_html = self.child_container_html(self.form.display({}))
         assert_not_contains('id="', container_html)
     
+    # --- compound fields -----------------------------------------------------
+    
+    def test_can_render_list_field_child(self):
+        compound = ListField('foo', children=(TextField('id', validator=IntegerValidator()),))
+        form = Form(children=(compound, ))
+        
+        input_ = {'foo': [{'id': 42}]}
+        form_html = form.display(input_)
+        assert_equals('<ul class="foo-list"></ul>', self.container_html('ul', form_html))
+        
+        item_html = self.child_html('ul', form_html)
+        expected = '<div class="id-container requiredfield fieldcontainer">' + \
+            '<input type="text" name="foo.id" value="42" />' + \
+        '</div>'
+        assert_equals(expected, self.child_html('li', item_html))
+    
+    def test_can_display_errors_for_list_field(self):
+        text_field = TextField('id', validator=IntegerValidator(required=False))
+        compound = ListField('foo', children=(text_field,))
+        form = Form(children=(compound, ))
+        
+        input_ = {'foo': [{'id': 'abc'}]}
+        assert_raises(InvalidDataError, lambda: form.validate(input_))
+        
+        form_html = form.display()
+        item_html = self.child_html('ul', form_html)
+        expected = '<div class="id-container validationerror fieldcontainer">' + \
+            '<input type="text" name="foo.id" value="abc" />' + \
+            '<span class="validationerror-message">Please enter a number.</span>' + \
+        '</div>'
+        assert_equals(expected, self.child_html('li', item_html))
+    
     # --- helpers -------------------------------------------------------------
     
     def _split_html(self, container_tag, html):
-        regex_string = '(<%(tag)s[^>]*>)\s*(.+)\s*(</%(tag)s>)' % dict(tag=container_tag)
-        match = re.search(regex_string, html.replace('\n', ''))
+        simple_html = re.sub('\s+', ' ', html).replace('> <', '><')
+        regex_string = '(<%(tag)s[^>]*>)\s*(.*)\s*(</%(tag)s>)' % dict(tag=container_tag)
+        match = re.search(regex_string, simple_html)
         assert_not_none(match)
         return (match.group(1) + match.group(3), match.group(2))
     

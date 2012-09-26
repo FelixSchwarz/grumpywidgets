@@ -96,9 +96,7 @@ class ListField(InputWidget):
             error = value[0].unpack_errors()
             value = error
         value = value or []
-        print 'attr name %r' % attribute_name
         values = self._propagate_to_children(value or [], pop=pop, attribute_name=attribute_name)
-        #values = self.initialize_children(value or [], pop=pop, attribute_name=attribute_name)
         if not pop:
             return
         for child_values in values:

@@ -60,11 +60,7 @@ class Widget(object):
         if attribute_name == 'errors':
             if not isinstance(value, (list, tuple)):
                 value = (value, )
-        if value == 'abc':
-            print 'setting %r = %r' % (attribute_name, value)
         setattr(self.context, attribute_name, value)
-        if value == 'abc':
-            print self.context.unvalidated_value
     
     def widget_attributes(self):
         attributes = dict()

@@ -5,7 +5,8 @@
 from pycerberus.errors import InvalidDataError
 from pycerberus.schema import SchemaValidator
 
-from grumpywidgets.api import Context, CompoundContext, Widget
+from grumpywidgets.api import Widget
+from grumpywidgets.context import Context, CompoundContext
 from grumpywidgets.lib.pythonic_testcase import assert_isinstance, assert_none
 from grumpywidgets.widgets import Label
 

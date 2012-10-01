@@ -5,7 +5,7 @@
 from pycerberus.errors import InvalidDataError
 
 from grumpywidgets import template_helpers as h
-from grumpywidgets.api import Context, RepeatingContext
+from grumpywidgets.context import Context, RepeatingContext
 from grumpywidgets.lib.pythonic_testcase import *
 
 

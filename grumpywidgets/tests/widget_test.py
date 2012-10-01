@@ -4,8 +4,9 @@
 
 from StringIO import StringIO
 
-from grumpywidgets.api import Context, Widget
 from grumpywidgets import template_helpers
+from grumpywidgets.api import Widget
+from grumpywidgets.context import Context
 from grumpywidgets.lib.pythonic_testcase import *
 
 

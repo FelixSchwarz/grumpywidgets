@@ -6,7 +6,7 @@ from pycerberus.errors import InvalidDataError
 from pycerberus.schema import SchemaValidator
 from pycerberus.validators import ForEach
 
-from grumpywidgets.api import RepeatingContext, CompoundContext
+from grumpywidgets.context import CompoundContext, RepeatingContext
 from grumpywidgets.forms.api import InputWidget
 from grumpywidgets.lib.pythonic_testcase import assert_isinstance
 

@@ -14,6 +14,7 @@ from grumpywidgets.lib.pythonic_testcase import assert_equals
 __all__ = ['Widget']
 
 class Widget(object):
+    name = None
     id = None
     template = None
     css_classes = None

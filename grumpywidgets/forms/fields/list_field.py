@@ -25,8 +25,7 @@ class ListField(InputWidget):
     def _child_context_creator(self):
         container = ContainerContext()
         for child in self.children:
-            if hasattr(child, 'name'):
-                container.children[child.name] = child.new_context()
+            container.children[child.name] = child.new_context()
         return container.copy
     
     def new_context(self, unvalidated=None):
@@ -43,11 +42,10 @@ class ListField(InputWidget):
         for container_context in self.context.items:
             row = []
             for child in self.children:
-                child_name = getattr(child, 'name', None)
-                if child_name not in container_context.children:
+                if child.name not in container_context.children:
                     context = child.new_context()
                 else:
-                    context = container_context.children[child_name]
+                    context = container_context.children[child.name]
                 child.set_context(context)
                 row.append(child)
             yield tuple(row)
@@ -67,13 +65,12 @@ class ListField(InputWidget):
     def validator(self):
         schema = SchemaValidator()
         for child in self.children:
-            child_name = getattr(child, 'name', None)
-            if child_name is None:
+            if child.name is None:
                 continue
             child_validator = getattr(child, 'validator', None)
             if child_validator is None:
                 continue
-            schema.add(child_name, child_validator)
+            schema.add(child.name, child_validator)
         return ForEach(schema)
     
     def css_classes_for_container(self):

@@ -103,13 +103,12 @@ class Form(InputWidget):
     def validation_schema(self):
         schema = SchemaValidator()
         for child in self.children:
-            child_name = getattr(child, 'name', None)
-            if child_name is None:
+            if child.name is None:
                 continue
             child_validator = getattr(child, 'validator', None)
             if child_validator is None:
                 continue
-            schema.add(child_name, child_validator)
+            schema.add(child.name, child_validator)
         return schema
     
     def display(self, value=None, **kwargs):

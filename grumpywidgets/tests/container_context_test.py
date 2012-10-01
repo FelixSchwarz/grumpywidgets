@@ -4,14 +4,14 @@
 
 from pycerberus.errors import InvalidDataError
 
-from grumpywidgets.api import Context, ContainerContext, RepeatingContext
+from grumpywidgets.api import Context, CompoundContext, RepeatingContext
 from grumpywidgets.lib.pythonic_testcase import *
 
 
-class ContainerContextTest(PythonicTestCase):
+class CompoundContextTest(PythonicTestCase):
     
     def setUp(self):
-        self.context = ContainerContext()
+        self.context = CompoundContext()
         self.context.children.update({
             'foo': Context(value='foo'),
             'bar': Context(value=2, unvalidated_value='2'),
@@ -43,7 +43,7 @@ class ContainerContextTest(PythonicTestCase):
         assert_true(self.context.contains_errors())
     
     def test_can_tell_if_container_child_contains_errors(self):
-        child_container = ContainerContext()
+        child_container = CompoundContext()
         child_container.children = {'baz': Context(errors=(self.error(), ))}
         assert_true(child_container.contains_errors())
         
@@ -66,7 +66,7 @@ class ContainerContextTest(PythonicTestCase):
         assert_equals((1, None), self.context.value['items'])
     
     def test_can_return_values_from_nested_containers(self):
-        complex_child = ContainerContext()
+        complex_child = CompoundContext()
         complex_child.children = {'baz': Context(value='qux')}
         self.context.children['complex'] = complex_child
         
@@ -74,14 +74,14 @@ class ContainerContextTest(PythonicTestCase):
     
     def test_can_return_errors_from_nested_containers(self):
         errors = (self.error(), )
-        complex_child = ContainerContext()
+        complex_child = CompoundContext()
         complex_child.children = {'baz': Context(errors=errors)}
         self.context.children['complex'] = complex_child
         
         assert_equals({'baz': errors}, self.context.errors['complex'])
     
     def test_can_return_unvalidated_values_from_nested_containers(self):
-        complex_child = ContainerContext()
+        complex_child = CompoundContext()
         complex_child.children = {'baz': Context(unvalidated_value='42')}
         self.context.children['complex'] = complex_child
         

@@ -6,7 +6,7 @@ from pycerberus.errors import InvalidDataError
 from pycerberus.schema import SchemaValidator
 from pycerberus.validators import ForEach
 
-from grumpywidgets.api import RepeatingContext, ContainerContext
+from grumpywidgets.api import RepeatingContext, CompoundContext
 from grumpywidgets.forms.api import InputWidget
 from grumpywidgets.lib.pythonic_testcase import assert_isinstance
 
@@ -23,7 +23,7 @@ class ListField(InputWidget):
             child.parent = self
     
     def _child_context_creator(self):
-        container = ContainerContext()
+        container = CompoundContext()
         for child in self.children:
             container.children[child.name] = child.new_context()
         return container.copy

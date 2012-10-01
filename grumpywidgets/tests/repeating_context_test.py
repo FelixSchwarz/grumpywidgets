@@ -4,7 +4,7 @@
 
 from pycerberus.errors import InvalidDataError
 
-from grumpywidgets.api import Context, ContainerContext, RepeatingContext
+from grumpywidgets.api import Context, CompoundContext, RepeatingContext
 from grumpywidgets.lib.pythonic_testcase import *
 
 
@@ -28,7 +28,7 @@ class RepeatingContextTest(PythonicTestCase):
         assert_equals(('foo', 'bar'), self.context.value)
     
     def test_can_return_values_from_nested_containers(self):
-        complex_child = ContainerContext()
+        complex_child = CompoundContext()
         complex_child.children = {'baz': Context(value='qux')}
         self.context.items = [complex_child]
         
@@ -77,7 +77,7 @@ class RepeatingContextTest(PythonicTestCase):
         assert_equals(values, self.context.errors)
     
     def test_can_set_complex_value(self):
-        complex_child = ContainerContext()
+        complex_child = CompoundContext()
         complex_child.children = {'baz': Context(value='qux')}
         self.context.items = [complex_child]
         

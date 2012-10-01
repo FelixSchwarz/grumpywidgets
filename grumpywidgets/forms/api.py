@@ -5,7 +5,7 @@
 from pycerberus.errors import InvalidDataError
 from pycerberus.schema import SchemaValidator
 
-from grumpywidgets.api import Context, ContainerContext, Widget
+from grumpywidgets.api import Context, CompoundContext, Widget
 from grumpywidgets.lib.pythonic_testcase import assert_isinstance, assert_none
 from grumpywidgets.widgets import Label
 
@@ -132,7 +132,7 @@ class Form(InputWidget):
         return self.super()
     
     def new_context(self, unvalidated=None):
-        context = ContainerContext()
+        context = CompoundContext()
         for child in self.children:
             context.children[child.name] = child.new_context()
         if unvalidated is not None:
@@ -140,5 +140,5 @@ class Form(InputWidget):
         return context
     
     def set_context(self, context):
-        assert_isinstance(context, ContainerContext)
+        assert_isinstance(context, CompoundContext)
         self.context = context

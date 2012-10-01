@@ -228,7 +228,7 @@ class RepeatingContext(object):
         return tuple(values)
 
 
-class ContainerContext(object):
+class CompoundContext(object):
     def __init__(self):
         self.children = {}
     

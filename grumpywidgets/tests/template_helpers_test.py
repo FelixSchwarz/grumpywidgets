@@ -36,7 +36,7 @@ class TemplateHelpersTest(PythonicTestCase):
     def test_ignores_error_dict(self):
         # if 'errors' contains a dict, assume the errors refer to child widgets
         # which will be rendered later
-        # usually 'context' would be a ContainerContext in this case but it's
+        # usually 'context' would be a CompoundContext in this case but it's
         # just easier to instantiate a basic Context for testing
         context = Context(errors=dict(foo=self.error()))
         assert_equals((), h.error_messages(context))

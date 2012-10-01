@@ -64,6 +64,31 @@ class WidgetTest(PythonicTestCase):
         w.context.value = 21
         assert_equals(42, cloned.context.value)
         assert_equals(21, w.context.value)
+    
+    def test_can_create_new_context(self):
+        widget = Widget()
+        context = widget.new_context()
+        
+        assert_none(context.value)
+        assert_none(context.errors)
+        assert_none(context.unvalidated_value)
+        
+        assert_not_equals(context, widget.new_context())
+    
+    def test_can_create_new_context_with_data(self):
+        widget = Widget()
+        context = widget.new_context(unvalidated='42')
+        assert_none(context.value)
+        assert_none(context.errors)
+        assert_equals('42', context.unvalidated_value)
+#    
+#    def test_can_create_new_context_specific_attribute(self):
+#        # form.validate(values)
+#        # -> returns context
+#        # context.update_data(...)
+#        # form.set_context(context)
+#        # form.display()
+#        self.fail()
 
 
 class WidgetRenderingTest(PythonicTestCase):

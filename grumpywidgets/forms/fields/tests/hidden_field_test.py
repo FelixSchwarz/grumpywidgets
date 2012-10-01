@@ -2,10 +2,8 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
-
 from grumpywidgets.forms.fields import HiddenField
 from grumpywidgets.lib.pythonic_testcase import *
-from pycerberus.errors import InvalidDataError
 
 
 class HiddenFieldTest(PythonicTestCase):
@@ -32,7 +30,10 @@ class HiddenFieldTest(PythonicTestCase):
         text_field = HiddenField()
         
         assert_not_none(text_field.validator)
-        assert_raises(InvalidDataError, lambda: text_field.validate([]))
-        assert_raises(InvalidDataError, lambda: text_field.validate([]))
-        assert_equals('foo', text_field.validate('foo'))
+        self.assert_error(text_field, [])
+        assert_equals('foo', text_field.validate('foo').value)
+    
+    def assert_error(self, widget, input_):
+        context = widget.validate(input_)
+        assert_true(context.contains_errors())
 

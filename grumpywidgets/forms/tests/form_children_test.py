@@ -41,21 +41,25 @@ class FormChildrenRenderingTest(PythonicTestCase):
     
     def test_raises_error_if_unknown_parameters_are_passed_for_display(self):
         e = assert_raises(ValueError, lambda: Form().display({'invalid': None}))
-        assert_equals("Unknown parameter 'invalid' passed to display()", 
-                      e.args[0])
+        assert_equals("unknown parameter 'invalid'", e.args[0])
     
     def test_can_display_errors_for_children(self):
         textfield = self.form.children[0]
+        
         # simulate failed validation
-        textfield.context.errors = (InvalidDataError('bad input', 'abc'),)
-        assert_true(textfield.context.contains_errors())
+        error_dict = {textfield.name: (InvalidDataError('bad input', 'abc'),)}
+        self.form.context.update_value(errors=error_dict)
+        assert_true(self.form.context.contains_errors())
         
         expected = u'<input type="text" name="number" />' + \
             '<span class="validationerror-message">bad input</span>'
         self.assert_child_html(expected, self.form.display())
     
     def test_can_redisplay_previous_values_after_failed_validation(self):
-        assert_raises(InvalidDataError, lambda: self.form.validate({'number': 'abc'}))
+        result = self.form.validate({'number': 'abc'})
+        assert_true(result.contains_errors())
+        
+        self.form.set_context(result)
         expected = u'<input type="text" name="number" value="abc" />' + \
             '<span class="validationerror-message">Please enter a number.</span>'
         self.assert_child_html(expected, self.form.display())
@@ -110,12 +114,12 @@ class FormChildrenRenderingTest(PythonicTestCase):
     
     def test_can_display_errors_for_list_field(self):
         text_field = TextField('id', validator=IntegerValidator(required=False))
-        compound = ListField('foo', children=(text_field,))
-        form = Form(children=(compound, ))
+        form = Form(children=(ListField('foo', children=(text_field,)), ))
         
-        input_ = {'foo': [{'id': 'abc'}]}
-        assert_raises(InvalidDataError, lambda: form.validate(input_))
+        result = form.validate({'foo': [{'id': 'abc'}]})
+        assert_true(result.contains_errors())
         
+        form.set_context(result)
         form_html = form.display()
         item_html = self.child_html('ul', form_html)
         expected = '<div class="id-container validationerror fieldcontainer">' + \

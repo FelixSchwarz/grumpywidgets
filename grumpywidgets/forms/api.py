@@ -5,8 +5,8 @@
 from pycerberus.errors import InvalidDataError
 from pycerberus.schema import SchemaValidator
 
-from grumpywidgets.api import Widget
-from grumpywidgets.lib.pythonic_testcase import assert_none
+from grumpywidgets.api import Context, ContainerContext, Widget
+from grumpywidgets.lib.pythonic_testcase import assert_isinstance, assert_none
 from grumpywidgets.widgets import Label
 
 
@@ -21,12 +21,17 @@ class InputWidget(Widget):
         if name is not None:
             kwargs['name'] = name
         super(InputWidget, self).__init__(**kwargs)
-        self.context.unvalidated_value = None
     
     def validate(self, value):
-        if self.validator is None:
-            return value
-        return self.validator.process(value)
+        c = Context(unvalidated_value=value)
+        if self.validator is not None:
+            try:
+                c.value = self.validator.process(value)
+            except InvalidDataError, e:
+                c.errors = (e, )
+        else:
+            c.value = value
+        return c
     
     def _display_value(self, value):
         value = self.super(value)
@@ -86,18 +91,14 @@ class Form(InputWidget):
     
     def validate(self, values):
         assert_none(self.validator) # not supported for now
-        self.initialize_children(values, pop=False, attribute_name='unvalidated_value')
+        context = self.new_context(unvalidated=values)
         try:
             validated_values = self.validation_schema().process(values)
         except InvalidDataError, e:
-            errors = dict()
-            for key, value in e.error_dict().items():
-                if not isinstance(value, (list, tuple)):
-                    value = (value, )
-                errors[key] = value
-            self.initialize_children(errors, pop=False, attribute_name='errors')
-            raise
-        return validated_values
+            context.update_value(errors=e.unpack_errors())
+        else:
+            context.update_value(validated_values)
+        return context
     
     def validation_schema(self):
         schema = SchemaValidator()
@@ -111,25 +112,34 @@ class Form(InputWidget):
             schema.add(child_name, child_validator)
         return schema
     
-    def initialize_children(self, values, pop=True, attribute_name='value'):
+    def display(self, value=None, **kwargs):
+        if value is not None:
+            self.context.update_value(value)
+        return self.super(value=None, **kwargs)
+    
+    def children_(self):
         for child in self.children:
             child_name = getattr(child, 'name', None)
-            if (child_name is None) or (child_name not in values):
-                continue
-            value = values[child_name]
-            if pop:
-                del values[child_name]
-            child.propagate_to_context(value, attribute_name)
-        return values
-    
-    def display(self, value=None, **kwargs):
-        values = self.initialize_children(value or dict())
-        if values:
-            first_key = values.keys()[0]
-            raise ValueError("Unknown parameter '%s' passed to display()" % first_key)
-        return self.super(value=values, **kwargs)
+            if child_name not in self.context.children:
+                context = child.new_context()
+            else:
+                context = self.context.children[child_name]
+            child.set_context(context)
+            yield child
     
     def path(self):
         if self.parent is None:
             return ()
         return self.super()
+    
+    def new_context(self, unvalidated=None):
+        context = ContainerContext()
+        for child in self.children:
+            context.children[child.name] = child.new_context()
+        if unvalidated is not None:
+            context.update_value(unvalidated_value=unvalidated)
+        return context
+    
+    def set_context(self, context):
+        assert_isinstance(context, ContainerContext)
+        self.context = context

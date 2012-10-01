@@ -21,6 +21,9 @@ class ContextTest(PythonicTestCase):
         
         error = self.error()
         assert_equals([error], Context(errors=[error]).errors)
+        
+        assert_equals('42', Context(unvalidated_value='42').unvalidated_value)
+
     
     def test_can_clone_itself(self):
         self.context.value = {}
@@ -45,19 +48,27 @@ class ContextTest(PythonicTestCase):
         self.context.errors = (self.error(),)
         assert_true(self.context.contains_errors())
     
-    def test_can_call_render_errors_if_no_error_occured(self):
-        assert_false(self.context.contains_errors())
-        assert_equals((), self.context.rendered_errors())
+    def test_can_set_new_value(self):
+        self.context.update_value('bar')
         
-        self.context.errors = []
-        assert_equals((), self.context.rendered_errors())
+        assert_equals('bar', self.context.value)
     
-    def test_can_render_single_error(self):
-        self.context.errors = (self.error(),)
-        assert_equals(('bad input',), self.context.rendered_errors())
+    def test_can_set_unvalidated_attribute_when_updating_values(self):
+        context = Context()
+        context.update_value(unvalidated_value='42')
+        
+        assert_equals('42', context.unvalidated_value)
     
-    def test_can_render_multiple_errors(self):
-        self.context.errors = (self.error(), self.error(message='check failed'))
-        assert_equals(('bad input', 'check failed'), self.context.rendered_errors())
+    def test_can_set_errors_attribute_when_updating_values(self):
+        context = Context()
+        context.update_value(errors=(4,))
+        
+        assert_equals((4,), context.errors)
+    
+    def test_single_error_is_converted_to_list(self):
+        context = Context()
+        context.update_value(errors=4)
+        
+        assert_equals((4,), context.errors)
 
 

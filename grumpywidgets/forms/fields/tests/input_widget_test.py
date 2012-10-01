@@ -52,14 +52,26 @@ class InputWidgetTest(PythonicTestCase):
 class InputWidgetValidationTest(PythonicTestCase):
     def test_returns_original_value_if_no_validator_found(self):
         widget = InputWidget('foobar')
-        assert_none(widget.validate(None))
-        assert_equals('foo', widget.validate('foo'))
-        assert_equals([], widget.validate([]))
+        
+        assert_none(widget.validate(None).value)
+        assert_equals('foo', widget.validate('foo').value)
+        assert_equals([], widget.validate([]).value)
     
-    def test_can_use_configured_validator(self):
+    def test_validation_returns_context_instance(self):
         widget = InputWidget('foobar', validator=IntegerValidator())
-        assert_equals(2, widget.validate('2'))
-        assert_raises(InvalidDataError, lambda: widget.validate('abc'))
+        
+        result = widget.validate('2')
+        assert_equals('2', result.unvalidated_value)
+        assert_equals(2, result.value)
+        assert_none(result.errors)
+    
+    def test_returns_context_also_after_failed_validation(self):
+        widget = InputWidget('foobar', validator=IntegerValidator())
+        
+        result = widget.validate('invalid')
+        assert_equals('invalid', result.unvalidated_value)
+        assert_none(None, result.value)
+        assert_true(result.contains_errors())
 
 
 class InputWidgetRenderingTest(PythonicTestCase):

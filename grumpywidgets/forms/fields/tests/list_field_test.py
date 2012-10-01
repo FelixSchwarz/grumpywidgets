@@ -4,7 +4,6 @@
 
 import re
 
-from pycerberus.errors import InvalidDataError
 from pycerberus.validators import StringValidator
 
 from grumpywidgets.forms.fields import ListField, TextField
@@ -25,6 +24,26 @@ class ListFieldTest(PythonicTestCase):
         
         list_field.css_classes = ('baz', )
         assert_contains('baz', list_field.css_classes_for_container())
+    
+    def test_can_build_new_context_for_empty_input(self):
+        list_field = ListField('foo', children=[TextField('name')])
+        
+        context = list_field.new_context([])
+        assert_false(context.contains_errors())
+        assert_length(0, context.items)
+    
+    def test_can_build_new_context_for_multiple_rows(self):
+        list_field = ListField('foo', children=[TextField('name')])
+        
+        input_ = [{'name': 'bar'}, {'name': 'bar'}]
+        context = list_field.new_context(unvalidated=input_)
+        assert_equals(tuple(input_), context.unvalidated_value)
+    
+    def test_can_update_child_contexts(self):
+        list_field = ListField('foo', children=(TextField('bar'), ))
+        list_field.context.update_value([{'bar': 32}])
+        
+        assert_equals(({'bar': 32},), list_field.context.value)
 
 
 class ListFieldRenderingTest(PythonicTestCase):
@@ -120,9 +139,10 @@ class ListFieldRenderingTest(PythonicTestCase):
     
     def test_can_display_errors_for_children(self):
         input_ = [{'start': '', 'end': '12345678901'}]
-        self.assert_error(self.list_field, input_)
-        assert_length(1, self.list_field.context.children)
+        result = self.list_field.validate(input_)
+        assert_true(result.contains_errors())
         
+        self.list_field.set_context(result)
         expected = u'<ul class="foo-list">' + \
             '<li>' + \
                 '<div class="start-container fieldcontainer">' + \
@@ -138,10 +158,6 @@ class ListFieldRenderingTest(PythonicTestCase):
         assert_equals(expected, html)
     
     # --- helpers -------------------------------------------------------------
-    
-    def assert_error(self, widget, input_):
-        e = assert_raises(InvalidDataError, lambda: widget.validate(input_))
-        return e
     
     def simplify(self, html):
         return re.sub('\s+', ' ', html).replace('> <', '><')

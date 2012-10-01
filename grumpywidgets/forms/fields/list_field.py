@@ -6,8 +6,9 @@ from pycerberus.errors import InvalidDataError
 from pycerberus.schema import SchemaValidator
 from pycerberus.validators import ForEach
 
+from grumpywidgets.api import RepeatingContext, ContainerContext
 from grumpywidgets.forms.api import InputWidget
-from grumpywidgets.lib.pythonic_testcase import assert_true
+from grumpywidgets.lib.pythonic_testcase import assert_isinstance
 
 __all__ = ['ListField']
 
@@ -21,22 +22,46 @@ class ListField(InputWidget):
             # TODO: use a weakref to avoid memory hogging
             child.parent = self
     
+    def _child_context_creator(self):
+        container = ContainerContext()
+        for child in self.children:
+            if hasattr(child, 'name'):
+                container.children[child.name] = child.new_context()
+        return container.copy
+    
+    def new_context(self, unvalidated=None):
+        context = RepeatingContext(self._child_context_creator())
+        if unvalidated is not None:
+            context.update_value(unvalidated_value=unvalidated)
+        return context
+    
+    def set_context(self, context):
+        assert_isinstance(context, RepeatingContext)
+        self.context = context
+    
+    def child_rows(self):
+        for container_context in self.context.items:
+            row = []
+            for child in self.children:
+                child_name = getattr(child, 'name', None)
+                if child_name not in container_context.children:
+                    context = child.new_context()
+                else:
+                    context = container_context.children[child_name]
+                child.set_context(context)
+                row.append(child)
+            yield tuple(row)
+    
     def validate(self, values):
-        self._propagate_to_children(values, pop=False, attribute_name='unvalidated_value')
-#        self.initialize_children(values, pop=False, attribute_name='unvalidated_value')
+        context = self.new_context(unvalidated=values)
         try:
             validated_values = self.validator.process(values)
         except InvalidDataError, e:
-            for children, errors in zip(self.context.children, e.unpack_errors()):
-                for child in children:
-                    if (not hasattr(child, 'name')) or (child.name is None):
-                        continue
-                    child_error = errors and errors.get(child.name) or None
-                    if child_error is not None:
-                        child_error = (child_error, )
-                    child.context.errors = child_error
-            raise
-        return validated_values
+            for child_context, errors in zip(context.items, e.unpack_errors()):
+                child_context.update_value(errors=errors)
+        else:
+            context.update_value(validated_values)
+        return context
     
     @property
     def validator(self):
@@ -62,47 +87,8 @@ class ListField(InputWidget):
             classes = classes.union(set(self.css_classes))
         return tuple(classes)
     
-    def initialize_children(self, number_items):
-        self.context.children = []
-        for i in range(number_items):
-            children = []
-            for child in self.children:
-                clone = child.copy()
-                children.append(clone)
-            self.context.children.append(children)
-    
-    def _propagate_to_children(self, values, pop=True, attribute_name='value'):
-        if not hasattr(self.context, 'children') or (len(self.context.children) != len(values)):
-            self.initialize_children(len(values))
-        for children, child_values in zip(self.context.children, values):
-            for child in children:
-                if hasattr(child, 'name'):
-                    value = child_values.get(child.name)
-                    if pop:
-                        del child_values[child.name]
-                    child.propagate_to_context(value, attribute_name)
-        return values
-    
     def display(self, value=None, **kwargs):
-        self.propagate_to_context(value, pop=True, attribute_name='value')
+        if value is not None:
+            self.context.update_value(value)
         return self.super(value=None, **kwargs)
-    
-    def propagate_to_context(self, value, attribute_name='value', pop=False):
-        if value is None:
-            return
-        if attribute_name == 'errors':
-            # hack-ish, should probably be a separate method
-            assert_true(len(value) in (0, 1), 'unsupported number of errors (not yet implemented')
-            error = value[0].unpack_errors()
-            value = error
-        value = value or []
-        values = self._propagate_to_children(value or [], pop=pop, attribute_name=attribute_name)
-        if not pop:
-            return
-        for child_values in values:
-            if child_values:
-                first_key = list(child_values)[0]
-                raise ValueError('unknown parameter %r' % first_key)
-        return values
-
 

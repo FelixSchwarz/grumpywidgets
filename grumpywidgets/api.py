@@ -113,7 +113,7 @@ class Widget(object):
         unknown_parameters = set(kwargs).difference(set(self.widget_attributes()))
         if unknown_parameters:
             first = unknown_parameters.pop()
-            raise TypeError("__display__() got an unexpected keyword argument '%s'" % first)
+            raise TypeError("display() got an unexpected keyword argument '%s'" % first)
         variables = self.template_variables(value, **kwargs)
         return self._render_template(variables)
     

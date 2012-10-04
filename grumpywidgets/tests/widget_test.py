@@ -115,7 +115,7 @@ class WidgetRenderingTest(PythonicTestCase):
         assert_equals(u'hello foo', widget.display('foo'))
         assert_equals(u'goodbye foo', widget.display('foo', verb='goodbye'))
         e = assert_raises(TypeError, lambda: widget.display('foo', invalid='bar'))
-        assert_equals("__display__() got an unexpected keyword argument 'invalid'",
+        assert_equals("display() got an unexpected keyword argument 'invalid'",
                       e.args[0])
     
     def test_widget_instance_available_in_template(self):

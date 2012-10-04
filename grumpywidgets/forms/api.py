@@ -86,9 +86,16 @@ class Form(InputWidget):
     
     def __init__(self, *args, **kwargs):
         self.super.__init__(*args, **kwargs)
+        self._initialize_children()
+    
+    def _initialize_children(self):
+        instance_children = []
         for child in self.children:
+            cloned_child = child.copy()
             # TODO: use a weakref to avoid memory hogging
-            child.parent = self
+            cloned_child.parent = self
+            instance_children.append(cloned_child)
+        self.children = instance_children
     
     def validate(self, values):
         assert_none(self.validator) # not supported for now

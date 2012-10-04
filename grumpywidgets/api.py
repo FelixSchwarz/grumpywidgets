@@ -48,6 +48,8 @@ class Widget(object):
     def copy(self):
         klass = self.__class__
         attributes = self.widget_attributes()
+        if 'parent' in attributes:
+            del attributes['parent']
         for key in list(attributes):
             value = attributes[key]
             if not hasattr(value, 'copy'):

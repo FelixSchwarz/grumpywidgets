@@ -18,9 +18,16 @@ class ListField(InputWidget):
     
     def __init__(self, *args, **kwargs):
         self.super.__init__(*args, **kwargs)
+        self._initialize_children()
+    
+    def _initialize_children(self):
+        instance_children = []
         for child in self.children:
+            cloned_child = child.copy()
             # TODO: use a weakref to avoid memory hogging
-            child.parent = self
+            cloned_child.parent = self
+            instance_children.append(cloned_child)
+        self.children = instance_children
     
     def _child_context_creator(self):
         container = CompoundContext()

@@ -7,6 +7,9 @@ from grumpywidgets.lib.pythonic_testcase import *
 
 
 class ListFieldTest(PythonicTestCase):
+    class NameField(ListField):
+        children = (TextField('name'), )
+    
     def test_adds_itself_to_path(self):
         assert_equals(('foo', ), ListField('foo').path())
     
@@ -40,4 +43,18 @@ class ListFieldTest(PythonicTestCase):
         list_field.context.update_value([{'bar': 32}])
         
         assert_equals(({'bar': 32},), list_field.context.value)
+    
+    def test_child_instances_are_not_shared_between_instances(self):
+        first = self.NameField()
+        second = self.NameField()
+        
+        first.children[0].name = 'foo'
+        assert_equals('name', second.children[0].name)
+    
+    def test_creates_new_child_instances_on_copy(self):
+        first = self.NameField()
+        second = first.copy()
+        
+        first.children[0].name = 'foo'
+        assert_equals('name', second.children[0].name)
 

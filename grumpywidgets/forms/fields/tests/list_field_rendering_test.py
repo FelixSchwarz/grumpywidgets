@@ -21,10 +21,9 @@ class ListFieldRenderingTest(PythonicTestCase):
         self.empty_input = [dict(start=None, end=None)]
     
     def test_can_render_empty_list(self):
-        # FIXME: remove that
-        self.list_field.children = ()
+        list_field = ListField('foo', children=())
         
-        html = self.simplify(self.list_field.display())
+        html = self.simplify(list_field.display())
         assert_equals(u'<ul class="foo-list"></ul>', html)
     
     def test_can_render_list_field_with_complex_child(self):

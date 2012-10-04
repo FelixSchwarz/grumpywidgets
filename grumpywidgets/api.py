@@ -63,13 +63,6 @@ class Widget(object):
     def set_context(self, context):
         self.context = context
     
-    def propagate_to_context(self, value, attribute_name='value'):
-        # That's a bit of a hack, remove that if possible
-        if attribute_name == 'errors':
-            if not isinstance(value, (list, tuple)):
-                value = (value, )
-        setattr(self.context, attribute_name, value)
-    
     def widget_attributes(self):
         attributes = dict()
         for key in dir(self):

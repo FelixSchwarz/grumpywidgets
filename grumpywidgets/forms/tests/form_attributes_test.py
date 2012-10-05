@@ -51,7 +51,7 @@ class FormAttributesTest(PythonicTestCase):
                       StyledForm().display(None))
     
     def test_can_render_enctype(self):
-        assert_equals('<form action="" method="POST" accept-charset="UTF-8" enctype="multipart/form-data"></form>', 
+        assert_equals('<form action="" method="POST" enctype="multipart/form-data" accept-charset="UTF-8"></form>', 
                       Form(enctype='multipart/form-data').display(None))
     
     def test_can_specify_attributes_on_display(self):

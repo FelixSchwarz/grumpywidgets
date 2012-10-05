@@ -81,6 +81,7 @@ class Form(InputWidget):
     url = ''
     method = 'POST'
     charset = 'UTF-8'
+    enctype = None
     template = 'form.jinja2'
     children = ()
     

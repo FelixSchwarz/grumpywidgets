@@ -4,6 +4,7 @@
     {%- if css_classes %} class="{{ css_classes }}"{% endif %}
     {%- if True %} action="{{ url }}"{% endif %}
     {%- if True %} method="{{ method }}"{% endif %}
+    {%- if enctype %}enctype="{{ enctype }}"{% endif %}
     {%- if True %} accept-charset="{{ charset }}"{% endif %}>
     {%- for child in self_.children_() -%}
         <div {% if child.id_for_container() -%}id="{{ child.id_for_container() }}" {% endif -%}

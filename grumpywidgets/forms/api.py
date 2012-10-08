@@ -2,6 +2,7 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
+from formencode.variabledecode import variable_decode
 from pycerberus.errors import InvalidDataError
 from pycerberus.schema import SchemaValidator
 
@@ -11,7 +12,12 @@ from grumpywidgets.lib.pythonic_testcase import assert_isinstance, assert_none
 from grumpywidgets.widgets import Label
 
 
-__all__ = ['InputWidget', 'Form']
+__all__ = ['decode_parameters', 'InputWidget', 'Form']
+
+def decode_parameters(parameters):
+    # TODO: replace this method from formencode with custom code
+    return variable_decode(parameters)
+
 
 class InputWidget(Widget):
     validator = None

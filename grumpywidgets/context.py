@@ -54,6 +54,7 @@ class RepeatingContext(object):
     def __init__(self, child_creator):
         self.items = []
         self.child_creator = child_creator
+        self.count = 0
     
     def contains_errors(self):
         for item in self.items:

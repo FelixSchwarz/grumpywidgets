@@ -31,10 +31,10 @@ class ListFieldRenderingTest(PythonicTestCase):
         expected = u'<ul class="foo-list">' + \
             '<li>' +\
                 '<div class="start-container fieldcontainer">' + \
-                    '<input type="text" name="foo.start" />' + \
+                    '<input type="text" name="foo-1.start" />' + \
                 '</div>' + \
                 '<div class="end-container fieldcontainer">' + \
-                    '<input type="text" name="foo.end" />' + \
+                    '<input type="text" name="foo-1.end" />' + \
                 '</div>' + \
             '</li>' + \
             '</ul>'
@@ -46,7 +46,7 @@ class ListFieldRenderingTest(PythonicTestCase):
         start_field.id = 'start'
         start_field.label = 'Start'
         expected = u'<label id="start-label" for="start">Start</label>' + \
-            '<input type="text" id="start" name="foo.start" />'
+            '<input type="text" id="start" name="foo-1.start" />'
         
         html = self.simplify(self.list_field.display(self.empty_input))
         match = re.search('<div[^>]*>(.+?)</div>', html)
@@ -55,8 +55,8 @@ class ListFieldRenderingTest(PythonicTestCase):
     def test_can_pass_values_to_children(self):
         child_input = [dict(start='s1', end='e1')]
         html = self.simplify(self.list_field.display(child_input))
-        assert_contains('<input type="text" name="foo.start" value="s1" />', html)
-        assert_contains('<input type="text" name="foo.end" value="e1" />', html)
+        assert_contains('<input type="text" name="foo-1.start" value="s1" />', html)
+        assert_contains('<input type="text" name="foo-1.end" value="e1" />', html)
     
     def test_raises_exception_if_values_contain_unknown_key(self):
         child_input = [dict(start='s1', end='e1', invalid=None)]
@@ -79,18 +79,18 @@ class ListFieldRenderingTest(PythonicTestCase):
         html = self.list_field.display(input_)
         first_child = '<li>' +\
                 '<div class="start-container fieldcontainer">' + \
-                    '<input type="text" name="foo.start" value="s1" />' + \
+                    '<input type="text" name="foo-1.start" value="s1" />' + \
                 '</div>' + \
                 '<div class="end-container fieldcontainer">' + \
-                    '<input type="text" name="foo.end" value="e1" />' + \
+                    '<input type="text" name="foo-1.end" value="e1" />' + \
                 '</div>' + \
             '</li>'
         second_child = '<li>' + \
                 '<div class="start-container fieldcontainer">' + \
-                    '<input type="text" name="foo.start" value="s2" />' + \
+                    '<input type="text" name="foo-2.start" value="s2" />' + \
                 '</div>' + \
                 '<div class="end-container fieldcontainer">' + \
-                    '<input type="text" name="foo.end" value="e2" />' + \
+                    '<input type="text" name="foo-2.end" value="e2" />' + \
                 '</div>' + \
             '</li>'
         
@@ -110,10 +110,10 @@ class ListFieldRenderingTest(PythonicTestCase):
         expected = u'<ul class="foo-list">' + \
             '<li>' + \
                 '<div class="start-container fieldcontainer">' + \
-                    '<input type="text" name="foo.start" />' + \
+                    '<input type="text" name="foo-1.start" />' + \
                 '</div>' + \
                 '<div class="end-container validationerror fieldcontainer">' + \
-                    '<input type="text" name="foo.end" value="12345678901" />' + \
+                    '<input type="text" name="foo-1.end" value="12345678901" />' + \
                     '<span class="validationerror-message">Must be less than 10 characters long.</span>' + \
                 '</div>' + \
             '</li>' + \

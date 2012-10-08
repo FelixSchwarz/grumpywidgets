@@ -98,7 +98,7 @@ class FormChildrenRenderingTest(PythonicTestCase):
         
         item_html = self.child_html('ul', form_html)
         expected = '<div class="id-container requiredfield fieldcontainer">' + \
-            '<input type="text" name="foo.id" value="42" />' + \
+            '<input type="text" name="foo-1.id" value="42" />' + \
         '</div>'
         assert_equals(expected, self.child_html('li', item_html))
     
@@ -113,7 +113,7 @@ class FormChildrenRenderingTest(PythonicTestCase):
         form_html = form.display()
         item_html = self.child_html('ul', form_html)
         expected = '<div class="id-container validationerror fieldcontainer">' + \
-            '<input type="text" name="foo.id" value="abc" />' + \
+            '<input type="text" name="foo-1.id" value="abc" />' + \
             '<span class="validationerror-message">Please enter a number.</span>' + \
         '</div>'
         assert_equals(expected, self.child_html('li', item_html))

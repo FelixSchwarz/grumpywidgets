@@ -11,7 +11,7 @@ class ListFieldTest(PythonicTestCase):
         children = (TextField('name'), )
     
     def test_adds_itself_to_path(self):
-        assert_equals(('foo', ), ListField('foo').path())
+        assert_equals(('foo-0', ), ListField('foo').path())
     
     def test_sets_parent_parameter_on_its_children(self):
         list_field = ListField('foo', children=(TextField('bar'), ))

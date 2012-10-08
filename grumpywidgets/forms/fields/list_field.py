@@ -46,8 +46,10 @@ class ListField(InputWidget):
         self.context = context
     
     def child_rows(self):
+        self.context.count = 0
         for container_context in self.context.items:
             row = []
+            self.context.count += 1
             for child in self.children:
                 if child.name not in container_context.children:
                     context = child.new_context()
@@ -95,4 +97,14 @@ class ListField(InputWidget):
         if value is not None:
             self.context.update_value(value)
         return self.super(value=None, **kwargs)
-
+    
+    def path(self):
+        parts = []
+        if self.parent is not None:
+            parts.extend(self.parent.path())
+        if self.name is not None:
+            widget_name = self.name
+            if hasattr(self.context, 'count'):
+                widget_name = '%s-%d' % (self.name, self.context.count)
+            parts.append(widget_name)
+        return tuple(parts)

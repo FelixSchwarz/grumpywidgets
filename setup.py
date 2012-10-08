@@ -12,7 +12,7 @@ setuptools.setup(
     author = 'Felix Schwarz',
     author_email = 'felix.schwarz@oss.schwarz.eu',
     
-    install_requires=('jinja2', 'pycerberus>=0.5dev'),
+    install_requires=('jinja2', 'pycerberus>=0.5dev', 'formencode'),
     tests_require = ['nose'],
     test_suite = 'nose.collector',
 

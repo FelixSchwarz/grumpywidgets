@@ -1,4 +1,4 @@
-<input type="text"
+<input type="{{ type }}"
     {%- if id %} id="{{ id }}"{% endif %}
     {%- if self_.full_name() %} name="{{ self_.full_name() }}"{% endif %}
     {%- if value %} value="{{ value }}"{% endif %} 

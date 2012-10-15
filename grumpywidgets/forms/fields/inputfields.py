@@ -10,11 +10,13 @@ from grumpywidgets.forms.api import InputWidget
 __all__ = ['HiddenField', 'TextField']
 
 class TextField(InputWidget):
-    template = 'text_field.jinja2'
+    type = 'text'
+    template = 'textlike_input_field.jinja2'
     validator = StringValidator(required=False)
 
 
 class HiddenField(InputWidget):
-    template = 'hidden_field.jinja2'
+    type = 'hidden'
+    template = 'textlike_input_field.jinja2'
     validator = StringValidator()
 

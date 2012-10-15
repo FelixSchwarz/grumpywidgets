@@ -3,28 +3,14 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from grumpywidgets.forms.fields import HiddenField
+from grumpywidgets.forms.fields.test_support import InputFieldTestTemplate
 from grumpywidgets.lib.pythonic_testcase import *
 
 
-class HiddenFieldTest(PythonicTestCase):
-    def test_can_render_basic_hiddenfield(self):
-        assert_equals('<input type="hidden" />', HiddenField().display())
+class HiddenFieldTest(InputFieldTestTemplate):
+    __test__ = True
     
-    def test_can_render_value(self):
-        assert_equals('<input type="hidden" value="foo" />', 
-                      HiddenField().display(u'foo'))
-    
-    def test_can_render_name(self):
-        assert_equals('<input type="hidden" name="username" />', 
-                      HiddenField(name='username').display())
-    
-    def test_can_render_id(self):
-        assert_equals('<input type="hidden" id="text-id" />', 
-                      HiddenField(id='text-id').display())
-    
-    def test_can_render_css_classes(self):
-        assert_equals('<input type="hidden" class="text username" />', 
-                      HiddenField(css_classes = ('text', 'username')).display())
+    field_class = HiddenField
     
     def test_has_string_validator_by_default(self):
         text_field = HiddenField()

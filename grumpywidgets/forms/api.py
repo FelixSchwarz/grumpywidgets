@@ -2,13 +2,15 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
+import copy
+
 from formencode.variabledecode import variable_decode
 from pycerberus.errors import InvalidDataError
 from pycerberus.schema import SchemaValidator
 
 from grumpywidgets.api import Widget
 from grumpywidgets.context import Context, CompoundContext
-from grumpywidgets.lib.pythonic_testcase import assert_isinstance, assert_none
+from grumpywidgets.lib.pythonic_testcase import assert_isinstance
 from grumpywidgets.widgets import Label
 
 
@@ -105,10 +107,10 @@ class Form(InputWidget):
         self.children = instance_children
     
     def validate(self, values):
-        assert_none(self.validator) # not supported for now
         context = self.new_context(unvalidated=values)
         try:
-            validated_values = self.validation_schema().process(values)
+            schema = self.validation_schema()
+            validated_values = schema.process(values)
         except InvalidDataError, e:
             context.update_value(errors=e.unpack_errors())
         else:
@@ -116,7 +118,10 @@ class Form(InputWidget):
         return context
     
     def validation_schema(self):
-        schema = SchemaValidator()
+        if self.validator is None:
+            schema = SchemaValidator()
+        else:
+            schema = copy.deepcopy(self.validator)
         for child in self.children:
             if child.name is None:
                 continue

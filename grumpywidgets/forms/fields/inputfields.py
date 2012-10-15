@@ -9,20 +9,18 @@ from grumpywidgets.forms.api import InputWidget
 
 __all__ = ['PasswordField', 'HiddenField', 'TextField']
 
-class TextField(InputWidget):
-    type = 'text'
+class TextLikeInputField(InputWidget):
     template = 'textlike_input_field.jinja2'
+    validator = StringValidator()
+
+
+class TextField(TextLikeInputField):
+    type = 'text'
     validator = StringValidator(required=False)
 
-
-class HiddenField(InputWidget):
+class HiddenField(TextLikeInputField):
     type = 'hidden'
-    template = 'textlike_input_field.jinja2'
-    validator = StringValidator()
 
-
-class PasswordField(InputWidget):
+class PasswordField(TextLikeInputField):
     type = 'password'
-    template = 'textlike_input_field.jinja2'
-    validator = StringValidator()
 

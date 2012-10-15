@@ -7,7 +7,7 @@ from pycerberus.validators import StringValidator
 from grumpywidgets.forms.api import InputWidget
 
 
-__all__ = ['HiddenField', 'TextField']
+__all__ = ['PasswordField', 'HiddenField', 'TextField']
 
 class TextField(InputWidget):
     type = 'text'
@@ -17,6 +17,12 @@ class TextField(InputWidget):
 
 class HiddenField(InputWidget):
     type = 'hidden'
+    template = 'textlike_input_field.jinja2'
+    validator = StringValidator()
+
+
+class PasswordField(InputWidget):
+    type = 'password'
     template = 'textlike_input_field.jinja2'
     validator = StringValidator()
 

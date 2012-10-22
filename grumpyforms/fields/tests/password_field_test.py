@@ -2,8 +2,8 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
-from grumpywidgets.forms.fields import PasswordField
-from grumpywidgets.forms.fields.test_support import InputFieldTestTemplate
+from grumpyforms.fields import PasswordField
+from grumpyforms.fields.test_support import InputFieldTestTemplate
 from grumpywidgets.lib.pythonic_testcase import *
 
 

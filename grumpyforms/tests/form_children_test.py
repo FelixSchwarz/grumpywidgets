@@ -2,8 +2,8 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
-from grumpywidgets.forms.api import Form
-from grumpywidgets.forms.fields import TextField
+from grumpyforms.api import Form
+from grumpyforms.fields import TextField
 from grumpywidgets.lib.pythonic_testcase import *
 
 

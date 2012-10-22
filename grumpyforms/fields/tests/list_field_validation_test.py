@@ -4,7 +4,7 @@
 
 from pycerberus.validators import IntegerValidator
 
-from grumpywidgets.forms.fields import ListField, TextField
+from grumpyforms.fields import ListField, TextField
 from grumpywidgets.lib.pythonic_testcase import *
 
 

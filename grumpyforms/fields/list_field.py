@@ -7,7 +7,7 @@ from pycerberus.schema import SchemaValidator
 from pycerberus.validators import ForEach
 
 from grumpywidgets.context import CompoundContext, RepeatingContext
-from grumpywidgets.forms.api import InputWidget
+from grumpyforms.api import InputWidget
 from grumpywidgets.lib.pythonic_testcase import assert_isinstance
 
 __all__ = ['ListField']

@@ -6,7 +6,7 @@ import re
 
 from pycerberus.validators import StringValidator
 
-from grumpywidgets.forms.fields import ListField, TextField
+from grumpyforms.fields import ListField, TextField
 from grumpywidgets.lib.pythonic_testcase import *
 from grumpywidgets.widgets import Label
 

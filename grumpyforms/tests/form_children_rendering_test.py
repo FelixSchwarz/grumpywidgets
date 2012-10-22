@@ -7,8 +7,8 @@ import re
 from pycerberus.errors import InvalidDataError
 from pycerberus.validators import IntegerValidator
 
-from grumpywidgets.forms.api import Form
-from grumpywidgets.forms.fields import ListField, TextField
+from grumpyforms.api import Form
+from grumpyforms.fields import ListField, TextField
 from grumpywidgets.lib.pythonic_testcase import *
 from grumpywidgets.widgets import Label
 

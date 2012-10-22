@@ -4,7 +4,7 @@
 
 from pycerberus.validators import EmailAddressValidator, StringValidator
 
-from grumpywidgets.forms.api import InputWidget
+from grumpyforms.api import InputWidget
 
 
 __all__ = ['EmailField', 'HiddenField', 'PasswordField', 'TextField']

@@ -6,8 +6,8 @@ from pycerberus.api import Validator
 from pycerberus.schema import SchemaValidator
 from pycerberus.validators import IntegerValidator
 
-from grumpywidgets.forms.api import Form
-from grumpywidgets.forms.fields import TextField
+from grumpyforms.api import Form
+from grumpyforms.fields import TextField
 from grumpywidgets.lib.pythonic_testcase import *
 
 

@@ -7,7 +7,7 @@ from StringIO import StringIO
 from pycerberus.api import BaseValidator, InvalidDataError
 from pycerberus.validators import IntegerValidator
 
-from grumpywidgets.forms.api import InputWidget, Form
+from grumpyforms.api import InputWidget, Form
 from grumpywidgets.lib.pythonic_testcase import *
 
 

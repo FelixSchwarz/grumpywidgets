@@ -113,7 +113,7 @@ class Widget(object):
         return self._render_template(variables)
     
     def css_classes_for_container(self):
-        return ('fieldcontainer', )
+        return ('widgetcontainer', )
     
     def id_for_container(self):
         if self.id is None:

@@ -54,6 +54,9 @@ class WidgetTest(PythonicTestCase):
         assert_none(Widget().id_for_container())
         assert_equals('foo-container', Widget(id='foo').id_for_container())
     
+    def test_can_specify_css_classes_for_container(self):
+        assert_equals(('widgetcontainer', ), Widget().css_classes_for_container())
+    
     def test_has_no_parent_by_default(self):
         assert_none(Widget().parent)
     

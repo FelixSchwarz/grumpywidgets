@@ -112,7 +112,7 @@ class InputWidgetRenderingTest(PythonicTestCase):
         self.widget.validator = BaseValidator()
         assert_false(hasattr(self.widget.validator, 'is_required'))
         
-        assert_equals(set(['fieldcontainer']), 
+        assert_equals(set(['widgetcontainer']), 
                       set(self.widget.css_classes_for_container()))
     
     def test_can_specify_attributes_on_display(self):

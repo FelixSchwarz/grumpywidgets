@@ -62,6 +62,9 @@ class InputWidget(Widget):
         label = Label(id=id_, for_=self.id, value=self.label)
         return label
     
+    def is_field(self):
+        return True
+    
     def css_classes_for_container(self):
         classes = set(self.super())
         if self.name is not None:

@@ -47,6 +47,12 @@ class InputWidgetTest(PythonicTestCase):
         outer = Form('outer')
         inner.parent = outer
         assert_equals('inner.bar', widget.full_name())
+    
+    def test_can_tell_about_classification(self):
+        widget = InputWidget()
+        assert_true(widget.is_field())
+        assert_false(widget.is_button())
+        assert_false(widget.is_hidden())
 
 
 class InputWidgetValidationTest(PythonicTestCase):
@@ -112,7 +118,7 @@ class InputWidgetRenderingTest(PythonicTestCase):
         self.widget.validator = BaseValidator()
         assert_false(hasattr(self.widget.validator, 'is_required'))
         
-        assert_equals(set(['widgetcontainer']), 
+        assert_equals(set(['widgetcontainer', 'fieldcontainer']), 
                       set(self.widget.css_classes_for_container()))
     
     def test_can_specify_attributes_on_display(self):

@@ -18,11 +18,17 @@ class EmailField(TextLikeInputField):
     type = 'email'
     validator = EmailAddressValidator()
 
+
 class HiddenField(TextLikeInputField):
     type = 'hidden'
+    
+    def is_hidden(self):
+        return True
+
 
 class PasswordField(TextLikeInputField):
     type = 'password'
+
 
 class TextField(TextLikeInputField):
     type = 'text'

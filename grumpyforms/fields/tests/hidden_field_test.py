@@ -20,6 +20,14 @@ class HiddenFieldTest(InputFieldTestTemplate):
         self.assert_error(text_field, '')
         assert_equals('foo', text_field.validate('foo').value)
     
+    def test_can_tell_about_classification(self):
+        widget = HiddenField()
+        assert_true(widget.is_field())
+        assert_false(widget.is_button())
+        assert_true(widget.is_hidden())
+    
+    # --- helpers -------------------------------------------------------------
+    
     def assert_error(self, widget, input_):
         context = widget.validate(input_)
         assert_true(context.contains_errors())

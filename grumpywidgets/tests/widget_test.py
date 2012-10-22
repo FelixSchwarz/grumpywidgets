@@ -57,8 +57,35 @@ class WidgetTest(PythonicTestCase):
     def test_can_specify_css_classes_for_container(self):
         assert_equals(('widgetcontainer', ), Widget().css_classes_for_container())
     
+    def test_adapts_css_classes_for_container_for_fields(self):
+        class FieldWidget(Widget):
+            def is_field(self):
+                return True
+        assert_equals(set(['fieldcontainer', 'widgetcontainer']), 
+                      set(FieldWidget().css_classes_for_container()))
+    
+    def test_adapts_css_classes_for_container_for_hidden_widgets(self):
+        class HiddenWidget(Widget):
+            def is_hidden(self):
+                return True
+        assert_equals(set(['hiddencontainer', 'widgetcontainer']), 
+                      set(HiddenWidget().css_classes_for_container()))
+    
+    def test_adapts_css_classes_for_container_for_buttons(self):
+        class ButtonWidget(Widget):
+            def is_button(self):
+                return True
+        assert_equals(set(['buttoncontainer', 'widgetcontainer']), 
+                      set(ButtonWidget().css_classes_for_container()))
+    
     def test_has_no_parent_by_default(self):
         assert_none(Widget().parent)
+    
+    def test_can_tell_about_classification(self):
+        widget = Widget()
+        assert_false(widget.is_field())
+        assert_false(widget.is_button())
+        assert_false(widget.is_hidden())
     
     def test_can_clone_itself(self):
         w = Widget()

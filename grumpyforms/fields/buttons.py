@@ -20,4 +20,10 @@ class SubmitButton(InputWidget):
         if ('value' in variables) and (variables['value'] in ('', None)):
             del variables['value']
         return variables
+    
+    def is_field(self):
+        return False
+    
+    def is_button(self):
+        return True
 

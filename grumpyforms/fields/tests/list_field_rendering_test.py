@@ -30,10 +30,10 @@ class ListFieldRenderingTest(PythonicTestCase):
         html = self.list_field.display(self.empty_input)
         expected = u'<ul class="foo-list">' + \
             '<li>' +\
-                '<div class="start-container widgetcontainer">' + \
+                '<div class="start-container widgetcontainer fieldcontainer">' + \
                     '<input type="text" name="foo-1.start" />' + \
                 '</div>' + \
-                '<div class="end-container widgetcontainer">' + \
+                '<div class="end-container widgetcontainer fieldcontainer">' + \
                     '<input type="text" name="foo-1.end" />' + \
                 '</div>' + \
             '</li>' + \
@@ -78,18 +78,18 @@ class ListFieldRenderingTest(PythonicTestCase):
         input_ = [{'start': 's1', 'end': 'e1'}, {'start': 's2', 'end': 'e2'}]
         html = self.list_field.display(input_)
         first_child = '<li>' +\
-                '<div class="start-container widgetcontainer">' + \
+                '<div class="start-container widgetcontainer fieldcontainer">' + \
                     '<input type="text" name="foo-1.start" value="s1" />' + \
                 '</div>' + \
-                '<div class="end-container widgetcontainer">' + \
+                '<div class="end-container widgetcontainer fieldcontainer">' + \
                     '<input type="text" name="foo-1.end" value="e1" />' + \
                 '</div>' + \
             '</li>'
         second_child = '<li>' + \
-                '<div class="start-container widgetcontainer">' + \
+                '<div class="start-container widgetcontainer fieldcontainer">' + \
                     '<input type="text" name="foo-2.start" value="s2" />' + \
                 '</div>' + \
-                '<div class="end-container widgetcontainer">' + \
+                '<div class="end-container widgetcontainer fieldcontainer">' + \
                     '<input type="text" name="foo-2.end" value="e2" />' + \
                 '</div>' + \
             '</li>'
@@ -109,10 +109,10 @@ class ListFieldRenderingTest(PythonicTestCase):
         self.list_field.set_context(result)
         expected = u'<ul class="foo-list">' + \
             '<li>' + \
-                '<div class="start-container widgetcontainer">' + \
+                '<div class="start-container widgetcontainer fieldcontainer">' + \
                     '<input type="text" name="foo-1.start" />' + \
                 '</div>' + \
-                '<div class="end-container validationerror widgetcontainer">' + \
+                '<div class="end-container validationerror widgetcontainer fieldcontainer">' + \
                     '<input type="text" name="foo-1.end" value="12345678901" />' + \
                     '<span class="validationerror-message">Must be less than 10 characters long.</span>' + \
                 '</div>' + \

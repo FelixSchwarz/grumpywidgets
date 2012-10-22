@@ -21,7 +21,7 @@ class FormChildrenRenderingTest(PythonicTestCase):
     
     # --- tests ---------------------------------------------------------------
     def test_can_render_single_child(self):
-        expected = '<div class="number-container widgetcontainer">' + \
+        expected = '<div class="number-container widgetcontainer fieldcontainer">' + \
             '<input type="text" name="number" /></div>'
         self.assert_child_html(expected, self.form.display(), strip_container=False)
     
@@ -64,7 +64,7 @@ class FormChildrenRenderingTest(PythonicTestCase):
     
     def test_container_contains_css_class_with_child_name(self):
         container_html = self.child_container_html(self.form.display({}))
-        self.assert_contains('class="number-container widgetcontainer"', container_html)
+        self.assert_contains('class="number-container widgetcontainer fieldcontainer"', container_html)
     
     def test_can_render_view_only_children(self):
         self.form.children = [Label(value='foo'), ]
@@ -97,7 +97,7 @@ class FormChildrenRenderingTest(PythonicTestCase):
         assert_equals('<ul class="foo-list"></ul>', self.container_html('ul', form_html))
         
         item_html = self.child_html('ul', form_html)
-        expected = '<div class="id-container requiredfield widgetcontainer">' + \
+        expected = '<div class="id-container requiredfield widgetcontainer fieldcontainer">' + \
             '<input type="text" name="foo-1.id" value="42" />' + \
         '</div>'
         assert_equals(expected, self.child_html('li', item_html))
@@ -112,7 +112,7 @@ class FormChildrenRenderingTest(PythonicTestCase):
         form.set_context(result)
         form_html = form.display()
         item_html = self.child_html('ul', form_html)
-        expected = '<div class="id-container validationerror widgetcontainer">' + \
+        expected = '<div class="id-container validationerror widgetcontainer fieldcontainer">' + \
             '<input type="text" name="foo-1.id" value="abc" />' + \
             '<span class="validationerror-message">Please enter a number.</span>' + \
         '</div>'

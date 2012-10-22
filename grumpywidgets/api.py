@@ -112,8 +112,32 @@ class Widget(object):
         variables = self.template_variables(value, **kwargs)
         return self._render_template(variables)
     
+    def is_field(self):
+        """Return True if this widget is an input field which may contain a 
+        value.
+        
+        This is typically true for all text-like fields, selection fields,
+        checkboxes as well as hidden fields but not for buttons."""
+        return False
+    
+    def is_button(self):
+        """Return True if this widget is a button-like control which triggers 
+        an action (e.g. submitting a form)."""
+        return False
+    
+    def is_hidden(self):
+        """Return True if this widget is usually not visible to the user."""
+        return False
+    
     def css_classes_for_container(self):
-        return ('widgetcontainer', )
+        css_classes = ['widgetcontainer']
+        if self.is_field():
+            css_classes.append('fieldcontainer')
+        if self.is_button():
+            css_classes.append('buttoncontainer')
+        if self.is_hidden():
+            css_classes.append('hiddencontainer')
+        return tuple(css_classes)
     
     def id_for_container(self):
         if self.id is None:

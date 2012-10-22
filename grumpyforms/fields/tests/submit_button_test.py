@@ -7,6 +7,14 @@ from grumpyforms.fields import SubmitButton
 from grumpywidgets.lib.pythonic_testcase import *
 
 
+class SubmitButtonTest(PythonicTestCase):
+    def test_can_tell_about_classification(self):
+        widget = SubmitButton()
+        assert_false(widget.is_field())
+        assert_true(widget.is_button())
+        assert_false(widget.is_hidden())
+
+
 class SubmitButtonRenderingTest(PythonicTestCase):
     def test_can_render_basic_button(self):
         assert_equals('<input type="submit" />', SubmitButton().display())

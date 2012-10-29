@@ -25,6 +25,7 @@ class InputWidget(Widget):
     validator = None
     name = None
     label = None
+    _template_path = ('grumpyforms', 'templates')
     
     def __init__(self, name=None, **kwargs):
         if name is not None:

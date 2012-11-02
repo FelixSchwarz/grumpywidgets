@@ -12,7 +12,12 @@ setuptools.setup(
     author = 'Felix Schwarz',
     author_email = 'felix.schwarz@oss.schwarz.eu',
     
-    install_requires=('jinja2', 'pycerberus>=0.5dev', 'formencode', 'setuptools'),
+    install_requires=(
+        'formencode', 
+        'jinja2', 
+        'pycerberus>=0.5dev', 
+        'setuptools'
+    ),
     
     namespace_packages = [
         'grumpyforms', 

@@ -105,6 +105,6 @@ class ListField(InputWidget):
         if self.name is not None:
             widget_name = self.name
             if hasattr(self.context, 'count'):
-                widget_name = '%s-%d' % (self.name, self.context.count)
+                widget_name = '%s-%s' % (self.name, self.context.count)
             parts.append(widget_name)
         return tuple(parts)

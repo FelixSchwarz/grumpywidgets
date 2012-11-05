@@ -1,11 +1,18 @@
+
+import os
+
 from jinja2 import Environment, PackageLoader, Template
 
 from grumpywidgets import template_helpers
 from grumpywidgets.context import Context
 from grumpywidgets.lib.simple_super import SuperProxy
+from jinja2.loaders import FileSystemLoader
 
 
 __all__ = ['Widget']
+
+this_dir = os.path.dirname(__file__)
+grumpywidgets_template_dir = os.path.join(this_dir, 'templates')
 
 class Widget(object):
     name = None
@@ -16,7 +23,7 @@ class Widget(object):
     
     parent = None
     
-    _template_path = ('grumpywidgets', 'templates')
+    _template_path = grumpywidgets_template_dir
     super = SuperProxy()
     
     def __init__(self, **kwargs):
@@ -96,7 +103,11 @@ class Widget(object):
             template = Template(self.template.read())
             self.template.seek(0)
         else:
-            env = Environment(loader=PackageLoader(*self._template_path))
+            if isinstance(self._template_path, basestring):
+                loader = FileSystemLoader(self._template_path)
+            else:
+                loader = PackageLoader(*self._template_path)
+            env = Environment(loader=loader)
             template = env.get_template(self.template)
         return template.render(**template_variables)
     

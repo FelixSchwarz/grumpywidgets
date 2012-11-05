@@ -2,6 +2,7 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
+import os
 import copy
 
 from formencode.variabledecode import variable_decode
@@ -20,12 +21,15 @@ def decode_parameters(parameters):
     # TODO: replace this method from formencode with custom code
     return variable_decode(parameters)
 
+this_dir = os.path.dirname(__file__)
+grumpyforms_template_dir = os.path.join(this_dir, 'templates')
 
 class InputWidget(Widget):
     validator = None
     name = None
     label = None
-    _template_path = ('grumpyforms', 'templates')
+    
+    _template_path = grumpyforms_template_dir
     
     def __init__(self, name=None, **kwargs):
         if name is not None:

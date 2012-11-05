@@ -8,7 +8,10 @@
     {%- if True %} accept-charset="{{ charset }}"{% endif %}>
     {%- for child in self_.children_() -%}
         <div {% if child.id_for_container() -%}id="{{ child.id_for_container() }}" {% endif -%}
-            class="{{ ' '.join(child.css_classes_for_container()) }}">
+            class="{{ ' '.join(child.css_classes_for_container()) }}"
+            {%- if child.attributes_for_container() -%}
+                {%- for name, value in child.attributes_for_container().items() %} {{ name }}="{{ value | escape }}"{% endfor -%}
+            {%- endif %}>
             {{- h.render_label(child) -}}
             {{ child.display() }}
             {%- if child.context.contains_errors() -%}

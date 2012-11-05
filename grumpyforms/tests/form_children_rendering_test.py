@@ -86,6 +86,12 @@ class FormChildrenRenderingTest(PythonicTestCase):
         container_html = self.child_container_html(self.form.display({}))
         assert_not_contains('id="', container_html)
     
+    def test_can_add_container_attrs(self):
+        self.form.children = [Label(value='foo', container_attrs={'data-foo': 'bar'}), ]
+        container_html = self.child_container_html(self.form.display({}))
+        assert_equals(u'<div class="widgetcontainer" data-foo="bar"></div>',
+                      container_html)
+    
     # --- compound fields -----------------------------------------------------
     
     def test_can_render_list_field_child(self):

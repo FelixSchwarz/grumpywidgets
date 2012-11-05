@@ -53,7 +53,7 @@ class InputWidget(Widget):
             value = self.context.unvalidated_value
         if self.validator is None:
             return value
-        return self.validator.stringify(value)
+        return self.validator.revert_conversion(value)
     
     def display(self, value=None, **kwargs):
         if (value is None) and (self.context.value is None):

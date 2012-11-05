@@ -112,14 +112,12 @@ class WidgetTest(PythonicTestCase):
         assert_none(context.value)
         assert_none(context.errors)
         assert_equals('42', context.unvalidated_value)
-#    
-#    def test_can_create_new_context_specific_attribute(self):
-#        # form.validate(values)
-#        # -> returns context
-#        # context.update_data(...)
-#        # form.set_context(context)
-#        # form.display()
-#        self.fail()
+    
+    def test_can_specify_container_attributes(self):
+        assert_equals(dict(), Widget().attributes_for_container())
+        
+        widget = Widget(container_attrs=dict(foo='bar'))
+        assert_equals(dict(foo='bar'), widget.attributes_for_container())
 
 
 class WidgetRenderingTest(PythonicTestCase):

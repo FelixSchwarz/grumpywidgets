@@ -12,6 +12,7 @@ class Widget(object):
     id = None
     template = None
     css_classes = None
+    container_attrs = None
     
     parent = None
     
@@ -143,4 +144,7 @@ class Widget(object):
         if self.id is None:
             return None
         return '%s-container' % self.id
+    
+    def attributes_for_container(self):
+        return self.container_attrs or dict()
 

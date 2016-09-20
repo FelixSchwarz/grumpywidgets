@@ -6,12 +6,10 @@ from __future__ import absolute_import
 
 import os
 
-from jinja2 import Environment, PackageLoader, Template
-from jinja2.loaders import FileSystemLoader
-
 from . import template_helpers
 from .context import Context
 from .lib.simple_super import SuperProxy
+from .jinja_support import render_jinja_template
 
 
 __all__ = ['Widget']
@@ -104,17 +102,7 @@ class Widget(object):
         return template_values
 
     def _render_template(self, template_variables):
-        if hasattr(self.template, 'read'):
-            template = Template(self.template.read())
-            self.template.seek(0)
-        else:
-            if isinstance(self._template_path, basestring):
-                loader = FileSystemLoader(self._template_path)
-            else:
-                loader = PackageLoader(*self._template_path)
-            env = Environment(loader=loader)
-            template = env.get_template(self.template)
-        return template.render(**template_variables)
+        return render_jinja_template(self.template, template_variables, self._template_path)
 
     def _display_value(self, value):
         if value is not None:

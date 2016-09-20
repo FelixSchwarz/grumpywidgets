@@ -50,5 +50,5 @@ class SelectFieldTest(PythonicTestCase):
         assert_equals(u'a', select.validate('a').value)
 
 
-# TODO:
-# multiple=True, in which case value should be an array?
+class GenshiSelectFieldTest(SelectFieldTest):
+    template_engine = 'genshi'

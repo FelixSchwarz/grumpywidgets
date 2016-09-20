@@ -135,3 +135,7 @@ class ListFieldRenderingTest(PythonicTestCase):
     def simplify(self, html):
         return re.sub('\s+', ' ', html).replace('> <', '><')
 
+
+
+class GenshiListFieldRenderingTest(ListFieldRenderingTest):
+    template_engine = 'genshi'

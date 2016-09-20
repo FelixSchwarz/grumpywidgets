@@ -9,6 +9,7 @@ import os
 from . import template_helpers
 from .context import Context
 from .lib.simple_super import SuperProxy
+from .genshi_support import render_genshi_template
 from .jinja_support import render_jinja_template
 
 
@@ -105,6 +106,8 @@ class Widget(object):
     def _render_template(self, template_variables):
         if self.template_engine == 'jinja2':
             return render_jinja_template(self.template, template_variables, self._template_path)
+        elif self.template_engine == 'genshi':
+            return render_genshi_template(self.template, template_variables, self._template_path)
         raise ValueError('unknown template engine %s' % self.template_engine)
 
     def _display_value(self, value):

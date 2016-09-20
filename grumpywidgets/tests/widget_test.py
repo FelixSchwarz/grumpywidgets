@@ -129,6 +129,11 @@ class WidgetRenderingTest(PythonicTestCase):
         widget = Widget(template=StringIO('Hello {{ value }}!'))
         assert_equals(u'Hello world!', widget.display('world'))
 
+    def test_can_use_genshi_template(self):
+        tmpl_str = '<p xmlns:py="http://genshi.edgewall.org/">Hello ${value}!</p>'
+        widget = Widget(template=StringIO(tmpl_str), template_engine='genshi')
+        assert_equals(u'<p>Hello world!</p>', widget.display('world'))
+
     def test_can_use_value_from_context(self):
         self.widget.context.value = 'baz'
         assert_equals('baz', self.widget.display())

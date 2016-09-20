@@ -31,6 +31,7 @@ class InputWidget(Widget):
     label = None
 
     _template_path = grumpyforms_template_dir
+    template_engine = 'jinja2'
 
     def __init__(self, name=None, **kwargs):
         if name is not None:

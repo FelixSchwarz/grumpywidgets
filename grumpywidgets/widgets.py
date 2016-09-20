@@ -7,6 +7,8 @@ from __future__ import absolute_import
 from .api import Widget
 
 
+__all__ = ['Label']
+
 class Label(Widget):
     for_ = None
     value = None

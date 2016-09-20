@@ -7,7 +7,7 @@ from copy import deepcopy
 from pythonic_testcase import assert_equals
 
 
-__all__ = []
+__all__ = ['CompoundContext', 'Context', 'RepeatingContext']
 
 class Context(object):
     def __init__(self, value=None, errors=None, unvalidated_value=None):

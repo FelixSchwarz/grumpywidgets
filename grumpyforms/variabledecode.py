@@ -21,11 +21,10 @@ and list_char keyword args. For example, to have the GET/POST variables,
 """
 from __future__ import absolute_import
 
-from formencode.api import FancyValidator
 import six
 from six.moves import range
 
-__all__ = ['variable_decode', 'variable_encode', 'NestedVariables']
+__all__ = ['variable_decode', 'variable_encode']
 
 
 def _sort_key(item):
@@ -143,15 +142,3 @@ def variable_encode(d, prepend='', result=None, add_repetitions=True,
     else:
         result[prepend] = d
     return result
-
-
-class NestedVariables(FancyValidator):
-
-    def _convert_to_python(self, value, state):
-        return variable_decode(value)
-
-    def _convert_from_python(self, value, state):
-        return variable_encode(value)
-
-    def empty_value(self, value):
-        return {}

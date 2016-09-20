@@ -7,7 +7,7 @@ import copy
 
 from pycerberus.errors import InvalidDataError
 from pycerberus.schema import SchemaValidator
-from pythonic_testcase import *
+from pythonic_testcase import assert_isinstance
 
 from grumpywidgets.api import Widget
 from grumpywidgets.context import Context, CompoundContext

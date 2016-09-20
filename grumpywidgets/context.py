@@ -4,7 +4,7 @@
 
 from copy import deepcopy
 
-from pythonic_testcase import *
+from pythonic_testcase import assert_equals
 
 
 __all__ = []

@@ -1,0 +1,4 @@
+<input xmlns:py="http://genshi.edgewall.org/"
+	type="submit"
+	id="${id}" name="${name}"
+	value="${value if defined('value') else None}" class="${css_classes}" />

@@ -61,3 +61,7 @@ class SubmitButtonRenderingTest(PythonicTestCase):
         assert_same_html('<input type="submit" class="button send" />',
                          styled_button.display())
 
+
+
+class GenshiSubmitButtonRenderingTest(SubmitButtonRenderingTest):
+    template_engine = 'genshi'

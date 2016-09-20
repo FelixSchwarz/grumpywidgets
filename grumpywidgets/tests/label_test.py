@@ -35,3 +35,8 @@ class LabelRenderingTest(PythonicTestCase):
         for_label = self._label(for_='username')
         assert_equals('<label for="username">text</label>',
                       for_label.display('text'))
+
+
+class GenshiLabelRenderingTest(LabelRenderingTest):
+    template_engine = 'genshi'
+

@@ -1,0 +1,2 @@
+<label xmlns:py="http://genshi.edgewall.org/"
+	id="${id}" for="${for_ or None}" class="${css_classes}">${value}</label>

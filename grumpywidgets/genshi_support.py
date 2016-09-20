@@ -3,7 +3,7 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 try:
-    from genshi.template import MarkupTemplate
+    from genshi.template import MarkupTemplate, TemplateLoader
     is_genshi_available = True
 except ImportError:
     is_genshi_available = False
@@ -18,5 +18,6 @@ def render_genshi_template(template, template_variables, template_path):
         template_ = MarkupTemplate(template.read())
         template.seek(0)
     else:
-        raise NotImplementedError()
+        loader = TemplateLoader((template_path,))
+        template_ = loader.load(template)
     return template_.generate(**template_variables).render('xml')

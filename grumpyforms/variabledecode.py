@@ -21,7 +21,7 @@ and list_char keyword args. For example, to have the GET/POST variables,
 """
 from __future__ import absolute_import
 
-from .api import FancyValidator
+from formencode.api import FancyValidator
 import six
 from six.moves import range
 

@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 import unittest
 
-from formencode.variabledecode import variable_decode, variable_encode
+from grumpyforms.variabledecode import variable_decode, variable_encode
 
 
 class TestVariableDecode(unittest.TestCase):

@@ -3,3 +3,4 @@ jinja2
 pycerberus >= 0.5
 PythonicTestcase
 setuptools
+six

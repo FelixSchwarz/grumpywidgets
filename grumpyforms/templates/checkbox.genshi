@@ -1,0 +1,4 @@
+<input xmlns:py="http://genshi.edgewall.org/"
+	type="checkbox"
+	id="${id}" name="${name}"
+	checked="${'checked' if (value == True) else None}" class="${css_classes}" />

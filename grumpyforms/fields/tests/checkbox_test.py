@@ -40,3 +40,5 @@ class CheckboxRenderingTest(PythonicTestCase):
                          self._checkbox(css_classes = ('checkbox', 'send')).display())
 
 
+class GenshiCheckboxRenderingTest(CheckboxRenderingTest):
+    template_engine = 'genshi'

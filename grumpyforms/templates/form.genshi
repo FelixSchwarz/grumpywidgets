@@ -1,0 +1,18 @@
+<form xmlns:py="http://genshi.edgewall.org/"
+	id="${id}" name="${name}"
+	class="${css_classes}"
+	action="${url}" method="${method}"
+	enctype="${enctype}" accept-charset="${charset}">
+	<div py:for="child in self_.children_()"
+		id="${child.id_for_container()}"
+			class="${ ' '.join(child.css_classes_for_container()) }"
+			py:attrs="child.attributes_for_container()">
+		${ Markup(h.render_label(child)) }
+		${ Markup(child.display()) }
+		<py:if test="child.context.contains_errors()">
+			<span py:for="rendered_msg in h.error_messages(child.context)"
+				class="validationerror-message">${rendered_msg}
+			</span>
+		</py:if>
+	</div>
+</form>

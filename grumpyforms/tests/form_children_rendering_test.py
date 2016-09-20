@@ -156,3 +156,6 @@ class FormChildrenRenderingTest(PythonicTestCase):
     def assert_container_html(self, expected, rendered_form):
         assert_equals(expected, self.child_container_html(rendered_form))
 
+
+class GenshiFormChildrenRenderingTest(FormChildrenRenderingTest):
+    template_engine = 'genshi'

@@ -8,10 +8,10 @@ import copy
 from formencode.variabledecode import variable_decode
 from pycerberus.errors import InvalidDataError
 from pycerberus.schema import SchemaValidator
+from pythonic_testcase import *
 
 from grumpywidgets.api import Widget
 from grumpywidgets.context import Context, CompoundContext
-from grumpywidgets.lib.pythonic_testcase import assert_isinstance
 from grumpywidgets.widgets import Label
 
 

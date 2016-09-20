@@ -3,9 +3,9 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from pycerberus.validators import IntegerValidator
+from pythonic_testcase import *
 
 from grumpyforms.fields import ListField, TextField
-from grumpywidgets.lib.pythonic_testcase import *
 
 
 class ListFieldValidationTest(PythonicTestCase):

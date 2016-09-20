@@ -3,10 +3,10 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from pycerberus.errors import InvalidDataError
+from pythonic_testcase import *
 
 from grumpywidgets import template_helpers as h
 from grumpywidgets.context import Context, RepeatingContext
-from grumpywidgets.lib.pythonic_testcase import *
 
 
 class TemplateHelpersTest(PythonicTestCase):

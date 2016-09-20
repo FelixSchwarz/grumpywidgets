@@ -5,10 +5,10 @@
 from pycerberus.api import Validator
 from pycerberus.schema import SchemaValidator
 from pycerberus.validators import IntegerValidator
+from pythonic_testcase import *
 
 from grumpyforms.api import Form
 from grumpyforms.fields import TextField
-from grumpywidgets.lib.pythonic_testcase import *
 
 
 class FormValidationTest(PythonicTestCase):

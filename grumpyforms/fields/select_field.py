@@ -4,8 +4,9 @@
 
 from operator import itemgetter
 
-from grumpyforms.api import InputWidget
 from pycerberus.validators import OneOf
+
+from grumpyforms.api import InputWidget
 
 
 __all__ = ['SelectField']

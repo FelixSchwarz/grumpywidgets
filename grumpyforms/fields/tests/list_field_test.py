@@ -2,8 +2,9 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
+from pythonic_testcase import *
+
 from grumpyforms.fields import ListField, TextField
-from grumpywidgets.lib.pythonic_testcase import *
 
 
 class ListFieldTest(PythonicTestCase):

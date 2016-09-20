@@ -4,7 +4,7 @@
 
 from copy import deepcopy
 
-from grumpywidgets.lib.pythonic_testcase import assert_equals
+from pythonic_testcase import *
 
 
 __all__ = []

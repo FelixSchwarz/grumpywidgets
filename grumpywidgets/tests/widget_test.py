@@ -4,10 +4,11 @@
 
 from StringIO import StringIO
 
+from pythonic_testcase import *
+
 from grumpywidgets import template_helpers
 from grumpywidgets.api import Widget
 from grumpywidgets.context import Context
-from grumpywidgets.lib.pythonic_testcase import *
 
 
 class WidgetInitializationTest(PythonicTestCase):

@@ -5,10 +5,10 @@
 from pycerberus.errors import InvalidDataError
 from pycerberus.schema import SchemaValidator
 from pycerberus.validators import ForEach
+from pythonic_testcase import *
 
 from grumpywidgets.context import CompoundContext, RepeatingContext
 from grumpyforms.api import InputWidget
-from grumpywidgets.lib.pythonic_testcase import assert_isinstance
 
 __all__ = ['ListField']
 

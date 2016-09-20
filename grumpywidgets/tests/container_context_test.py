@@ -3,9 +3,9 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from pycerberus.errors import InvalidDataError
+from pythonic_testcase import *
 
 from grumpywidgets.context import Context, CompoundContext, RepeatingContext
-from grumpywidgets.lib.pythonic_testcase import *
 
 
 class CompoundContextTest(PythonicTestCase):

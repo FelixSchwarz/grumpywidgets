@@ -25,3 +25,6 @@ class PasswordFieldTest(InputFieldTestTemplate):
         context = widget.validate(input_)
         assert_true(context.contains_errors())
 
+
+class GenshiPasswordFieldTest(PasswordFieldTest):
+    template_engine = 'genshi'

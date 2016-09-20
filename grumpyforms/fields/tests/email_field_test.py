@@ -28,3 +28,5 @@ class EmailFieldFieldTest(InputFieldTestTemplate):
         assert_true(context.contains_errors())
 
 
+class GenshiEmailFieldFieldTest(EmailFieldFieldTest):
+    template_engine = 'genshi'

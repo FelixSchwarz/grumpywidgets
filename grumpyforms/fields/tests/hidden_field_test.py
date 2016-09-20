@@ -33,3 +33,6 @@ class HiddenFieldTest(InputFieldTestTemplate):
         context = widget.validate(input_)
         assert_true(context.contains_errors())
 
+
+class GenshiHiddenFieldTest(HiddenFieldTest):
+    template_engine = 'genshi'

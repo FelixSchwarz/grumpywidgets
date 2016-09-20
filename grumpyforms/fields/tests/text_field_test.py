@@ -21,3 +21,6 @@ class TextFieldTest(InputFieldTestTemplate):
         assert_true(context.contains_errors())
         assert_none(text_field.validate('').value)
 
+
+class GenshiTextFieldTest(TextFieldTest):
+    template_engine = 'genshi'

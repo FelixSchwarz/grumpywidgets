@@ -2,7 +2,9 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
-from grumpywidgets.api import Widget
+from __future__ import absolute_import
+
+from .api import Widget
 
 
 class Label(Widget):

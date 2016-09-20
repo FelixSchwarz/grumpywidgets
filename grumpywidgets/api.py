@@ -1,12 +1,17 @@
+# This file is a part of GrumpyWidgets.
+# The source code contained in this file is licensed under the MIT license.
+# See LICENSE.txt in the main project directory, for more information.
+
+from __future__ import absolute_import
 
 import os
 
 from jinja2 import Environment, PackageLoader, Template
-
-from grumpywidgets import template_helpers
-from grumpywidgets.context import Context
-from grumpywidgets.lib.simple_super import SuperProxy
 from jinja2.loaders import FileSystemLoader
+
+from . import template_helpers
+from .context import Context
+from .lib.simple_super import SuperProxy
 
 
 __all__ = ['Widget']

@@ -2,6 +2,8 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
+from __future__ import absolute_import
+
 import os
 import copy
 

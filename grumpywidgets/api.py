@@ -21,6 +21,7 @@ class Widget(object):
     name = None
     id = None
     template = None
+    template_engine = 'jinja2'
     css_classes = None
     container_attrs = None
 
@@ -102,7 +103,9 @@ class Widget(object):
         return template_values
 
     def _render_template(self, template_variables):
-        return render_jinja_template(self.template, template_variables, self._template_path)
+        if self.template_engine == 'jinja2':
+            return render_jinja_template(self.template, template_variables, self._template_path)
+        raise ValueError('unknown template engine %s' % self.template_engine)
 
     def _display_value(self, value):
         if value is not None:

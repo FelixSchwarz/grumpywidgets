@@ -9,19 +9,19 @@ from grumpywidgets.lib.pythonic_testcase import *
 
 class EmailFieldFieldTest(InputFieldTestTemplate):
     __test__ = True
-    
+
     field_class = EmailField
-    
+
     def test_has_email_validator_by_default(self):
         text_field = EmailField()
-        
+
         assert_not_none(text_field.validator)
         self.assert_error(text_field, [])
         self.assert_error(text_field, '')
         self.assert_error(text_field, 'foo')
-        assert_equals('foo@domain.example', 
+        assert_equals('foo@domain.example',
                       text_field.validate('foo@domain.example').value)
-    
+
     def assert_error(self, widget, input_):
         context = widget.validate(input_)
         assert_true(context.contains_errors())

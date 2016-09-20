@@ -12,6 +12,6 @@ __all__ = ['TextArea']
 class TextArea(InputWidget):
     template = 'textarea.jinja2'
     validator = StringValidator()
-    
+
     cols = 50
     rows = 10

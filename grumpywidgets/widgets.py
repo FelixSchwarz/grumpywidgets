@@ -9,7 +9,7 @@ class Label(Widget):
     for_ = None
     value = None
     template = 'label.jinja2'
-    
+
     def _display_value(self, value):
         value = self.super()
         if value is not None:

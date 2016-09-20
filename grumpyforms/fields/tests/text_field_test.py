@@ -9,12 +9,12 @@ from grumpywidgets.lib.pythonic_testcase import *
 
 class TextFieldTest(InputFieldTestTemplate):
     __test__ = True
-    
+
     field_class = TextField
-    
+
     def test_has_string_validator_by_default(self):
         text_field = TextField()
-        
+
         assert_not_none(text_field.validator)
         context = text_field.validate([])
         assert_true(context.contains_errors())

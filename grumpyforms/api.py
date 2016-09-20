@@ -28,14 +28,14 @@ class InputWidget(Widget):
     validator = None
     name = None
     label = None
-    
+
     _template_path = grumpyforms_template_dir
-    
+
     def __init__(self, name=None, **kwargs):
         if name is not None:
             kwargs['name'] = name
         super(InputWidget, self).__init__(**kwargs)
-    
+
     def validate(self, value):
         c = Context(unvalidated_value=value)
         if self.validator is not None:
@@ -46,7 +46,7 @@ class InputWidget(Widget):
         else:
             c.value = value
         return c
-    
+
     def _display_value(self, value):
         value = self.super(value)
         if value is None:
@@ -54,22 +54,22 @@ class InputWidget(Widget):
         if self.validator is None:
             return value
         return self.validator.revert_conversion(value)
-    
+
     def display(self, value=None, **kwargs):
         if (value is None) and (self.context.value is None):
             value = self.context.unvalidated_value
         return self.super(value=value, **kwargs)
-    
+
     def label_widget(self):
         if self.label is None:
             return None
         id_ = self.id and self.id+'-label' or None
         label = Label(id=id_, for_=self.id, value=self.label)
         return label
-    
+
     def is_field(self):
         return True
-    
+
     def css_classes_for_container(self):
         classes = set(self.super())
         if self.name is not None:
@@ -80,7 +80,7 @@ class InputWidget(Widget):
             if hasattr(self.validator, 'is_required') and self.validator.is_required():
                 classes.add('requiredfield')
         return tuple(classes)
-    
+
     def path(self):
         parts = []
         if self.parent is not None:
@@ -88,7 +88,7 @@ class InputWidget(Widget):
         if self.name is not None:
             parts.append(self.name)
         return tuple(parts)
-    
+
     def full_name(self):
         return '.'.join(self.path())
 
@@ -100,11 +100,11 @@ class Form(InputWidget):
     enctype = None
     template = 'form.jinja2'
     children = ()
-    
+
     def __init__(self, *args, **kwargs):
         self.super.__init__(*args, **kwargs)
         self._initialize_children()
-    
+
     def _initialize_children(self):
         instance_children = []
         for child in self.children:
@@ -113,7 +113,7 @@ class Form(InputWidget):
             cloned_child.parent = self
             instance_children.append(cloned_child)
         self.children = instance_children
-    
+
     def validate(self, values):
         context = self.new_context(unvalidated=values)
         try:
@@ -124,7 +124,7 @@ class Form(InputWidget):
         else:
             context.update_value(validated_values)
         return context
-    
+
     def validation_schema(self):
         if self.validator is None:
             schema = SchemaValidator()
@@ -138,12 +138,12 @@ class Form(InputWidget):
                 continue
             schema.add(child.name, child_validator)
         return schema
-    
+
     def display(self, value=None, **kwargs):
         if value is not None:
             self.context.update_value(value)
         return self.super(value=None, **kwargs)
-    
+
     def children_(self):
         for child in self.children:
             child_name = getattr(child, 'name', None)
@@ -153,12 +153,12 @@ class Form(InputWidget):
                 context = self.context.children[child_name]
             child.set_context(context)
             yield child
-    
+
     def path(self):
         if self.parent is None:
             return ()
         return self.super()
-    
+
     def new_context(self, unvalidated=None):
         context = CompoundContext()
         for child in self.children:
@@ -166,7 +166,7 @@ class Form(InputWidget):
         if unvalidated is not None:
             context.update_value(unvalidated_value=unvalidated)
         return context
-    
+
     def set_context(self, context):
         assert_isinstance(context, CompoundContext)
         self.context = context

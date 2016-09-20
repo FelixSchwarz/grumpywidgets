@@ -1,19 +1,19 @@
 # -*- coding: UTF-8 -*-
 #
 # The MIT License
-# 
+#
 # Copyright (c) 2011-2012 Felix Schwarz <felix.schwarz@oss.schwarz.eu>
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,25 +22,25 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# I believe the license above is permissible enough so you can actually 
-# use/relicense the code in any other project without license proliferation. 
-# I'm happy to relicense this code if necessary for inclusion in other free 
+# I believe the license above is permissible enough so you can actually
+# use/relicense the code in any other project without license proliferation.
+# I'm happy to relicense this code if necessary for inclusion in other free
 # software projects.
 
 # TODO / nice to have
 #  - raising assertions (with message building) should be unified
-#  - shorted tracebacks for cascaded calls so it's easier to look at the 
-#    traceback as a user 
+#  - shorted tracebacks for cascaded calls so it's easier to look at the
+#    traceback as a user
 #      see jinja2/debug.py for some code that does such hacks:
 #          https://github.com/mitsuhiko/jinja2/blob/master/jinja2/debug.py
 
 from unittest import TestCase
 
-__all__ = ['assert_almost_equals', 'assert_callable', 'assert_contains', 
+__all__ = ['assert_almost_equals', 'assert_callable', 'assert_contains',
            'assert_dict_contains', 'assert_equals', 'assert_false', 'assert_falseish',
-           'assert_isinstance', 'assert_is_empty', 'assert_is_not_empty', 
-           'assert_length', 'assert_none', 
-           'assert_not_contains', 'assert_not_none', 'assert_not_equals', 
+           'assert_isinstance', 'assert_is_empty', 'assert_is_not_empty',
+           'assert_length', 'assert_none',
+           'assert_not_contains', 'assert_not_none', 'assert_not_equals',
            'assert_raises', 'assert_true', 'assert_trueish', 'PythonicTestCase', ]
 
 
@@ -103,7 +103,7 @@ def assert_almost_equals(expected, actual, max_delta=None, message=None):
         return
     if (max_delta is not None) and (abs(expected - actual) <= max_delta):
         return
-    
+
     if max_delta is None:
         default_message = '%s != %s' % (repr(expected), repr(actual))
     else:
@@ -164,7 +164,7 @@ def assert_callable(value, message=None):
     if message is None:
         raise AssertionError(default_message)
     raise AssertionError(default_message + ': ' + message)
-    
+
 
 def assert_isinstance(value, klass, message=None):
     if isinstance(value, klass):

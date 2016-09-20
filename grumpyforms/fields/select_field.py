@@ -13,7 +13,7 @@ __all__ = ['SelectField']
 class SelectField(InputWidget):
     template = 'select_field.jinja2'
     validator = OneOf([])
-    
+
     options = ()
     def __init__(self, *args, **kwargs):
         self.super(*args, **kwargs)

@@ -15,11 +15,11 @@ __all__ = ['ListField']
 class ListField(InputWidget):
     template = 'list_field.jinja2'
     children = ()
-    
+
     def __init__(self, *args, **kwargs):
         self.super.__init__(*args, **kwargs)
         self._initialize_children()
-    
+
     def _initialize_children(self):
         instance_children = []
         for child in self.children:
@@ -28,23 +28,23 @@ class ListField(InputWidget):
             cloned_child.parent = self
             instance_children.append(cloned_child)
         self.children = instance_children
-    
+
     def _child_context_creator(self):
         container = CompoundContext()
         for child in self.children:
             container.children[child.name] = child.new_context()
         return container.copy
-    
+
     def new_context(self, unvalidated=None):
         context = RepeatingContext(self._child_context_creator())
         if unvalidated is not None:
             context.update_value(unvalidated_value=unvalidated)
         return context
-    
+
     def set_context(self, context):
         assert_isinstance(context, RepeatingContext)
         self.context = context
-    
+
     def child_rows(self):
         self.context.count = 0
         for container_context in self.context.items:
@@ -58,7 +58,7 @@ class ListField(InputWidget):
                 child.set_context(context)
                 row.append(child)
             yield tuple(row)
-    
+
     def validate(self, values):
         context = self.new_context(unvalidated=values)
         try:
@@ -69,7 +69,7 @@ class ListField(InputWidget):
         else:
             context.update_value(validated_values)
         return context
-    
+
     @property
     def validator(self):
         schema = SchemaValidator()
@@ -81,10 +81,10 @@ class ListField(InputWidget):
                 continue
             schema.add(child.name, child_validator)
         return ForEach(schema)
-    
+
     def css_classes_for_container(self):
         # skipping InputWidget because we don't want to have '<name>-container'
-        # maybe not very elegant, actually ListField might turn out to be a 
+        # maybe not very elegant, actually ListField might turn out to be a
         # regular container...
         classes = set()
         if self.name is not None:
@@ -92,12 +92,12 @@ class ListField(InputWidget):
         if self.css_classes:
             classes = classes.union(set(self.css_classes))
         return tuple(classes)
-    
+
     def display(self, value=None, **kwargs):
         if value is not None:
             self.context.update_value(value)
         return self.super(value=None, **kwargs)
-    
+
     def path(self):
         parts = []
         if self.parent is not None:

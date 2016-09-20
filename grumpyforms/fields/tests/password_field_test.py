@@ -9,17 +9,17 @@ from grumpywidgets.lib.pythonic_testcase import *
 
 class PasswordFieldTest(InputFieldTestTemplate):
     __test__ = True
-    
+
     field_class = PasswordField
-    
+
     def test_has_string_validator_by_default(self):
         text_field = PasswordField()
-        
+
         assert_not_none(text_field.validator)
         self.assert_error(text_field, [])
         self.assert_error(text_field, '')
         assert_equals('foo', text_field.validate('foo').value)
-    
+
     def assert_error(self, widget, input_):
         context = widget.validate(input_)
         assert_true(context.contains_errors())

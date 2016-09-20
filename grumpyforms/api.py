@@ -5,7 +5,6 @@
 import os
 import copy
 
-from formencode.variabledecode import variable_decode
 from pycerberus.errors import InvalidDataError
 from pycerberus.schema import SchemaValidator
 from pythonic_testcase import *
@@ -13,12 +12,12 @@ from pythonic_testcase import *
 from grumpywidgets.api import Widget
 from grumpywidgets.context import Context, CompoundContext
 from grumpywidgets.widgets import Label
+from .variabledecode import variable_decode
 
 
 __all__ = ['decode_parameters', 'InputWidget', 'Form']
 
 def decode_parameters(parameters):
-    # TODO: replace this method from formencode with custom code
     return variable_decode(parameters)
 
 this_dir = os.path.dirname(__file__)

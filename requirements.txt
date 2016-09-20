@@ -1,4 +1,3 @@
-formencode
 jinja2
 pycerberus >= 0.5
 PythonicTestcase

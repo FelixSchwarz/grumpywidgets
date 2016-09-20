@@ -5,38 +5,44 @@
 from pythonic_testcase import *
 
 from grumpyforms.fields import SelectField
+from grumpywidgets.testhelpers import assert_same_html, template_widget
 
 
 class SelectFieldTest(PythonicTestCase):
+    template_engine = 'jinja2'
+
+    def _selectfield(self, **kwargs):
+        return template_widget(SelectField, self.template_engine, kwargs)
+
     def test_can_render_basic_field(self):
         expected = '<select>\n</select>'
-        assert_equals(expected, SelectField().display())
+        assert_same_html(expected, self._selectfield().display())
 
     def test_can_render_basic_with_options(self):
         expected = '<select>\n<option value="a">1</option>\n<option value="b">foo</option>\n</select>'
-        assert_equals(expected, SelectField(options=(['a', '1'], ['b', 'foo'])).display())
+        assert_same_html(expected, self._selectfield(options=(['a', '1'], ['b', 'foo'])).display())
 
     def test_can_render_value(self):
         expected = '<select>\n<option value="a" selected="selected">1</option>\n</select>'
-        assert_equals(expected, SelectField(options=[['a', '1']]).display(u'a'))
+        assert_same_html(expected, self._selectfield(options=[['a', '1']]).display(u'a'))
 
     def test_can_render_name(self):
-        select = SelectField(name='type')
+        select = self._selectfield(name='type')
         expected = '<select name="type">\n</select>'
-        assert_equals(expected, select.display())
+        assert_same_html(expected, select.display())
 
     def test_can_render_id(self):
-        select = SelectField(id='text-id')
+        select = self._selectfield(id='text-id')
         expected = '<select id="text-id">\n</select>'
-        assert_equals(expected, select.display())
+        assert_same_html(expected, select.display())
 
     def test_can_render_css_classes(self):
-        select = SelectField(css_classes=('text', 'username'))
+        select = self._selectfield(css_classes=('text', 'username'))
         expected = '<select class="text username">\n</select>'
-        assert_equals(expected, select.display())
+        assert_same_html(expected, select.display())
 
     def test_has_one_of_validator_by_default(self):
-        select = SelectField(options=[['a', '1']])
+        select = self._selectfield(options=[['a', '1']])
 
         assert_not_none(select.validator)
         assert_true(select.validate('c').contains_errors())

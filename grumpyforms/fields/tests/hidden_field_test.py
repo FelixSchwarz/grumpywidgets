@@ -14,7 +14,7 @@ class HiddenFieldTest(InputFieldTestTemplate):
     field_class = HiddenField
 
     def test_has_string_validator_by_default(self):
-        text_field = HiddenField()
+        text_field = self.field
 
         assert_not_none(text_field.validator)
         self.assert_error(text_field, [])
@@ -22,7 +22,7 @@ class HiddenFieldTest(InputFieldTestTemplate):
         assert_equals('foo', text_field.validate('foo').value)
 
     def test_can_tell_about_classification(self):
-        widget = HiddenField()
+        widget = self.field
         assert_true(widget.is_field())
         assert_false(widget.is_button())
         assert_true(widget.is_hidden())

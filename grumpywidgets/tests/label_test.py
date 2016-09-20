@@ -4,7 +4,7 @@
 
 from pythonic_testcase import *
 
-from grumpywidgets.testhelpers import template_widget
+from grumpywidgets.testhelpers import assert_same_html, template_widget
 from grumpywidgets.widgets import Label
 
 
@@ -15,21 +15,21 @@ class LabelRenderingTest(PythonicTestCase):
         return template_widget(Label, self.template_engine, kwargs)
 
     def test_can_render_basic_label(self):
-        assert_equals('<label></label>', self._label().display())
+        assert_same_html('<label></label>', self._label().display())
 
     def test_can_render_label_text(self):
-        assert_equals('<label>Some text</label>', self._label().display('Some text'))
-        assert_equals('<label>Some text</label>',
-                      self._label(value='Some text').display())
+        assert_same_html('<label>Some text</label>', self._label().display('Some text'))
+        assert_same_html('<label>Some text</label>',
+                         self._label(value='Some text').display())
 
     def test_can_render_label_id(self):
         id_label = self._label(id='label-id')
-        assert_equals('<label id="label-id"></label>', id_label.display())
+        assert_same_html('<label id="label-id"></label>', id_label.display())
 
     def test_can_render_css_classes(self):
         styled_label = self._label(css_classes=('foo', 'bar'))
-        assert_equals('<label class="foo bar">text</label>',
-                      styled_label.display('text'))
+        assert_same_html('<label class="foo bar">text</label>',
+                         styled_label.display('text'))
 
     def test_can_render_for_attribute(self):
         for_label = self._label(for_='username')

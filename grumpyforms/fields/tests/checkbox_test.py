@@ -5,30 +5,38 @@
 from pythonic_testcase import *
 
 from grumpyforms.fields import Checkbox
+from grumpywidgets.testhelpers import assert_same_html, template_widget
+
 
 
 class CheckboxRenderingTest(PythonicTestCase):
+    template_engine = 'jinja2'
+
+    def _checkbox(self, **kwargs):
+        return template_widget(Checkbox, self.template_engine, kwargs)
+
     def test_can_render_unchecked_checkbox(self):
-        assert_equals('<input type="checkbox" />', Checkbox().display())
-        assert_equals('<input type="checkbox" />', Checkbox().display(None))
-        assert_equals('<input type="checkbox" />', Checkbox().display(''))
-        assert_equals('<input type="checkbox" />', Checkbox().display(False))
+        assert_same_html('<input type="checkbox" />', self._checkbox().display())
+        assert_same_html('<input type="checkbox" />', self._checkbox().display(None))
+        assert_same_html('<input type="checkbox" />', self._checkbox().display(''))
+        assert_same_html('<input type="checkbox" />', self._checkbox().display(False))
 
     def test_can_render_checked_state(self):
-        checkbox = Checkbox()
+        checkbox = self._checkbox()
         checked_html = '<input type="checkbox" checked="checked" />'
-        assert_equals(checked_html, checkbox.display(u'on'))
-        assert_equals(checked_html, checkbox.display(True))
+        assert_same_html(checked_html, checkbox.display(u'on'))
+        assert_same_html(checked_html, checkbox.display(True))
 
     def test_can_render_checkbox_name(self):
-        assert_equals('<input type="checkbox" name="foo" />',
-                      Checkbox(name='foo').display())
+        assert_same_html('<input type="checkbox" name="foo" />',
+                         self._checkbox(name='foo').display())
 
     def test_can_render_checkbox_id(self):
-        assert_equals('<input type="checkbox" id="foo-id" />',
-                      Checkbox(id='foo-id').display())
+        assert_same_html('<input type="checkbox" id="foo-id" />',
+                         self._checkbox(id='foo-id').display())
 
     def test_can_render_css_classes(self):
-        assert_equals('<input type="checkbox" class="checkbox send" />',
-                      Checkbox(css_classes = ('checkbox', 'send')).display())
+        assert_same_html('<input type="checkbox" class="checkbox send" />',
+                         self._checkbox(css_classes = ('checkbox', 'send')).display())
+
 

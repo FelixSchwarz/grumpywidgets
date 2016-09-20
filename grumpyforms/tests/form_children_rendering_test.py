@@ -10,14 +10,17 @@ from pythonic_testcase import *
 
 from grumpyforms.api import Form
 from grumpyforms.fields import ListField, TextField
+from grumpywidgets.testhelpers import assert_same_html, template_widget
 from grumpywidgets.widgets import Label
 
 
 class FormChildrenRenderingTest(PythonicTestCase):
+    template_engine = 'jinja2'
+
     def setUp(self):
         class SimpleForm(Form):
             children = (TextField('number', validator=IntegerValidator(required=False)), )
-        self.form = SimpleForm()
+        self.form = template_widget(SimpleForm, self.template_engine)
 
     # --- tests ---------------------------------------------------------------
     def test_can_render_single_child(self):
@@ -140,7 +143,8 @@ class FormChildrenRenderingTest(PythonicTestCase):
         child_html = self.child_html('form', rendered_form)
         if strip_container:
             child_html = self.child_html('div', rendered_form)
-        assert_equals(expected, child_html)
+        h = lambda s: '<r>%s</r>' % (s, )
+        assert_same_html(h(expected), h(child_html))
 
     def container_html(self, container_tag, html):
         return self._split_html(container_tag, html)[0]

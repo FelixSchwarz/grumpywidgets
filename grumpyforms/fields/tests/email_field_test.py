@@ -14,7 +14,7 @@ class EmailFieldFieldTest(InputFieldTestTemplate):
     field_class = EmailField
 
     def test_has_email_validator_by_default(self):
-        text_field = EmailField()
+        text_field = self.field
 
         assert_not_none(text_field.validator)
         self.assert_error(text_field, [])

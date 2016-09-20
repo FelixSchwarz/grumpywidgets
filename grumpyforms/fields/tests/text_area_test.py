@@ -51,3 +51,6 @@ class TextAreaTest(PythonicTestCase):
         expected = '<textarea cols="20" rows="10"></textarea>'
         assert_same_html(expected, text_area.display())
 
+
+class GenshiTextAreaTest(TextAreaTest):
+    template_engine = 'genshi'

@@ -1,4 +1,4 @@
 formencode
 jinja2
-pycerberus>=0.5dev
+pycerberus >= 0.5
 setuptools

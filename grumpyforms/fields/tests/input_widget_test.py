@@ -2,7 +2,7 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
-from StringIO import StringIO
+from io import StringIO
 
 from pycerberus.api import BaseValidator, InvalidDataError
 from pycerberus.validators import IntegerValidator
@@ -82,7 +82,7 @@ class InputWidgetValidationTest(PythonicTestCase):
 
 class InputWidgetRenderingTest(PythonicTestCase):
     def setUp(self):
-        self.widget = InputWidget(template=StringIO('{{ value }}'))
+        self.widget = InputWidget(template=StringIO(u'{{ value }}'))
 
     def test_use_value_from_context(self):
         self.widget.context.unvalidated_value = 'foo'
@@ -123,7 +123,7 @@ class InputWidgetRenderingTest(PythonicTestCase):
 
     def test_can_specify_attributes_on_display(self):
         assert_false(hasattr(self.widget, 'user'))
-        self.widget.template = StringIO('Hello {{ user }}!')
+        self.widget.template = StringIO(u'Hello {{ user }}!')
 
         assert_raises(TypeError, lambda: self.widget.display(user='foo'))
         self.widget.user = None
@@ -133,10 +133,10 @@ class InputWidgetRenderingTest(PythonicTestCase):
 class InputWidgetLabelTest(PythonicTestCase):
     def setUp(self):
         self.widget = InputWidget(id='user', label='user name',
-            template=StringIO('{{ value }}'))
+            template=StringIO(u'{{ value }}'))
 
     def test_input_widgets_have_no_labels_by_default(self):
-        widget = InputWidget(id='user', template=StringIO('{{ value }}'))
+        widget = InputWidget(id='user', template=StringIO(u'{{ value }}'))
         assert_none(widget.label)
 
         assert_none(widget.label_widget())

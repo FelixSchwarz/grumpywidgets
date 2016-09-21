@@ -2,7 +2,7 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
-from StringIO import StringIO
+from io import StringIO
 
 from pythonic_testcase import *
 
@@ -39,7 +39,7 @@ class WidgetInitializationTest(PythonicTestCase):
         widget = CustomWidget(foobar=21)
         assert_equals(21, widget.foobar)
 
-        e= assert_raises(ValueError, lambda: CustomWidget(do_stuff=None))
+        e = assert_raises(ValueError, lambda: CustomWidget(do_stuff=None))
         assert_equals("Must not override instance method 'do_stuff()'",
                       e.args[0])
 
@@ -123,14 +123,14 @@ class WidgetTest(PythonicTestCase):
 
 class WidgetRenderingTest(PythonicTestCase):
     def setUp(self):
-        self.widget = Widget(template=StringIO('{{ value }}'))
+        self.widget = Widget(template=StringIO(u'{{ value }}'))
 
     def test_can_use_jinja_template(self):
-        widget = Widget(template=StringIO('Hello {{ value }}!'))
+        widget = Widget(template=StringIO(u'Hello {{ value }}!'))
         assert_equals(u'Hello world!', widget.display('world'))
 
     def test_can_use_genshi_template(self):
-        tmpl_str = '<p xmlns:py="http://genshi.edgewall.org/">Hello ${value}!</p>'
+        tmpl_str = u'<p xmlns:py="http://genshi.edgewall.org/">Hello ${value}!</p>'
         widget = Widget(template=StringIO(tmpl_str), template_engine='genshi')
         assert_equals(u'<p>Hello world!</p>', widget.display('world'))
 
@@ -143,7 +143,7 @@ class WidgetRenderingTest(PythonicTestCase):
         assert_equals('bar', self.widget.display('bar'))
 
     def test_can_specify_attributes_on_display(self):
-        widget = Widget(template=StringIO('{{ verb }} {{ value }}'))
+        widget = Widget(template=StringIO(u'{{ verb }} {{ value }}'))
         widget.verb = 'hello'
 
         assert_equals(u'hello foo', widget.display('foo'))

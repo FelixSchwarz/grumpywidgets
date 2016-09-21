@@ -10,7 +10,7 @@ from grumpyforms.api import InputWidget
 __all__ = ['EmailField', 'HiddenField', 'PasswordField', 'TextField']
 
 class TextLikeInputField(InputWidget):
-    template = 'textlike_input_field.jinja2'
+    template_name = 'textlike_input_field'
     validator = StringValidator()
 
 

@@ -49,6 +49,20 @@ class WidgetInitializationTest(PythonicTestCase):
         e = assert_raises(ValueError, lambda: CustomWidget(_secret=None))
         assert_equals("Must not override private attribute '_secret'", e.args[0])
 
+    def test_can_generate_template_filename_based_on_template_engine(self):
+        class WidgetWithTemplateBase(Widget):
+            template_name = 'foo'
+            template_engine = 'jinja2'
+        jinja_widget = WidgetWithTemplateBase()
+        assert_equals('foo.jinja2', jinja_widget.template)
+        genshi_widget = WidgetWithTemplateBase(template_engine='genshi')
+        assert_equals('foo.genshi', genshi_widget.template)
+
+        class SubclassedWidget(WidgetWithTemplateBase):
+            template_engine = 'genshi'
+        subclassed_widget = SubclassedWidget()
+        assert_equals('foo.genshi', subclassed_widget.template)
+
 
 class WidgetTest(PythonicTestCase):
     def test_can_generate_container_id(self):

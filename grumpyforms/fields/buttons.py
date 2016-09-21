@@ -9,7 +9,7 @@ __all__ = ['SubmitButton']
 
 class SubmitButton(InputWidget):
     value = None
-    template = 'submit_button.jinja2'
+    template_name = 'submit_button'
 
     def template_variables(self, values):
         variables = self.super()

@@ -49,10 +49,4 @@ def template_widget(widget, template_engine, kwargs=None):
     if 'template_engine' in kwargs:
         return kwargs
     kwargs['template_engine'] = template_engine
-
-    template = widget.template
-    template_extension = '.' + template_engine
-    if not template.endswith(template_extension):
-        template = template.replace('.jinja2', template_extension)
-        kwargs['template'] = template
     return widget(**kwargs)

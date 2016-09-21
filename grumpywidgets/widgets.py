@@ -12,7 +12,7 @@ __all__ = ['Label']
 class Label(Widget):
     for_ = None
     value = None
-    template = 'label.jinja2'
+    template_name = 'label'
 
     def _display_value(self, value):
         value = self.super()

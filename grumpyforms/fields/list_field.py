@@ -13,7 +13,7 @@ from grumpyforms.api import InputWidget
 __all__ = ['ListField']
 
 class ListField(InputWidget):
-    template = 'list_field.jinja2'
+    template_name = 'list_field'
     children = ()
 
     def __init__(self, *args, **kwargs):

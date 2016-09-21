@@ -10,7 +10,7 @@ from grumpyforms.api import InputWidget
 __all__ = ['TextArea']
 
 class TextArea(InputWidget):
-    template = 'textarea.jinja2'
+    template_name = 'textarea'
     validator = StringValidator()
 
     cols = 50

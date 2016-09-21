@@ -22,6 +22,7 @@ class Widget(object):
     name = None
     id = None
     template = None
+    template_name = None
     template_engine = 'jinja2'
     css_classes = None
     container_attrs = None
@@ -33,6 +34,7 @@ class Widget(object):
 
     def __init__(self, **kwargs):
         self.context = None
+        self._template = None
         for key in kwargs.keys():
             if key.startswith('_'):
                 raise ValueError("Must not override private attribute '%s'" % key)
@@ -86,6 +88,18 @@ class Widget(object):
                 continue
             attributes[key] = value
         return attributes
+
+    @property
+    def template(self):
+        if self._template is not None:
+            return self._template
+        elif self.template_name is not None:
+            return self.template_name + '.' + self.template_engine
+        return None
+
+    @template.setter
+    def template(self, value):
+        self._template = value
 
     def template_variables(self, value, **widget_attributes):
         template_values = self.widget_attributes()

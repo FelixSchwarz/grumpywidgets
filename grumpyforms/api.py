@@ -100,7 +100,7 @@ class Form(InputWidget):
     method = 'POST'
     charset = 'UTF-8'
     enctype = None
-    template = 'form.jinja2'
+    template_name = 'form'
     children = ()
 
     def __init__(self, *args, **kwargs):

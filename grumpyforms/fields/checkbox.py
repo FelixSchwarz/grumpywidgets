@@ -10,6 +10,6 @@ from grumpyforms.api import InputWidget
 __all__ = ['Checkbox']
 
 class Checkbox(InputWidget):
-    template = 'checkbox.jinja2'
+    template_name = 'checkbox'
     validator = BooleanCheckbox()
 

@@ -12,10 +12,10 @@ from grumpyforms.api import InputWidget
 __all__ = ['SelectField']
 
 class SelectField(InputWidget):
-    template = 'select_field.jinja2'
+    template_name = 'select_field'
     validator = OneOf([])
-
     options = ()
+
     def __init__(self, *args, **kwargs):
         self.super(*args, **kwargs)
         self.validator = OneOf(map(itemgetter(0), self.options))

@@ -5,5 +5,6 @@ Changelog
 ====================
 - widgets can use a custom template engine (current default is Jinja2)
 - added Genshi templates for all widgets
+- Checkbox: also support HTML attribute "value" (class attribute option_value)
 
 

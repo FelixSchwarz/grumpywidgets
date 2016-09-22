@@ -11,5 +11,19 @@ __all__ = ['Checkbox']
 
 class Checkbox(InputWidget):
     template_name = 'checkbox'
-    validator = BooleanCheckbox()
+    option_value = None
+
+    def __init__(self, *args, **kwargs):
+        super(Checkbox, self).__init__(*args, **kwargs)
+        if self.validator is None:
+            self.validator = self._build_validator()
+
+    def _build_validator(self):
+        option_value = self.option_value if (self.option_value is not None) else 'on'
+        trueish = BooleanCheckbox.trueish
+        falsish = BooleanCheckbox.falsish
+        if self.option_value not in trueish:
+            trueish = (option_value, str(option_value)) + trueish
+            falsish = tuple(set(falsish) - set([option_value, str(option_value)]))
+        return BooleanCheckbox(trueish=trueish, falsish=falsish)
 

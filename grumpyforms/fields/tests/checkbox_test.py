@@ -27,6 +27,24 @@ class CheckboxRenderingTest(PythonicTestCase):
         assert_same_html(checked_html, checkbox.display(u'on'))
         assert_same_html(checked_html, checkbox.display(True))
 
+    def test_can_render_option_value(self):
+        checkbox = self._checkbox(option_value='foo')
+        checked_html = '<input type="checkbox" value="foo" checked="checked" />'
+        assert_same_html(checked_html, checkbox.display(value=True))
+        assert_same_html(checked_html, checkbox.display(value='foo'),
+            message='validator should also accept the "option_value" as trueish')
+
+    def test_can_use_falsish_values_as_true(self):
+        checkbox = self._checkbox(option_value=0)
+        checked_html = '<input type="checkbox" value="0" checked="checked" />'
+        unchecked_html = '<input type="checkbox" value="0" />'
+        assert_same_html(unchecked_html, checkbox.display(value=None))
+        assert_same_html(unchecked_html, checkbox.display(value=False))
+        assert_same_html(checked_html, checkbox.display(value=0))
+        assert_same_html(checked_html, checkbox.display(value='0'))
+        assert_same_html(checked_html, checkbox.display(value=True))
+        assert_same_html(checked_html, checkbox.display(value='True'))
+
     def test_can_render_checkbox_name(self):
         assert_same_html('<input type="checkbox" name="foo" />',
                          self._checkbox(name='foo').display())

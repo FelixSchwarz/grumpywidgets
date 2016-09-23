@@ -1,0 +1,6 @@
+<input type="radio"
+    {%- if id %} id="{{ id }}"{% endif %}
+    {%- if name %} name="{{ name }}"{% endif %}
+    {%- if option_value != None %} value="{{ option_value }}"{% endif %}
+    {%- if value == True %} checked="checked"{% endif %}
+    {%- if css_classes %} class="{{ css_classes }}"{% endif %} />

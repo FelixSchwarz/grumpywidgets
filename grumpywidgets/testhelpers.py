@@ -22,7 +22,8 @@ def assert_same_html(expected, actual, message=None):
         for node in xml_document.getiterator():
             if node.text:
                 node.text = node.text.strip()
-            node.tail = None
+            if node.tail is not None:
+                node.tail = node.tail.strip() or None
         return xml_document
     first_xml = ElementTree.tostring(parse_as_normalized_xml(expected))
     second_xml = ElementTree.tostring(parse_as_normalized_xml(actual))

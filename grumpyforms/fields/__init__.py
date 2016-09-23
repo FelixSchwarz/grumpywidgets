@@ -1,8 +1,10 @@
 
-from grumpyforms.fields.buttons import *
-from grumpyforms.fields.checkbox import *
-from grumpyforms.fields.inputfields import *
-from grumpyforms.fields.list_field import *
-from grumpyforms.fields.textarea import *
-from grumpyforms.fields.select_field import *
+from __future__ import absolute_import
+
+from .buttons import *
+from .checkbox import *
+from .inputfields import *
+from .list_field import *
+from .select_field import *
+from .textarea import *
 

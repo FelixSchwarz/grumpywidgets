@@ -33,8 +33,7 @@ class LabelRenderingTest(PythonicTestCase):
 
     def test_can_render_for_attribute(self):
         for_label = self._label(for_='username')
-        assert_equals('<label for="username">text</label>',
-                      for_label.display('text'))
+        assert_same_html('<label for="username">text</label>', for_label.display('text'))
 
 
 class GenshiLabelRenderingTest(LabelRenderingTest):

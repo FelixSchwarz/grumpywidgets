@@ -20,4 +20,4 @@ def render_genshi_template(template, template_variables, template_path):
     else:
         loader = TemplateLoader((template_path,))
         template_ = loader.load(template)
-    return template_.generate(**template_variables).render('xml')
+    return template_.generate(**template_variables)

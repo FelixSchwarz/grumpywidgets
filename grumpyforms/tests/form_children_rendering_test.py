@@ -10,7 +10,7 @@ from pythonic_testcase import *
 
 from grumpyforms.api import Form
 from grumpyforms.fields import ListField, TextField
-from grumpywidgets.testhelpers import assert_same_html, template_widget
+from grumpywidgets.testhelpers import as_normalized_html, assert_same_html, template_widget
 from grumpywidgets.widgets import Label
 
 
@@ -103,13 +103,13 @@ class FormChildrenRenderingTest(PythonicTestCase):
 
         input_ = {'foo': [{'id': 42}]}
         form_html = form.display(input_)
-        assert_equals('<ul class="foo-list"></ul>', self.container_html('ul', form_html))
+        assert_same_html('<ul class="foo-list"></ul>', self.container_html('ul', form_html))
 
         item_html = self.child_html('ul', form_html)
         expected = '<div class="id-container requiredfield widgetcontainer fieldcontainer">' + \
             '<input type="text" name="foo-1.id" value="42" />' + \
         '</div>'
-        assert_equals(expected, self.child_html('li', item_html))
+        assert_same_html(expected, self.child_html('li', item_html))
 
     def test_can_display_errors_for_list_field(self):
         text_field = TextField('id', validator=IntegerValidator(required=False))
@@ -125,11 +125,12 @@ class FormChildrenRenderingTest(PythonicTestCase):
             '<input type="text" name="foo-1.id" value="abc" />' + \
             '<span class="validationerror-message">Please enter a number.</span>' + \
         '</div>'
-        assert_equals(expected, self.child_html('li', item_html))
+        assert_same_html(expected, self.child_html('li', item_html))
 
     # --- helpers -------------------------------------------------------------
 
     def _split_html(self, container_tag, html):
+        html = as_normalized_html(html)
         simple_html = re.sub('\s+', ' ', html).replace('> <', '><')
         regex_string = '(<%(tag)s[^>]*>)\s*(.*)\s*(</%(tag)s>)' % dict(tag=container_tag)
         match = re.search(regex_string, simple_html)
@@ -140,9 +141,9 @@ class FormChildrenRenderingTest(PythonicTestCase):
         return self._split_html(container_tag, html)[1]
 
     def assert_child_html(self, expected, rendered_form, strip_container=True):
-        child_html = self.child_html('form', rendered_form)
+        child_html = as_normalized_html(self.child_html('form', rendered_form))
         if strip_container:
-            child_html = self.child_html('div', rendered_form)
+            child_html = self.child_html('div', child_html)
         h = lambda s: '<r>%s</r>' % (s, )
         assert_same_html(h(expected), h(child_html))
 

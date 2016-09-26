@@ -8,7 +8,8 @@ from pycerberus.validators import StringValidator
 from pythonic_testcase import *
 
 from grumpyforms.fields import ListField, TextField
-from grumpywidgets.testhelpers import assert_same_html, reconfigure_widget
+from grumpywidgets.testhelpers import (assert_same_html, as_normalized_html,
+    reconfigure_widget)
 from grumpywidgets.widgets import Label
 
 
@@ -26,9 +27,7 @@ class ListFieldRenderingTest(PythonicTestCase):
 
     def test_can_render_empty_list(self):
         list_field = reconfigure_widget(ListField('foo', children=()), self.template_engine)
-
-        html = self.simplify(list_field.display())
-        assert_equals(u'<ul class="foo-list"></ul>', html)
+        assert_same_html(u'<ul class="foo-list"></ul>', list_field.display())
 
     def test_can_render_list_field_with_complex_child(self):
         html = self.list_field.display(self.empty_input)
@@ -42,7 +41,7 @@ class ListFieldRenderingTest(PythonicTestCase):
                 '</div>' + \
             '</li>' + \
             '</ul>'
-        assert_same_html(expected, self.simplify(html))
+        assert_same_html(expected, html)
 
     def test_can_render_child_label(self):
         start_field = self.list_field.children[0]
@@ -54,15 +53,19 @@ class ListFieldRenderingTest(PythonicTestCase):
             u'<input type="text" id="start" name="foo-1.start" />' + \
             u'</div>'
 
-        html = self.simplify(self.list_field.display(self.empty_input))
+        html = as_normalized_html(self.list_field.display(self.empty_input))
         match = re.search('<div[^>]*>(.+?)</div>', html)
         assert_same_html(expected, '<div>%s</div>' % match.group(1))
 
     def test_can_pass_values_to_children(self):
         child_input = [dict(start='s1', end='e1')]
-        html = self.simplify(self.list_field.display(child_input))
-        assert_contains('<input type="text" name="foo-1.start" value="s1" />', html)
-        assert_contains('<input type="text" name="foo-1.end" value="e1" />', html)
+        html = as_normalized_html(self.list_field.display(child_input))
+        assert_contains(
+            as_normalized_html('<input type="text" name="foo-1.start" value="s1" />'),
+            html)
+        assert_contains(
+            as_normalized_html('<input type="text" name="foo-1.end" value="e1" />'),
+            html)
 
     def test_raises_exception_if_values_contain_unknown_key(self):
         child_input = [dict(start='s1', end='e1', invalid=None)]
@@ -78,14 +81,13 @@ class ListFieldRenderingTest(PythonicTestCase):
         expected = u'<ul class="foo-list">' + \
             '<li><div class="widgetcontainer"><label>Bar</label></div></li>' + \
         '</ul>'
-        html = list_field.display([{}])
-        assert_same_html(expected, self.simplify(html))
+        assert_same_html(expected, list_field.display([{}]))
 
     # --- multiple children ---------------------------------------------------
 
     def test_can_render_list_field_with_multiple_children(self):
         input_ = [{'start': 's1', 'end': 'e1'}, {'start': 's2', 'end': 'e2'}]
-        html = self.list_field.display(input_)
+        html = unicode(self.list_field.display(input_))
         first_child = '<li>' +\
                 '<div class="start-container widgetcontainer fieldcontainer">' + \
                     '<input type="text" name="foo-1.start" value="s1" />' + \
@@ -127,8 +129,7 @@ class ListFieldRenderingTest(PythonicTestCase):
                 '</div>' + \
             '</li>' + \
         '</ul>'
-        html = self.simplify(self.list_field.display())
-        assert_same_html(expected, html)
+        assert_same_html(expected, self.list_field.display())
 
     # --- helpers -------------------------------------------------------------
 

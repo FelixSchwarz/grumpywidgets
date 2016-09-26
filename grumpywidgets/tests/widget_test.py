@@ -9,6 +9,7 @@ from pythonic_testcase import *
 from grumpywidgets import template_helpers
 from grumpywidgets.api import Widget
 from grumpywidgets.context import Context
+from grumpywidgets.testhelpers import assert_same_html
 
 
 class WidgetInitializationTest(PythonicTestCase):
@@ -146,7 +147,7 @@ class WidgetRenderingTest(PythonicTestCase):
     def test_can_use_genshi_template(self):
         tmpl_str = u'<p xmlns:py="http://genshi.edgewall.org/">Hello ${value}!</p>'
         widget = Widget(template=StringIO(tmpl_str), template_engine='genshi')
-        assert_equals(u'<p>Hello world!</p>', widget.display('world'))
+        assert_same_html(u'<p>Hello world!</p>', widget.display('world'))
 
     def test_can_use_value_from_context(self):
         self.widget.context.value = 'baz'

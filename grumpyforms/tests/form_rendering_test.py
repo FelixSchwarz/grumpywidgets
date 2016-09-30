@@ -7,7 +7,7 @@ from pythonic_testcase import *
 from grumpyforms.api import Form
 
 
-class FormAttributesTest(PythonicTestCase):
+class FormRenderingTest(PythonicTestCase):
     def test_can_render_empty_form(self):
         class EmptyForm(Form):
             pass
@@ -56,4 +56,8 @@ class FormAttributesTest(PythonicTestCase):
 
     def test_can_specify_attributes_on_display(self):
         assert_contains('action="/login"', Form().display(url='/login'))
+
+
+class GenshiFormRenderingTest(FormRenderingTest):
+    template_engine = 'genshi'
 

@@ -4,7 +4,7 @@
 
 from grumpywidgets.widget_list import widgets_in_module
 
-from grumpyforms.api import InputWidget as _InputWidget
+from grumpyforms.api import Form, InputWidget as _InputWidget
 import grumpyforms.fields
 
 # dynamically create Genshi variants of all widgets from grumpyforms.
@@ -15,3 +15,7 @@ for name, _widget in widgets_in_module(grumpyforms.fields, _InputWidget):
     widget_attrs['template_engine'] = 'genshi'
     GenshiWidget = type('Genshi'+name, (_widget,), widget_attrs)
     symbols_[name] = GenshiWidget
+
+
+class GenshiForm(Form):
+    template_engine = 'genshi'

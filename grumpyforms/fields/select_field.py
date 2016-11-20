@@ -13,9 +13,10 @@ __all__ = ['SelectField']
 
 class SelectField(InputWidget):
     template_name = 'select_field'
-    validator = OneOf([])
+    validator = None
     options = ()
 
     def __init__(self, *args, **kwargs):
         self.super(*args, **kwargs)
-        self.validator = OneOf(map(itemgetter(0), self.options))
+        if self.validator is None:
+            self.validator = OneOf(map(itemgetter(0), self.options))

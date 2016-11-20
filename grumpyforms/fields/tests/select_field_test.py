@@ -3,6 +3,7 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from pythonic_testcase import *
+from pycerberus.lib.attribute_dict import AttrDict
 
 from grumpyforms.fields import SelectField
 from grumpywidgets.testhelpers import assert_same_html, template_widget
@@ -48,6 +49,16 @@ class SelectFieldTest(PythonicTestCase):
         assert_true(select.validate('c').contains_errors())
         assert_false(select.validate('a').contains_errors())
         assert_equals(u'a', select.validate('a').value)
+
+    def test_can_configure_custom_validator(self):
+        validator = AttrDict(
+            revert_conversion=lambda value, context=None: 'a',
+        )
+        select = self._selectfield(options=[('a', '1'),], validator=validator)
+
+        expected = '<select>\n<option value="a" selected="selected">1</option>\n</select>'
+        assert_same_html(expected, select.display(u'foo'))
+        assert_same_html(expected, select.display(u'bar'))
 
 
 class GenshiSelectFieldTest(SelectFieldTest):

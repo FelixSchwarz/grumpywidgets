@@ -2,4 +2,8 @@
     {%- if id %} id="{{ id }}"{% endif %}
     {%- if self_.full_name() %} name="{{ self_.full_name() }}"{% endif %}
     {%- if value %} value="{{ value }}"{% endif %}
-    {%- if css_classes %} class="{{ css_classes }}"{% endif %} />
+    {%- if css_classes %} class="{{ css_classes }}"{% endif %}
+    {%- if attrs -%}
+        {%- for key, value in attrs.iteritems() %} {{ key }}="{{ value }}" {% endfor -%}
+    {%- endif -%}
+    />

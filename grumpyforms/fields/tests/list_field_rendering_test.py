@@ -106,8 +106,8 @@ class ListFieldRenderingTest(PythonicTestCase):
             '</li>'
 
         children_matches = re.findall('(<li>\s*.*?\s*</li>)', self.simplify(html))
-        assert_equals(first_child, children_matches[0])
-        assert_equals(second_child, children_matches[1])
+        assert_same_html(first_child, children_matches[0])
+        assert_same_html(second_child, children_matches[1])
         assert_length(2, children_matches)
 
     # --- multiple children ---------------------------------------------------

@@ -42,6 +42,11 @@ class InputFieldTestTemplate(PythonicTestCase):
         expected = '<input type="%s" class="text username" />' % self.field.type
         assert_same_html(expected, self.field.display())
 
+    def test_can_render_arbitrary_attributes(self):
+        self.set_field(self.field_class(attrs={'autocomplete': 'off', 'validation': 'on'}))
+        expected = '<input type="%s" autocomplete="off" validation="on" />' % self.field.type
+        assert_same_html(expected, self.field.display())
+
     # --- helpers -------------------------------------------------------------
 
     @property

@@ -29,6 +29,7 @@ class InputWidget(Widget):
     validator = None
     name = None
     label = None
+    attrs = None
 
     _template_path = grumpyforms_template_dir
     template_engine = 'jinja2'

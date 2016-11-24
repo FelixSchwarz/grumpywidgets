@@ -63,5 +63,9 @@ class InputFieldTestTemplate(PythonicTestCase):
         return self._field
 
     def set_field(self, a_field):
+        # many tests set a field instance explicitely but we must ensure the
+        # test uses the right template engine (otherwise we might only check
+        # the default templates, i.e. Jinja2).
+        a_field.template_engine = self.template_engine
         self._field = a_field
 

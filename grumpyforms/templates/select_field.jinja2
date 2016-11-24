@@ -1,6 +1,6 @@
 <select
     {%- if id %} id="{{ id }}"{% endif %}
-    {%- if self_.full_name() %} name="{{ self_.full_name() }}"{% endif %}
+    {%- if self_.full_name(name) %} name="{{ self_.full_name(name) }}"{% endif %}
     {%- if css_classes %} class="{{ css_classes }}"{% endif %}>
 {% for option_value, option_display in options -%}
     <option value="{{ option_value }}"

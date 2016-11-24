@@ -57,6 +57,11 @@ class RadiobuttonRenderingTest(PythonicTestCase):
         assert_same_html('<input type="radio" class="radio send" />',
                          self._radiobutton(css_classes = ('radio', 'send')).display())
 
+    def test_can_override_attributes_in_display(self):
+        radiobutton = self._radiobutton(name='username')
+        expected = '<input type="radio" name="foobar" />'
+        assert_same_html(expected, radiobutton.display(name='foobar'))
+
 
 class GenshiCheckboxRenderingTest(RadiobuttonRenderingTest):
     template_engine = 'genshi'

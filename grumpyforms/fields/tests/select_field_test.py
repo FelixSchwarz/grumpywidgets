@@ -60,6 +60,11 @@ class SelectFieldTest(PythonicTestCase):
         assert_same_html(expected, select.display(u'foo'))
         assert_same_html(expected, select.display(u'bar'))
 
+    def test_can_override_attributes_in_display(self):
+        select = self._selectfield(name='foo')
+        expected = '<select name="bar">\n</select>'
+        assert_same_html(expected, select.display(name='bar'))
+
 
 class GenshiSelectFieldTest(SelectFieldTest):
     template_engine = 'genshi'

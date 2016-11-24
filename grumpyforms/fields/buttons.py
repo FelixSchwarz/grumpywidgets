@@ -11,8 +11,8 @@ class SubmitButton(InputWidget):
     value = None
     template_name = 'submit_button'
 
-    def template_variables(self, values):
-        variables = self.super()
+    def template_variables(self, values, **widget_attributes):
+        variables = super(SubmitButton, self).template_variables(values, **widget_attributes)
         if self.value is not None:
             # self.value can be used to override any value from form data to
             # prevent 'empty button text' as seen in ToscaWidgets

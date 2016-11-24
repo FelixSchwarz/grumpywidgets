@@ -84,16 +84,21 @@ class InputWidget(Widget):
                 classes.add('requiredfield')
         return tuple(classes)
 
-    def path(self):
+    def path(self, name=None):
         parts = []
         if self.parent is not None:
             parts.extend(self.parent.path())
-        if self.name is not None:
+        if name is not None:
+            parts.append(name)
+        elif self.name is not None:
             parts.append(self.name)
         return tuple(parts)
 
-    def full_name(self):
-        return '.'.join(self.path())
+    def full_name(self, name=None):
+        path_ = self.path(name=name)
+        if not path_:
+            return None
+        return '.'.join(path_)
 
 
 class Form(InputWidget):

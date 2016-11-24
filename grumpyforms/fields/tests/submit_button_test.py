@@ -61,6 +61,11 @@ class SubmitButtonRenderingTest(PythonicTestCase):
         assert_same_html('<input type="submit" class="button send" />',
                          styled_button.display())
 
+    def test_can_override_attributes_in_display(self):
+        button = self._submitbutton(name='foo')
+        expected = '<input type="submit" name="bar" />'
+        assert_same_html(expected, button.display(name='bar'))
+
 
 
 class GenshiSubmitButtonRenderingTest(SubmitButtonRenderingTest):

@@ -51,6 +51,11 @@ class TextAreaTest(PythonicTestCase):
         expected = '<textarea cols="20" rows="10"></textarea>'
         assert_same_html(expected, text_area.display())
 
+    def test_can_override_attributes_in_display(self):
+        text_area = self._textarea(name='username')
+        expected = '<textarea name="foobar" cols="50" rows="10"></textarea>'
+        assert_same_html(expected, text_area.display(name='foobar'))
+
 
 class GenshiTextAreaTest(TextAreaTest):
     template_engine = 'genshi'

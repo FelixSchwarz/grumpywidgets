@@ -32,6 +32,11 @@ class InputFieldTestTemplate(PythonicTestCase):
         expected = '<input type="%s" name="username" />' % self.field.type
         assert_same_html(expected, self.field.display())
 
+    def test_can_override_attributes_in_display(self):
+        self.set_field(self.field_class(name='username'))
+        expected = '<input type="%s" name="foobar" />' % self.field.type
+        assert_same_html(expected, self.field.display(name='foobar'))
+
     def test_can_render_id(self):
         self.set_field(self.field_class(id='text-id'))
         expected = '<input type="%s" id="text-id" />' % self.field.type

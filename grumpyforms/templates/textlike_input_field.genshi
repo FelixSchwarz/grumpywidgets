@@ -1,4 +1,4 @@
 <input xmlns:py="http://genshi.edgewall.org/"
 	type="${type}"
-	id="${id}" name="${self_.full_name() or None}"
+	id="${id}" name="${self_.full_name(name)}"
 	value="${value}" class="${css_classes}" py:attrs="attrs" />

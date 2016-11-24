@@ -1,5 +1,5 @@
 <select xmlns:py="http://genshi.edgewall.org/"
-	id="${id}" name="${self_.full_name() or None}"
+	id="${id}" name="${self_.full_name(name)}"
 	class="${css_classes}">
 	<option py:for="option_value, option_display in options"
 		value="${option_value}" selected="${'selected' if (value == option_value) else None}">

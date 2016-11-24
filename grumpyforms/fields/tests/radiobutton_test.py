@@ -62,6 +62,11 @@ class RadiobuttonRenderingTest(PythonicTestCase):
         expected = '<input type="radio" name="foobar" />'
         assert_same_html(expected, radiobutton.display(name='foobar'))
 
+    def test_can_add_custom_attributes_via_display(self):
+        radiobutton = self._radiobutton()
+        expected = '<input type="radio" style="margin-top: 10px"/>'
+        assert_same_html(expected, radiobutton.display(attrs={'style': 'margin-top: 10px'}))
+
 
 class GenshiCheckboxRenderingTest(RadiobuttonRenderingTest):
     template_engine = 'genshi'

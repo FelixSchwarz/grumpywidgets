@@ -2,4 +2,5 @@
 	type="radio"
 	id="${id}" name="${self_.full_name(name)}"
 	value="${option_value}"
-	checked="${'checked' if (value == True) else None}" class="${css_classes}" />
+	checked="${'checked' if (value == True) else None}" class="${css_classes}"
+	py:attrs="attrs" />

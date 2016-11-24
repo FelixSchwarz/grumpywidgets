@@ -56,6 +56,11 @@ class TextAreaTest(PythonicTestCase):
         expected = '<textarea name="foobar" cols="50" rows="10"></textarea>'
         assert_same_html(expected, text_area.display(name='foobar'))
 
+    def test_can_add_custom_attributes_via_display(self):
+        text_area = self._textarea()
+        expected = '<textarea cols="50" rows="10" style="margin-top: 10px"></textarea>'
+        assert_same_html(expected, text_area.display(attrs={'style': 'margin-top: 10px'}))
+
 
 class GenshiTextAreaTest(TextAreaTest):
     template_engine = 'genshi'

@@ -3,6 +3,9 @@
     {%- if self_.full_name(name) %} name="{{ self_.full_name(name) }}"{% endif %}
     {%- if cols %} cols="{{ cols }}"{% endif %}
     {%- if rows %} rows="{{ rows }}"{% endif %}
-    {%- if css_classes %} class="{{ css_classes }}"{% endif %}>
+    {%- if css_classes %} class="{{ css_classes }}"{% endif %}
+    {%- if attrs -%}
+        {%- for key, value in attrs.iteritems() %} {{ key }}="{{ value }}" {% endfor -%}
+    {%- endif -%}>
     {%- if value %}{{ value }}{% endif -%}
 </textarea>

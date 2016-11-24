@@ -66,6 +66,11 @@ class SubmitButtonRenderingTest(PythonicTestCase):
         expected = '<input type="submit" name="bar" />'
         assert_same_html(expected, button.display(name='bar'))
 
+    def test_can_add_custom_attributes_via_display(self):
+        button = self._submitbutton()
+        expected = '<input type="submit" style="margin-top: 10px" />'
+        assert_same_html(expected, button.display(attrs={'style': 'margin-top: 10px'}))
+
 
 
 class GenshiSubmitButtonRenderingTest(SubmitButtonRenderingTest):

@@ -65,6 +65,11 @@ class SelectFieldTest(PythonicTestCase):
         expected = '<select name="bar">\n</select>'
         assert_same_html(expected, select.display(name='bar'))
 
+    def test_can_add_custom_attributes_via_display(self):
+        select = self._selectfield(name='foo')
+        expected = '<select name="foo" style="margin-top: 10px">\n</select>'
+        assert_same_html(expected, select.display(attrs={'style': 'margin-top: 10px'}))
+
 
 class GenshiSelectFieldTest(SelectFieldTest):
     template_engine = 'genshi'

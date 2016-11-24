@@ -1,5 +1,6 @@
 <textarea xmlns:py="http://genshi.edgewall.org/"
 	id="${id}" name="${self_.full_name(name)}"
-	cols="${cols}" rows="${rows}" class="${css_classes}">
+	cols="${cols}" rows="${rows}" class="${css_classes}"
+	py:attrs="attrs">
 		${value}
 </textarea>

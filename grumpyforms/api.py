@@ -12,7 +12,7 @@ from pycerberus.schema import SchemaValidator
 from pythonic_testcase import assert_isinstance
 
 from grumpywidgets.api import Widget
-from grumpywidgets.context import Context, CompoundContext
+from grumpywidgets.context import FieldData, FormData
 from grumpywidgets.widgets import Label
 from .variabledecode import variable_decode
 
@@ -40,7 +40,7 @@ class InputWidget(Widget):
         super(InputWidget, self).__init__(**kwargs)
 
     def validate(self, value):
-        c = Context(initial_value=value)
+        c = FieldData(initial_value=value)
         if self.validator is not None:
             try:
                 c.value = self.validator.process(value)
@@ -168,7 +168,7 @@ class Form(InputWidget):
         return self.super()
 
     def new_context(self, unvalidated=None):
-        context = CompoundContext()
+        context = FormData()
         for child in self.children:
             context.children[child.name] = child.new_context()
         if unvalidated is not None:
@@ -176,5 +176,5 @@ class Form(InputWidget):
         return context
 
     def set_context(self, context):
-        assert_isinstance(context, CompoundContext)
+        assert_isinstance(context, FormData)
         self.context = context

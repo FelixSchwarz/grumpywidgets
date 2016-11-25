@@ -5,16 +5,16 @@
 from pycerberus.errors import InvalidDataError
 from pythonic_testcase import *
 
-from grumpywidgets.context import Context, CompoundContext, RepeatingContext
+from grumpywidgets.context import FieldData, FormData, RepeatingFieldData
 
 
-class CompoundContextTest(PythonicTestCase):
+class FormDataTest(PythonicTestCase):
 
     def setUp(self):
-        self.context = CompoundContext()
+        self.context = FormData()
         self.context.children.update({
-            'foo': Context(value='foo'),
-            'bar': Context(value=2, initial_value='2'),
+            'foo': FieldData(value='foo'),
+            'bar': FieldData(value=2, initial_value='2'),
         })
 
     def test_can_access_children_as_attributes(self):
@@ -43,16 +43,16 @@ class CompoundContextTest(PythonicTestCase):
         assert_true(self.context.contains_errors())
 
     def test_can_tell_if_container_child_contains_errors(self):
-        child_container = CompoundContext()
-        child_container.children = {'baz': Context(errors=(self.error(), ))}
+        child_container = FormData()
+        child_container.children = {'baz': FieldData(errors=(self.error(), ))}
         assert_true(child_container.contains_errors())
 
         self.context.children['complex'] = child_container
         assert_true(self.context.contains_errors())
 
     def test_can_detect_errors_for_repeated_children(self):
-        repeated_context = RepeatingContext(None)
-        repeated_context.items = [Context(value=1), Context(errors=(self.error(),))]
+        repeated_context = RepeatingFieldData(None)
+        repeated_context.items = [FieldData(value=1), FieldData(errors=(self.error(),))]
         self.context.children['items'] = repeated_context
 
         assert_true(self.context.contains_errors())
@@ -60,29 +60,29 @@ class CompoundContextTest(PythonicTestCase):
     # --- aggregate values ----------------------------------------------------
 
     def test_can_return_repeated_values(self):
-        repeating_context = RepeatingContext(None)
-        repeating_context.items = [Context(value=1), Context(value=None)]
+        repeating_context = RepeatingFieldData(None)
+        repeating_context.items = [FieldData(value=1), FieldData(value=None)]
         self.context.children = {'items': repeating_context}
         assert_equals((1, None), self.context.value['items'])
 
     def test_can_return_values_from_nested_containers(self):
-        complex_child = CompoundContext()
-        complex_child.children = {'baz': Context(value='qux')}
+        complex_child = FormData()
+        complex_child.children = {'baz': FieldData(value='qux')}
         self.context.children['complex'] = complex_child
 
         assert_equals({'baz': 'qux'}, self.context.value['complex'])
 
     def test_can_return_errors_from_nested_containers(self):
         errors = (self.error(), )
-        complex_child = CompoundContext()
-        complex_child.children = {'baz': Context(errors=errors)}
+        complex_child = FormData()
+        complex_child.children = {'baz': FieldData(errors=errors)}
         self.context.children['complex'] = complex_child
 
         assert_equals({'baz': errors}, self.context.errors['complex'])
 
     def test_can_return_initial_values_from_nested_containers(self):
-        complex_child = CompoundContext()
-        complex_child.children = {'baz': Context(initial_value='42')}
+        complex_child = FormData()
+        complex_child.children = {'baz': FieldData(initial_value='42')}
         self.context.children['complex'] = complex_child
 
         assert_equals({'baz': '42'}, self.context.initial_value['complex'])

@@ -7,9 +7,9 @@ from copy import deepcopy
 from pythonic_testcase import assert_equals
 
 
-__all__ = ['CompoundContext', 'Context', 'RepeatingContext']
+__all__ = ['FormData', 'FieldData', 'RepeatingFieldData']
 
-class Context(object):
+class FieldData(object):
     def __init__(self, value=None, errors=None, initial_value=None):
         self.value = value
         self.errors = errors
@@ -50,11 +50,11 @@ class Context(object):
             self.value = value
 
     def __repr__(self):
-        tmpl = 'Context(value=%r, errors=%r, initial_value=%r)'
+        tmpl = 'FieldData(value=%r, errors=%r, initial_value=%r)'
         return tmpl % (self.value, self.errors, self.initial_value)
 
 
-class RepeatingContext(object):
+class RepeatingFieldData(object):
     def __init__(self, child_creator):
         self.items = []
         self.child_creator = child_creator
@@ -110,7 +110,7 @@ class RepeatingContext(object):
         return tuple(values)
 
 
-class CompoundContext(object):
+class FormData(object):
     def __init__(self):
         self.children = {}
 

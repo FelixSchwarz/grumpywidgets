@@ -6,7 +6,7 @@ from pycerberus.errors import InvalidDataError
 from pythonic_testcase import *
 
 from grumpywidgets import template_helpers as h
-from grumpywidgets.context import Context, RepeatingContext
+from grumpywidgets.context import FieldData, RepeatingFieldData
 
 
 class TemplateHelpersTest(PythonicTestCase):
@@ -17,32 +17,32 @@ class TemplateHelpersTest(PythonicTestCase):
     # --- error_messages() ----------------------------------------------------
 
     def test_can_call_render_errors_if_no_error_occured(self):
-        context = Context()
+        context = FieldData()
         assert_false(context.contains_errors())
-        assert_equals((), h.error_messages(Context()))
+        assert_equals((), h.error_messages(FieldData()))
 
         context.errors = []
-        assert_equals((), h.error_messages(Context()))
+        assert_equals((), h.error_messages(FieldData()))
 
     def test_can_render_single_error(self):
-        context = Context(errors=(self.error(),))
+        context = FieldData(errors=(self.error(),))
         assert_equals(('bad input',), h.error_messages(context))
 
     def test_can_render_multiple_errors(self):
         errors = (self.error(), self.error(message='check failed'))
-        context = Context(errors=errors)
+        context = FieldData(errors=errors)
         assert_equals(('bad input', 'check failed'), h.error_messages(context))
 
     def test_ignores_error_dict(self):
         # if 'errors' contains a dict, assume the errors refer to child widgets
         # which will be rendered later
-        # usually 'context' would be a CompoundContext in this case but it's
-        # just easier to instantiate a basic Context for testing
-        context = Context(errors=dict(foo=self.error()))
+        # usually 'context' would be a FormData in this case but it's
+        # just easier to instantiate a basic FieldData for testing
+        context = FieldData(errors=dict(foo=self.error()))
         assert_equals((), h.error_messages(context))
 
         # e.g. a ListField
-        repeating_context = RepeatingContext(None)
+        repeating_context = RepeatingFieldData(None)
         repeating_context.items = (context, )
         assert_equals((), h.error_messages(repeating_context))
 

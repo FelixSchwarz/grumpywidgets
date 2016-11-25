@@ -5,7 +5,7 @@
 from pythonic_testcase import *
 
 from grumpywidgets.api import Widget
-from grumpywidgets.context import Context
+from grumpywidgets.context import FieldData
 
 
 class WidgetTest(PythonicTestCase):
@@ -48,7 +48,7 @@ class WidgetTest(PythonicTestCase):
 
     def test_can_clone_itself(self):
         w = Widget()
-        w.context = Context(value=42)
+        w.context = FieldData(value=42)
 
         cloned = w.copy()
         w.context.value = 21

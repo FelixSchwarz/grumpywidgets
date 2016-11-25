@@ -5,14 +5,14 @@
 from pycerberus.errors import InvalidDataError
 from pythonic_testcase import *
 
-from grumpywidgets.context import Context, CompoundContext, RepeatingContext
+from grumpywidgets.context import FieldData, FormData, RepeatingFieldData
 
 
-class RepeatingContextTest(PythonicTestCase):
+class RepeatingFieldDataTest(PythonicTestCase):
 
     def setUp(self):
-        self.context = RepeatingContext(lambda: None)
-        self.context.items = [Context(value='foo'), Context(value='bar')]
+        self.context = RepeatingFieldData(lambda: None)
+        self.context.items = [FieldData(value='foo'), FieldData(value='bar')]
 
     # --- errors --------------------------------------------------------------
 
@@ -28,8 +28,8 @@ class RepeatingContextTest(PythonicTestCase):
         assert_equals(('foo', 'bar'), self.context.value)
 
     def test_can_return_values_from_nested_containers(self):
-        complex_child = CompoundContext()
-        complex_child.children = {'baz': Context(value='qux')}
+        complex_child = FormData()
+        complex_child.children = {'baz': FieldData(value='qux')}
         self.context.items = [complex_child]
 
         assert_equals(({'baz': 'qux'}, ), self.context.value)
@@ -77,8 +77,8 @@ class RepeatingContextTest(PythonicTestCase):
         assert_equals(values, self.context.errors)
 
     def test_can_set_complex_value(self):
-        complex_child = CompoundContext()
-        complex_child.children = {'baz': Context(value='qux')}
+        complex_child = FormData()
+        complex_child.children = {'baz': FieldData(value='qux')}
         self.context.items = [complex_child]
 
         input_ = ({'baz': 'foo'}, )

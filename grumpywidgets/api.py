@@ -7,7 +7,7 @@ from __future__ import absolute_import
 import os
 
 from . import template_helpers
-from .context import Context
+from .context import FieldData
 from .lib.simple_super import SuperProxy
 from .genshi_support import render_genshi_template
 from .jinja_support import render_jinja_template
@@ -73,7 +73,7 @@ class Widget(object):
         return klass(**attributes)
 
     def new_context(self, unvalidated=None):
-        return Context(initial_value=unvalidated)
+        return FieldData(initial_value=unvalidated)
 
     def set_context(self, context):
         self.context = context

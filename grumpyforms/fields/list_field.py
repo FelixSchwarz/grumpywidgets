@@ -7,7 +7,7 @@ from pycerberus.schema import SchemaValidator
 from pycerberus.validators import ForEach
 from pythonic_testcase import *
 
-from grumpywidgets.context import CompoundContext, RepeatingContext
+from grumpywidgets.context import FormData, RepeatingFieldData
 from grumpyforms.api import InputWidget
 
 __all__ = ['ListField']
@@ -30,19 +30,19 @@ class ListField(InputWidget):
         self.children = instance_children
 
     def _child_context_creator(self):
-        container = CompoundContext()
+        container = FormData()
         for child in self.children:
             container.children[child.name] = child.new_context()
         return container.copy
 
     def new_context(self, unvalidated=None):
-        context = RepeatingContext(self._child_context_creator())
+        context = RepeatingFieldData(self._child_context_creator())
         if unvalidated is not None:
             context.update_value(initial_value=unvalidated)
         return context
 
     def set_context(self, context):
-        assert_isinstance(context, RepeatingContext)
+        assert_isinstance(context, RepeatingFieldData)
         self.context = context
 
     def child_rows(self):

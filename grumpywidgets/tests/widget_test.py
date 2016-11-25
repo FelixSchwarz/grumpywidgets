@@ -61,7 +61,7 @@ class WidgetTest(PythonicTestCase):
 
         assert_none(context.value)
         assert_none(context.errors)
-        assert_none(context.unvalidated_value)
+        assert_none(context.initial_value)
 
         assert_not_equals(context, widget.new_context())
 
@@ -70,7 +70,7 @@ class WidgetTest(PythonicTestCase):
         context = widget.new_context(unvalidated='42')
         assert_none(context.value)
         assert_none(context.errors)
-        assert_equals('42', context.unvalidated_value)
+        assert_equals('42', context.initial_value)
 
     def test_can_specify_container_attributes(self):
         assert_equals(dict(), Widget().attributes_for_container())

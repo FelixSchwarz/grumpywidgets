@@ -40,10 +40,10 @@ class RepeatingContextTest(PythonicTestCase):
 
         assert_equals((None, errors), self.context.errors)
 
-    def test_can_return_unvalidated_values(self):
-        self.context.items[1].unvalidated_value = 'foo'
+    def test_can_return_initial_values(self):
+        self.context.items[1].initial_value = 'foo'
 
-        assert_equals((None, 'foo'), self.context.unvalidated_value)
+        assert_equals((None, 'foo'), self.context.initial_value)
 
     # --- update values -------------------------------------------------------
 
@@ -64,11 +64,11 @@ class RepeatingContextTest(PythonicTestCase):
 
         assert_raises(AssertionError, lambda: self.context.update_value(('foo', )))
 
-    def test_can_set_unvalidated_values(self):
+    def test_can_set_initial_values(self):
         values = ('foo', '42')
-        self.context.update_value(unvalidated_value=values)
+        self.context.update_value(initial_value=values)
 
-        assert_equals(values, self.context.unvalidated_value)
+        assert_equals(values, self.context.initial_value)
 
     def test_can_set_errors(self):
         values = (None, ('too big', 'not applicable'))

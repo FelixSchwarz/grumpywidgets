@@ -14,7 +14,7 @@ class CompoundContextTest(PythonicTestCase):
         self.context = CompoundContext()
         self.context.children.update({
             'foo': Context(value='foo'),
-            'bar': Context(value=2, unvalidated_value='2'),
+            'bar': Context(value=2, initial_value='2'),
         })
 
     def test_can_access_children_as_attributes(self):
@@ -80,12 +80,12 @@ class CompoundContextTest(PythonicTestCase):
 
         assert_equals({'baz': errors}, self.context.errors['complex'])
 
-    def test_can_return_unvalidated_values_from_nested_containers(self):
+    def test_can_return_initial_values_from_nested_containers(self):
         complex_child = CompoundContext()
-        complex_child.children = {'baz': Context(unvalidated_value='42')}
+        complex_child.children = {'baz': Context(initial_value='42')}
         self.context.children['complex'] = complex_child
 
-        assert_equals({'baz': '42'}, self.context.unvalidated_value['complex'])
+        assert_equals({'baz': '42'}, self.context.initial_value['complex'])
 
     # --- update values -------------------------------------------------------
 
@@ -100,18 +100,18 @@ class CompoundContextTest(PythonicTestCase):
 
         assert_equals({'foo': 'foo', 'bar': 42}, self.context.value)
 
-    def test_can_set_unvalidated_values(self):
+    def test_can_set_initial_values(self):
         values = {'foo': 'baz', 'bar': 42}
-        self.context.update_value(unvalidated_value=values)
+        self.context.update_value(initial_value=values)
 
-        assert_equals('baz', self.context.foo.unvalidated_value)
-        assert_equals(42, self.context.bar.unvalidated_value)
+        assert_equals('baz', self.context.foo.initial_value)
+        assert_equals(42, self.context.bar.initial_value)
 
-    def test_ignores_unknown_children_when_setting_unvalidated_values(self):
+    def test_ignores_unknown_children_when_setting_initial_values(self):
         values = {'foo': 'baz', 'quox': 42}
-        self.context.update_value(unvalidated_value=values)
+        self.context.update_value(initial_value=values)
 
-        assert_equals('baz', self.context.foo.unvalidated_value)
+        assert_equals('baz', self.context.foo.initial_value)
         assert_equals(['foo', 'bar'], list(self.context.children))
 
     def test_can_set_errors(self):

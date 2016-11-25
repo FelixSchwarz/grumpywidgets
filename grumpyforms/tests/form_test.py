@@ -23,11 +23,11 @@ class FormTest(PythonicTestCase):
         assert_equals({'name': None}, context.value)
         assert_false(context.contains_errors())
 
-    def test_can_build_new_context_with_unvalidated_values(self):
+    def test_can_build_new_context_with_initial_values(self):
         form = Form('foo', children=[TextField('name')])
 
         context = form.new_context({'name': 'Foo Bar'})
         assert_false(context.contains_errors())
 
-        assert_equals({'name': 'Foo Bar'}, context.unvalidated_value)
+        assert_equals({'name': 'Foo Bar'}, context.initial_value)
 

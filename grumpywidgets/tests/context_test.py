@@ -22,7 +22,7 @@ class ContextTest(PythonicTestCase):
         error = self.error()
         assert_equals([error], Context(errors=[error]).errors)
 
-        assert_equals('42', Context(unvalidated_value='42').unvalidated_value)
+        assert_equals('42', Context(initial_value='42').initial_value)
 
 
     def test_can_clone_itself(self):
@@ -55,9 +55,9 @@ class ContextTest(PythonicTestCase):
 
     def test_can_set_unvalidated_attribute_when_updating_values(self):
         context = Context()
-        context.update_value(unvalidated_value='42')
+        context.update_value(initial_value='42')
 
-        assert_equals('42', context.unvalidated_value)
+        assert_equals('42', context.initial_value)
 
     def test_can_set_errors_attribute_when_updating_values(self):
         context = Context()

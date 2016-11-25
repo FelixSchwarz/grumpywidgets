@@ -67,7 +67,7 @@ class InputWidgetValidationTest(PythonicTestCase):
         widget = InputWidget('foobar', validator=IntegerValidator())
 
         result = widget.validate('2')
-        assert_equals('2', result.unvalidated_value)
+        assert_equals('2', result.initial_value)
         assert_equals(2, result.value)
         assert_none(result.errors)
 
@@ -75,7 +75,7 @@ class InputWidgetValidationTest(PythonicTestCase):
         widget = InputWidget('foobar', validator=IntegerValidator())
 
         result = widget.validate('invalid')
-        assert_equals('invalid', result.unvalidated_value)
+        assert_equals('invalid', result.initial_value)
         assert_none(None, result.value)
         assert_true(result.contains_errors())
 
@@ -85,7 +85,7 @@ class InputWidgetRenderingTest(PythonicTestCase):
         self.widget = InputWidget(template=StringIO(u'{{ value }}'))
 
     def test_use_value_from_context(self):
-        self.widget.context.unvalidated_value = 'foo'
+        self.widget.context.initial_value = 'foo'
         assert_equals('foo', self.widget.display())
 
         self.widget.context.value = 'bar'

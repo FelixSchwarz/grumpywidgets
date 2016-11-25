@@ -10,17 +10,17 @@ from pythonic_testcase import assert_equals
 __all__ = ['CompoundContext', 'Context', 'RepeatingContext']
 
 class Context(object):
-    def __init__(self, value=None, errors=None, unvalidated_value=None):
+    def __init__(self, value=None, errors=None, initial_value=None):
         self.value = value
         self.errors = errors
-        self.unvalidated_value = unvalidated_value
+        self.initial_value = initial_value
 
     def copy(self):
         klass = self.__class__
         attributes = dict(
             value=deepcopy(self.value),
             errors=deepcopy(self.errors),
-            unvalidated_value=deepcopy(self.unvalidated_value),
+            initial_value=deepcopy(self.initial_value),
         )
         return klass(**attributes)
     __deepcopy__ = copy
@@ -34,9 +34,9 @@ class Context(object):
         # list(InvalidDataError) returns [<error msg>]
         return hasattr(value, '__iter__')
 
-    def update_value(self, value=None, unvalidated_value=None, errors=None):
-        if unvalidated_value is not None:
-            self.unvalidated_value = unvalidated_value
+    def update_value(self, value=None, initial_value=None, errors=None):
+        if initial_value is not None:
+            self.initial_value = initial_value
         elif errors is not None:
             # pycerberus returns only a single error per validator, but
             # containers like Form or ListField should not have to dive into
@@ -48,6 +48,10 @@ class Context(object):
             self.errors = errors
         else:
             self.value = value
+
+    def __repr__(self):
+        tmpl = 'Context(value=%r, errors=%r, initial_value=%r)'
+        return tmpl % (self.value, self.errors, self.initial_value)
 
 
 class RepeatingContext(object):
@@ -69,10 +73,10 @@ class RepeatingContext(object):
             errors_.append(context.errors)
         return tuple(errors_)
 
-    def update_value(self, value=None, unvalidated_value=None, errors=None):
-        if unvalidated_value is not None:
-            attr_name = 'unvalidated_value'
-            values = unvalidated_value
+    def update_value(self, value=None, initial_value=None, errors=None):
+        if initial_value is not None:
+            attr_name = 'initial_value'
+            values = initial_value
         elif errors is not None:
             attr_name = 'errors'
             values = errors
@@ -99,10 +103,10 @@ class RepeatingContext(object):
         return tuple(values)
 
     @property
-    def unvalidated_value(self):
+    def initial_value(self):
         values = []
         for context in self.items:
-            values.append(context.unvalidated_value)
+            values.append(context.initial_value)
         return tuple(values)
 
 
@@ -129,11 +133,11 @@ class CompoundContext(object):
             errors_[name] = contexts.errors
         return errors_
 
-    def update_value(self, value=None, unvalidated_value=None, errors=None):
-        if unvalidated_value is not None:
-            attr_name = 'unvalidated_value'
+    def update_value(self, value=None, initial_value=None, errors=None):
+        if initial_value is not None:
+            attr_name = 'initial_value'
             values = dict()
-            for name, value_ in unvalidated_value.items():
+            for name, value_ in initial_value.items():
                 if name in self.children:
                     values[name] = value_
         elif errors is not None:
@@ -164,9 +168,9 @@ class CompoundContext(object):
         return values
 
     @property
-    def unvalidated_value(self):
+    def initial_value(self):
         values = {}
         for name, contexts in self.children.items():
-            values[name] = contexts.unvalidated_value
+            values[name] = contexts.initial_value
         return values
 

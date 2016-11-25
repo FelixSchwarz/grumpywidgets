@@ -37,7 +37,7 @@ class ListFieldTest(PythonicTestCase):
 
         input_ = [{'name': 'bar'}, {'name': 'bar'}]
         context = list_field.new_context(unvalidated=input_)
-        assert_equals(tuple(input_), context.unvalidated_value)
+        assert_equals(tuple(input_), context.initial_value)
 
     def test_can_update_child_contexts(self):
         list_field = ListField('foo', children=(TextField('bar'), ))

@@ -40,7 +40,7 @@ class InputWidget(Widget):
         super(InputWidget, self).__init__(**kwargs)
 
     def validate(self, value):
-        c = Context(unvalidated_value=value)
+        c = Context(initial_value=value)
         if self.validator is not None:
             try:
                 c.value = self.validator.process(value)
@@ -53,15 +53,15 @@ class InputWidget(Widget):
     def _display_value(self, value):
         value = self.super(value)
         if value is None:
-            value = self.context.unvalidated_value
+            value = self.context.initial_value
         if self.validator is None:
             return value
         return self.validator.revert_conversion(value)
 
     def display(self, value=None, **kwargs):
         if (value is None) and (self.context.value is None):
-            value = self.context.unvalidated_value
-        return self.super(value=value, **kwargs)
+            value = self.context.initial_value
+        return super(InputWidget, self).display(value=value, **kwargs)
 
     def label_widget(self):
         if self.label is None:
@@ -172,7 +172,7 @@ class Form(InputWidget):
         for child in self.children:
             context.children[child.name] = child.new_context()
         if unvalidated is not None:
-            context.update_value(unvalidated_value=unvalidated)
+            context.update_value(initial_value=unvalidated)
         return context
 
     def set_context(self, context):

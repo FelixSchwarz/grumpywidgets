@@ -73,7 +73,7 @@ class Widget(object):
         return klass(**attributes)
 
     def new_context(self, unvalidated=None):
-        return Context(unvalidated_value=unvalidated)
+        return Context(initial_value=unvalidated)
 
     def set_context(self, context):
         self.context = context

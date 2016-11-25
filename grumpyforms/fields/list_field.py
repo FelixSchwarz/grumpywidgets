@@ -38,7 +38,7 @@ class ListField(InputWidget):
     def new_context(self, unvalidated=None):
         context = RepeatingContext(self._child_context_creator())
         if unvalidated is not None:
-            context.update_value(unvalidated_value=unvalidated)
+            context.update_value(initial_value=unvalidated)
         return context
 
     def set_context(self, context):

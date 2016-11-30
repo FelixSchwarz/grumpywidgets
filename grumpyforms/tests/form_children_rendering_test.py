@@ -33,7 +33,9 @@ class FormChildrenRenderingTest(PythonicTestCase):
         self.assert_child_html(expected, self.form.display({'number': 'send'}))
 
     def test_raises_error_if_unknown_parameters_are_passed_for_display(self):
-        e = assert_raises(ValueError, lambda: Form().display({'invalid': None}))
+        with assert_raises(ValueError) as c:
+            Form().display({'invalid': None})
+        e = c.caught_exception
         assert_equals("unknown key 'invalid'", e.args[0])
 
     def test_can_pass_attributes_to_children(self):

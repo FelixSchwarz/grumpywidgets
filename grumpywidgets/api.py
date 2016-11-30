@@ -124,8 +124,10 @@ class Widget(object):
             template_values['value'] = value
         else:
             template_values.update(value)
-        template_values['h'] = template_helpers
-        template_values['self_'] = self
+        template_values.update({
+            'h': template_helpers,
+            'self_': self,
+        })
         return template_values
 
     def _render_template(self, template_variables):

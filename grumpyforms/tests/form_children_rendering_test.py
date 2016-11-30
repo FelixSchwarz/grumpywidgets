@@ -114,9 +114,17 @@ class FormChildrenRenderingTest(PythonicTestCase):
     def test_can_display_errors_for_list_field(self):
         text_field = TextField('id', validator=IntegerValidator(required=False))
         form = Form(children=(ListField('foo', children=(text_field,)), ))
-
         result = form.validate({'foo': [{'id': 'abc'}]})
+
+        # checking some details of the validation result (which is also kind of
+        # a stress test for pycerberus Error -> Exception conversion)
         assert_true(result.contains_errors())
+        foo1 = result.children['foo'].items[0]
+        assert_equals({'id'}, set(foo1.errors))
+        id_errors = foo1.errors['id']
+        assert_length(1, id_errors)
+        assert_equals('invalid_number', id_errors[0].details().key(),
+            message='ensure that validation found the right error which should be displayed')
 
         form.set_context(result)
         form_html = form.display()

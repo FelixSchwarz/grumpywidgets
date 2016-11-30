@@ -3,10 +3,10 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from pycerberus.errors import InvalidDataError
+from pycerberus.lib.form_data import FieldData, RepeatingFieldData
 from pythonic_testcase import *
 
 from grumpywidgets import template_helpers as h
-from grumpywidgets.context import FieldData, RepeatingFieldData
 
 
 class TemplateHelpersTest(PythonicTestCase):

@@ -37,7 +37,7 @@ class ListFieldValidationTest(PythonicTestCase):
         errors = result.errors
 
         assert_length(2, errors)
-        assert_equals({'number': None}, errors[0])
+        assert_equals({}, errors[0])
 
         error = errors[1]
         assert_equals(['number'], list(error.keys()))

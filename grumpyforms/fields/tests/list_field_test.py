@@ -41,7 +41,7 @@ class ListFieldTest(PythonicTestCase):
 
     def test_can_update_child_contexts(self):
         list_field = ListField('foo', children=(TextField('bar'), ))
-        list_field.context.update_value([{'bar': 32}])
+        list_field.context.update([{'bar': 32}])
 
         assert_equals(({'bar': 32},), list_field.context.value)
 

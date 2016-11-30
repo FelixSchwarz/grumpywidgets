@@ -3,12 +3,13 @@
 # See LICENSE.txt in the main project directory, for more information.
 
 from pycerberus.errors import InvalidDataError
+from pycerberus.lib.form_data import FormData, RepeatingFieldData
 from pycerberus.schema import SchemaValidator
 from pycerberus.validators import ForEach
 from pythonic_testcase import *
 
-from grumpywidgets.context import FormData, RepeatingFieldData
 from grumpyforms.api import InputWidget
+
 
 __all__ = ['ListField']
 
@@ -38,7 +39,7 @@ class ListField(InputWidget):
     def new_context(self, unvalidated=None):
         context = RepeatingFieldData(self._child_context_creator())
         if unvalidated is not None:
-            context.update_value(initial_value=unvalidated)
+            context.update(initial_value=unvalidated)
         return context
 
     def set_context(self, context):
@@ -65,9 +66,9 @@ class ListField(InputWidget):
             validated_values = self.validator.process(values)
         except InvalidDataError, e:
             for child_context, errors in zip(context.items, e.unpack_errors()):
-                child_context.update_value(errors=errors)
+                child_context.update(errors=errors)
         else:
-            context.update_value(validated_values)
+            context.update(validated_values)
         return context
 
     @property
@@ -95,7 +96,7 @@ class ListField(InputWidget):
 
     def display(self, value=None, **kwargs):
         if value is not None:
-            self.context.update_value(value)
+            self.context.update(value)
         return self.super(value=None, **kwargs)
 
     def path(self):

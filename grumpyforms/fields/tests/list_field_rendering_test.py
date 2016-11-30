@@ -70,7 +70,7 @@ class ListFieldRenderingTest(PythonicTestCase):
     def test_raises_exception_if_values_contain_unknown_key(self):
         child_input = [dict(start='s1', end='e1', invalid=None)]
         e = assert_raises(ValueError, lambda: self.list_field.display(child_input))
-        assert_equals("unknown parameter 'invalid'", e.args[0])
+        assert_equals("unknown key 'invalid'", e.args[0])
 
     def test_can_render_display_widgets(self):
         list_field = reconfigure_widget(

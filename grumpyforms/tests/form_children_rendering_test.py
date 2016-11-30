@@ -34,14 +34,14 @@ class FormChildrenRenderingTest(PythonicTestCase):
 
     def test_raises_error_if_unknown_parameters_are_passed_for_display(self):
         e = assert_raises(ValueError, lambda: Form().display({'invalid': None}))
-        assert_equals("unknown parameter 'invalid'", e.args[0])
+        assert_equals("unknown key 'invalid'", e.args[0])
 
     def test_can_display_errors_for_children(self):
         textfield = self.form.children[0]
 
         # simulate failed validation
         error_dict = {textfield.name: (InvalidDataError('bad input', 'abc'),)}
-        self.form.context.update_value(errors=error_dict)
+        self.form.context.update(errors=error_dict)
         assert_true(self.form.context.contains_errors())
 
         expected = u'<input type="text" name="number" />' + \

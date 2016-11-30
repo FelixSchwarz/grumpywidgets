@@ -69,7 +69,7 @@ class InputWidgetValidationTest(PythonicTestCase):
         result = widget.validate('2')
         assert_equals('2', result.initial_value)
         assert_equals(2, result.value)
-        assert_none(result.errors)
+        assert_equals((), result.errors)
 
     def test_returns_context_also_after_failed_validation(self):
         widget = InputWidget('foobar', validator=IntegerValidator())

@@ -1,5 +1,5 @@
 jinja2
-pycerberus >= 0.5
+pycerberus >= 0.6.90    # pycerberus.lib.form_data
 PythonicTestcase
 setuptools
 six

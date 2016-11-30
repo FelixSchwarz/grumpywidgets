@@ -6,8 +6,9 @@ from __future__ import absolute_import
 
 import os
 
+from pycerberus.lib.form_data import FieldData
+
 from . import template_helpers
-from .context import FieldData
 from .lib.simple_super import SuperProxy
 from .genshi_support import render_genshi_template
 from .jinja_support import render_jinja_template

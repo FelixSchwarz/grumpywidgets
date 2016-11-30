@@ -2,10 +2,10 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
+from pycerberus.lib.form_data import FieldData
 from pythonic_testcase import *
 
 from grumpywidgets.api import Widget
-from grumpywidgets.context import FieldData
 
 
 class WidgetTest(PythonicTestCase):
@@ -60,7 +60,7 @@ class WidgetTest(PythonicTestCase):
         context = widget.new_context()
 
         assert_none(context.value)
-        assert_none(context.errors)
+        assert_equals((), context.errors)
         assert_none(context.initial_value)
 
         assert_not_equals(context, widget.new_context())
@@ -69,7 +69,7 @@ class WidgetTest(PythonicTestCase):
         widget = Widget()
         context = widget.new_context(unvalidated='42')
         assert_none(context.value)
-        assert_none(context.errors)
+        assert_equals((), context.errors)
         assert_equals('42', context.initial_value)
 
     def test_can_specify_container_attributes(self):

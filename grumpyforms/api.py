@@ -8,11 +8,11 @@ import os
 import copy
 
 from pycerberus.errors import InvalidDataError
+from pycerberus.lib.form_data import FieldData, FormData
 from pycerberus.schema import SchemaValidator
 from pythonic_testcase import assert_isinstance
 
 from grumpywidgets.api import Widget
-from grumpywidgets.context import FieldData, FormData
 from grumpywidgets.widgets import Label
 from .variabledecode import variable_decode
 
@@ -128,9 +128,9 @@ class Form(InputWidget):
             schema = self.validation_schema()
             validated_values = schema.process(values)
         except InvalidDataError, e:
-            context.update_value(errors=e.unpack_errors())
+            context.update(errors=e.unpack_errors())
         else:
-            context.update_value(validated_values)
+            context.update(validated_values)
         return context
 
     def validation_schema(self):
@@ -149,7 +149,7 @@ class Form(InputWidget):
 
     def display(self, value=None, **kwargs):
         if value is not None:
-            self.context.update_value(value)
+            self.context.update(value)
         return self.super(value=None, **kwargs)
 
     def children_(self):
@@ -172,7 +172,7 @@ class Form(InputWidget):
         for child in self.children:
             context.children[child.name] = child.new_context()
         if unvalidated is not None:
-            context.update_value(initial_value=unvalidated)
+            context.update(initial_value=unvalidated)
         return context
 
     def set_context(self, context):

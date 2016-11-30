@@ -147,9 +147,15 @@ class Form(InputWidget):
             schema.add(child.name, child_validator)
         return schema
 
-    def display(self, value=None, **kwargs):
+    def display(self, value=None, child_data=None, **kwargs):
         if value is not None:
             self.context.update(value)
+        if child_data is not None:
+            for child_name, data in child_data.items():
+                child = self.context.get(child_name)
+                child_meta = child.meta or {}
+                child_meta.update(data)
+                child.set(meta=child_meta)
         return self.super(value=None, **kwargs)
 
     def children_(self):

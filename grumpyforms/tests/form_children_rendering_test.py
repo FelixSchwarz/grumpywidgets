@@ -36,6 +36,16 @@ class FormChildrenRenderingTest(PythonicTestCase):
         e = assert_raises(ValueError, lambda: Form().display({'invalid': None}))
         assert_equals("unknown key 'invalid'", e.args[0])
 
+    def test_can_pass_attributes_to_children(self):
+        # also checking the container just to be sure the "style" attribute
+        # just affects the child.
+        expected = '<div class="number-container widgetcontainer fieldcontainer">' + \
+            '<input type="text" name="number" value="42" style="margin-top: 10px;" />' +\
+            '</div>'
+        number_attrs = {'attrs': {'style': 'margin-top: 10px;'}}
+        html = self.form.display({'number': '42'}, child_data={'number': number_attrs})
+        self.assert_child_html(expected, html, strip_container=False)
+
     def test_can_display_errors_for_children(self):
         textfield = self.form.children[0]
 

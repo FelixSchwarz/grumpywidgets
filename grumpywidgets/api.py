@@ -108,6 +108,16 @@ class Widget(object):
         if css_classes is not None:
             template_values['css_classes'] = ' '.join(css_classes)
         template_values.update(widget_attributes)
+        if not isinstance(self.context.meta, tuple):
+            # currently no "meta" for RepeatingFieldData ("ListField") - ignored
+            # for now
+            for meta_key, meta_value in (self.context.meta or {}).items():
+                template_value = template_values.get(meta_key)
+                # at some point we might have to decide what to do with
+                # conflicting keys - but I hope we can defer that decision as
+                # much as possible.
+                assert (not template_value), 'not supported yet'
+                template_values[meta_key] = meta_value
 
         value = self._display_value(value)
         if not isinstance(value, dict):

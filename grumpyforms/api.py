@@ -156,7 +156,7 @@ class Form(InputWidget):
                 child_meta = child.meta or {}
                 child_meta.update(data)
                 child.set(meta=child_meta)
-        return self.super(value=None, **kwargs)
+        return super(Form, self).display(value=None, **kwargs)
 
     def children_(self):
         for child in self.children:

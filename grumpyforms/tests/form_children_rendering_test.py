@@ -48,6 +48,15 @@ class FormChildrenRenderingTest(PythonicTestCase):
         html = self.form.display({'number': '42'}, child_data={'number': number_attrs})
         self.assert_child_html(expected, html, strip_container=False)
 
+    def test_can_change_child_id_with_display_parameter(self):
+        # LATER: It would be nicer if the container also changed the class...
+        expected = '<div class="number-container widgetcontainer fieldcontainer">' + \
+            '<input id="FOOBAR" type="text" name="number" value="42"/>' +\
+            '</div>'
+        number_attrs = {'attrs': {'id': 'FOOBAR'}}
+        html = self.form.display({'number': '42'}, child_data={'number': number_attrs})
+        self.assert_child_html(expected, html, strip_container=False)
+
     def test_can_display_errors_for_children(self):
         textfield = self.form.children[0]
 

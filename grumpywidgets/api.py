@@ -120,10 +120,11 @@ class Widget(object):
                 template_values[meta_key] = meta_value
 
         value = self._display_value(value)
-        if not isinstance(value, dict):
-            template_values['value'] = value
-        else:
+        if isinstance(value, dict):
+            assert (None not in value.keys())
             template_values.update(value)
+        else:
+            template_values['value'] = value
         template_values.update({
             'h': template_helpers,
             'self_': self,

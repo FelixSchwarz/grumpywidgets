@@ -168,6 +168,13 @@ class Form(InputWidget):
             child.set_context(context)
             yield child
 
+    def child_by_name(self, name):
+        for child in self.children_():
+            child_name = getattr(child, 'name', None)
+            if child_name == name:
+                return child
+        return None
+
     def path(self):
         if self.parent is None:
             return ()

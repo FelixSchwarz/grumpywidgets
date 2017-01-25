@@ -1,0 +1,10 @@
+include Changelog.txt
+include LICENSE.txt
+include requirements.txt
+include grumpywidgets/tests/*.py
+include grumpyforms/tests/*.py
+
+recursive-include * *.genshi
+recursive-include * *.jinja2
+
+recursive-exclude * *.pyc

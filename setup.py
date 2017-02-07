@@ -32,6 +32,7 @@ setuptools.setup(
         'grumpywidgets.ext',
     ],
     packages=setuptools.find_packages(),
+    include_package_data = True,
     tests_require = ['nose'],
     test_suite = 'nose.collector',
     zip_safe=False,

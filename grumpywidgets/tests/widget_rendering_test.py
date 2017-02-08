@@ -52,3 +52,7 @@ class WidgetRenderingTest(PythonicTestCase):
         assert_contains('h', template_variables)
         assert_equals(template_helpers, template_variables['h'])
 
+    def test_can_serialize_to_html(self):
+        widget = Widget(template=StringIO(u'foobar'))
+        assert_equals(u'foobar', unicode(widget))
+

@@ -2,6 +2,7 @@
 # The source code contained in this file is licensed under the MIT license.
 # See LICENSE.txt in the main project directory, for more information.
 
+from io import StringIO
 import re
 
 from pycerberus.errors import InvalidDataError
@@ -10,6 +11,7 @@ from pythonic_testcase import *
 
 from grumpyforms.api import Form
 from grumpyforms.fields import ListField, TextField
+from grumpywidgets.api import Widget
 from grumpywidgets.testhelpers import as_normalized_html, assert_same_html, template_widget
 from grumpywidgets.widgets import Label
 
@@ -82,6 +84,12 @@ class FormChildrenRenderingTest(PythonicTestCase):
         self.form.children[0].label = 'items'
 
         expected = '<label>items</label><input type="text" name="number" />'
+        self.assert_child_html(expected, self.form.display())
+
+    def test_can_display_plain_widget_child_label(self):
+        self.form.children[0].label = Widget(template=StringIO(u'foobar'))
+
+        expected = '<label>foobar</label><input type="text" name="number" />'
         self.assert_child_html(expected, self.form.display())
 
     # --- child container ----------------------------------------------------

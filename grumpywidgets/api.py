@@ -151,6 +151,10 @@ class Widget(object):
         variables = self.template_variables(value, **kwargs)
         return self._render_template(variables)
 
+    def __html__(self):
+        return self.display()
+    __unicode__ = __html__
+
     def is_field(self):
         """Return True if this widget is an input field which may contain a
         value.

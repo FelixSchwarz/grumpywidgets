@@ -149,7 +149,7 @@ class FormChildrenRenderingTest(PythonicTestCase):
         # a stress test for pycerberus Error -> Exception conversion)
         assert_true(result.contains_errors())
         foo1 = result.children['foo'].items[0]
-        assert_equals({'id'}, set(foo1.errors))
+        assert_equals(set(['id']), set(foo1.errors))
         id_errors = foo1.errors['id']
         assert_length(1, id_errors)
         assert_equals('invalid_number', id_errors[0].details().key(),

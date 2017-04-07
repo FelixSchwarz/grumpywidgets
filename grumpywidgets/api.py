@@ -113,11 +113,22 @@ class Widget(object):
             # for now
             for meta_key, meta_value in (self.context.meta or {}).items():
                 template_value = template_values.get(meta_key)
-                # at some point we might have to decide what to do with
-                # conflicting keys - but I hope we can defer that decision as
-                # much as possible.
-                assert (not template_value), 'not supported yet'
-                template_values[meta_key] = meta_value
+                if template_value is None:
+                    new_value = meta_value
+                else:
+                    new_values = {}
+                    for key in set(meta_value).union(template_value):
+                        if (key in meta_value) and (key in template_value):
+                            # at some point we might have to decide what to do with
+                            # conflicting keys - but I hope we can defer that decision as
+                            # much as possible.
+                            raise AssertionError('conflicting key %s - merging not supported yet' % key)
+                        elif key in meta_value:
+                            new_values[key] = meta_value[key]
+                        else:
+                            new_values[key] = template_value[key]
+                    new_value = new_values
+                template_values[meta_key] = new_value
 
         value = self._display_value(value)
         if isinstance(value, dict):

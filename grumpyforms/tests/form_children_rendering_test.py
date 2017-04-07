@@ -50,6 +50,15 @@ class FormChildrenRenderingTest(PythonicTestCase):
         html = self.form.display({'number': '42'}, child_data={'number': number_attrs})
         self.assert_child_html(expected, html, strip_container=False)
 
+    def test_can_merge_child_attributes(self):
+        self.form.child_by_name(u'number').attrs = {'autocomplete': 'off'}
+        expected = u'<div class="number-container widgetcontainer fieldcontainer">' + \
+            u'<input type="text" name="number" value="42" autocomplete="off" style="margin-top: 10px;" />' +\
+            u'</div>'
+        number_attrs = {u'attrs': {u'style': u'margin-top: 10px;'}}
+        html = self.form.display({u'number': u'42'}, child_data={u'number': number_attrs})
+        self.assert_child_html(expected, html, strip_container=False)
+
     def test_can_change_child_id_with_display_parameter(self):
         # LATER: It would be nicer if the container also changed the class...
         expected = '<div class="number-container widgetcontainer fieldcontainer">' + \

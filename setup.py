@@ -17,7 +17,7 @@ def requires_from_file(filename):
 
 setuptools.setup(
     name = 'GrumpyWidgets',
-    version = '0.3dev',
+    version = '0.2.99.20170418',
 
     description = 'A grumpy widget library',
     license = 'MIT',

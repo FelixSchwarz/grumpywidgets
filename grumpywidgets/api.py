@@ -12,6 +12,7 @@ from . import template_helpers
 from .lib.simple_super import SuperProxy
 from .genshi_support import render_genshi_template
 from .jinja_support import render_jinja_template
+from .utils import provide_as_dict_item
 
 
 __all__ = ['Widget']
@@ -130,17 +131,14 @@ class Widget(object):
                             new_values[key] = template_value[key]
                     new_value = new_values
                 template_values[meta_key] = new_value
-            previous = self.context.meta.pop('template_values', None)
-            self.context.meta['template_values'] = template_values
 
-        value = self._display_value(value)
-        if isinstance(value, dict):
-            assert (None not in value.keys())
-            template_values.update(value)
-        else:
-            template_values['value'] = value
-        if not is_repeating_field_data:
-            self.context.meta['template_values'] = previous
+        with provide_as_dict_item(self.context.meta, 'template_values', template_values):
+            value = self._display_value(value)
+            if isinstance(value, dict):
+                assert (None not in value.keys())
+                template_values.update(value)
+            else:
+                template_values['value'] = value
         template_values.update({
             'h': template_helpers,
             'self_': self,

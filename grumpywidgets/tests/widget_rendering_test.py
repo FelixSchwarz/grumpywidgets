@@ -59,6 +59,8 @@ class WidgetRenderingTest(PythonicTestCase):
     def test_provides_template_variables_in_meta_context_during_display_value(self):
         # some widgets need access to all template_variables in
         # "._display_value()" so we need to provide it in meta context.
+        # Also ensure that this happens only temporarily so the context is not
+        # modified permanently.
         class ContextAwareWidget(Widget):
             template = StringIO(u'{{ value }}')
             options = ()
@@ -72,5 +74,12 @@ class WidgetRenderingTest(PythonicTestCase):
 
         widget = ContextAwareWidget()
         assert_equals('', widget.display())
+        assert_equals({}, widget.context.meta)
 
         assert_equals('1-2-3', widget.display(options=(1, 2, 3)))
+        assert_equals({}, widget.context.meta)
+
+        # ensure there is no permanent modification
+        widget.context.meta['template_variables'] = 'something'
+        assert_equals('1-2-3', widget.display(options=(1, 2, 3)))
+        assert_equals({'template_variables': 'something'}, widget.context.meta)

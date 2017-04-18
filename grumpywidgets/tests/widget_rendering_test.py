@@ -56,3 +56,21 @@ class WidgetRenderingTest(PythonicTestCase):
         widget = Widget(template=StringIO(u'foobar'))
         assert_equals(u'foobar', unicode(widget))
 
+    def test_provides_template_variables_in_meta_context_during_display_value(self):
+        # some widgets need access to all template_variables in
+        # "._display_value()" so we need to provide it in meta context.
+        class ContextAwareWidget(Widget):
+            template = StringIO(u'{{ value }}')
+            options = ()
+
+            def _display_value(self, value):
+                assert_contains('template_values', self.context.meta)
+                template_values = self.context.meta['template_values']
+                assert_contains('options', template_values)
+                options = template_values['options']
+                return '-'.join(map(str, options))
+
+        widget = ContextAwareWidget()
+        assert_equals('', widget.display())
+
+        assert_equals('1-2-3', widget.display(options=(1, 2, 3)))

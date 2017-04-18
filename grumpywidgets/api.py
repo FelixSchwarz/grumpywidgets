@@ -108,7 +108,8 @@ class Widget(object):
         if css_classes is not None:
             template_values['css_classes'] = ' '.join(css_classes)
         template_values.update(widget_attributes)
-        if not isinstance(self.context.meta, tuple):
+        is_repeating_field_data = isinstance(self.context.meta, tuple)
+        if not is_repeating_field_data:
             # currently no "meta" for RepeatingFieldData ("ListField") - ignored
             # for now
             for meta_key, meta_value in (self.context.meta or {}).items():
@@ -129,6 +130,8 @@ class Widget(object):
                             new_values[key] = template_value[key]
                     new_value = new_values
                 template_values[meta_key] = new_value
+            previous = self.context.meta.pop('template_values', None)
+            self.context.meta['template_values'] = template_values
 
         value = self._display_value(value)
         if isinstance(value, dict):
@@ -136,6 +139,8 @@ class Widget(object):
             template_values.update(value)
         else:
             template_values['value'] = value
+        if not is_repeating_field_data:
+            self.context.meta['template_values'] = previous
         template_values.update({
             'h': template_helpers,
             'self_': self,

@@ -4,21 +4,16 @@
 
 from xml.etree import ElementTree
 
+from htmlcompare import assert_same_html as assert_same_html_
+
 
 __all__ = ['as_normalized_html', 'assert_same_html', 'reconfigure_widget', 'template_widget']
 
 def assert_same_html(expected, actual, message=None):
-    # We need to normalize all whitespace (XML pretty printing) as well as
-    # dealing with <foo></foo> vs. <foo/>.
-    # BeautifulSoup was not up to the task as it does not cope well with the
-    # <foo/> variants (basically it assumes <foo>(other tags)</foo>)
-    first_xml = as_normalized_html(expected)
-    second_xml = as_normalized_html(actual)
-    if first_xml != second_xml:
-        msg = '%r != %r' % (first_xml, second_xml)
-        if message:
-            msg += ': ' + message
-        raise AssertionError(msg)
+    if hasattr(actual, '__unicode__'):
+        # serialize Genshi stream to plain strings
+        actual = actual.__unicode__()
+    assert_same_html_(expected, actual, message=message)
 
 def as_normalized_html(input_):
     # ----------------------------------------------------------------------

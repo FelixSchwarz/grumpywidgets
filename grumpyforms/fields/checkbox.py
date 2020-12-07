@@ -12,6 +12,7 @@ __all__ = ['Checkbox']
 class Checkbox(InputWidget):
     template_name = 'checkbox'
     option_value = None
+    readonly = None
 
     def __init__(self, *args, **kwargs):
         super(Checkbox, self).__init__(*args, **kwargs)

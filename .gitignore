@@ -1,5 +1,8 @@
-.project
-.pydevproject
+/.project
+/.pydevproject
 *.pyc
-dist
-*.egg-info
+/build
+/dist
+/*.egg-info
+/build-and-sign-release.sh
+/TODO.txt

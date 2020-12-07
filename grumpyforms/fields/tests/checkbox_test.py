@@ -64,6 +64,13 @@ class CheckboxRenderingTest(PythonicTestCase):
         assert_same_html('<input type="checkbox" readonly="readonly" />',
                          self._checkbox(readonly=True).display())
 
+    def test_can_render_input_as_disabled(self):
+        assert_same_html('<input type="checkbox" />', self._checkbox().display())
+        assert_same_html('<input type="checkbox" />',
+                         self._checkbox(disabled=False).display())
+        assert_same_html('<input type="checkbox" disabled="disabled" />',
+                         self._checkbox(disabled=True).display())
+
 
 class GenshiCheckboxRenderingTest(CheckboxRenderingTest):
     template_engine = 'genshi'

@@ -18,7 +18,7 @@ class ListField(InputWidget):
     children = ()
 
     def __init__(self, *args, **kwargs):
-        self.super.__init__(*args, **kwargs)
+        super(ListField, self).__init__(*args, **kwargs)
         self.children = self._initialize_children()
 
     def _initialize_children(self):
@@ -97,7 +97,7 @@ class ListField(InputWidget):
     def display(self, value=None, **kwargs):
         if value is not None:
             self.context.update(value)
-        return self.super(value=None, **kwargs)
+        return super(ListField, self).display(value=None, **kwargs)
 
     def path(self):
         parts = []

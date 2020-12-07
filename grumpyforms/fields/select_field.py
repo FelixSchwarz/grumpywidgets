@@ -17,6 +17,6 @@ class SelectField(InputWidget):
     options = ()
 
     def __init__(self, *args, **kwargs):
-        self.super(*args, **kwargs)
+        super(SelectField, self).__init__(*args, **kwargs)
         if self.validator is None:
             self.validator = OneOf(map(itemgetter(0), self.options))

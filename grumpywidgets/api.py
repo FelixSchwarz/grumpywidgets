@@ -9,7 +9,6 @@ import os
 from pycerberus.lib.form_data import FieldData
 
 from . import template_helpers
-from .lib.simple_super import SuperProxy
 from .genshi_support import render_genshi_template
 from .jinja_support import render_jinja_template
 from .utils import provide_as_dict_item
@@ -32,7 +31,6 @@ class Widget(object):
     parent = None
 
     _template_path = grumpywidgets_template_dir
-    super = SuperProxy()
 
     def __init__(self, **kwargs):
         self.context = None

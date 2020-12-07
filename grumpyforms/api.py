@@ -50,7 +50,7 @@ class InputWidget(Widget):
         return c
 
     def _display_value(self, value):
-        value = self.super(value)
+        value = super(InputWidget, self)._display_value(value)
         if value is None:
             value = self.context.initial_value
         if self.validator is None:
@@ -73,7 +73,7 @@ class InputWidget(Widget):
         return True
 
     def css_classes_for_container(self):
-        classes = set(self.super())
+        classes = set(super(InputWidget, self).css_classes_for_container())
         if self.name is not None:
             classes.add(self.name+'-container')
         if self.context.contains_errors():
@@ -109,7 +109,7 @@ class Form(InputWidget):
     children = ()
 
     def __init__(self, *args, **kwargs):
-        self.super.__init__(*args, **kwargs)
+        super(Form, self).__init__(*args, **kwargs)
         self.children = self._initialize_children()
 
     def _initialize_children(self):
@@ -177,7 +177,7 @@ class Form(InputWidget):
     def path(self):
         if self.parent is None:
             return ()
-        return self.super()
+        return super(Form, self).path()
 
     def new_context(self, unvalidated=None):
         context = FormData()

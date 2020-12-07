@@ -15,7 +15,7 @@ class Label(Widget):
     template_name = 'label'
 
     def _display_value(self, value):
-        value = self.super()
+        value = super(Label, self)._display_value(value)
         if value is not None:
             return value
         return self.value

@@ -5,6 +5,7 @@
 from io import StringIO
 
 from pythonic_testcase import *
+import six
 
 from grumpywidgets import template_helpers
 from grumpywidgets.api import Widget
@@ -54,7 +55,7 @@ class WidgetRenderingTest(PythonicTestCase):
 
     def test_can_serialize_to_html(self):
         widget = Widget(template=StringIO(u'foobar'))
-        assert_equals(u'foobar', unicode(widget))
+        assert_equals(u'foobar', six.text_type(widget))
 
     def test_provides_template_variables_in_meta_context_during_display_value(self):
         # some widgets need access to all template_variables in

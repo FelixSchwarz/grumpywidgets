@@ -8,7 +8,7 @@ try:
     is_jinja2_available = True
 except ImportError:
     is_jinja2_available = False
-
+import six
 
 __all__ = ['render_jinja_template']
 
@@ -19,7 +19,7 @@ def render_jinja_template(template, template_variables, template_path):
         template_ = Template(template.read())
         template.seek(0)
     else:
-        if isinstance(template_path, basestring):
+        if isinstance(template_path, six.string_types):
             loader = FileSystemLoader(template_path)
         else:
             loader = PackageLoader(*template_path)

@@ -6,7 +6,7 @@ from pythonic_testcase import *
 
 from grumpyforms.api import Form
 from grumpyforms.genshi_ import GenshiForm
-from grumpywidgets.testhelpers import assert_same_html
+from grumpywidgets.testhelpers import assert_same_html, flatten_stream
 
 
 class FormRenderingTest(PythonicTestCase):
@@ -64,7 +64,8 @@ class FormRenderingTest(PythonicTestCase):
                       self._form()(enctype='multipart/form-data').display(None))
 
     def test_can_specify_attributes_on_display(self):
-        assert_contains(' action="/login"', unicode(self._form()().display(url='/login')))
+        rendered_form = self._form()().display(url='/login')
+        assert_contains(' action="/login"', flatten_stream(rendered_form))
 
 
 class FormWithGenshiRenderingTest(FormRenderingTest):

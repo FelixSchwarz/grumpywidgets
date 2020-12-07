@@ -64,7 +64,7 @@ class ListField(InputWidget):
         context = self.new_context(unvalidated=values)
         try:
             validated_values = self.validator.process(values)
-        except InvalidDataError, e:
+        except InvalidDataError as e:
             for child_context, errors in zip(context.items, e.unpack_errors()):
                 child_context.update(errors=errors)
         else:

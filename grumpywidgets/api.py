@@ -7,6 +7,7 @@ from __future__ import absolute_import
 import os
 
 from pycerberus.lib.form_data import FieldData
+import six
 
 from . import template_helpers
 from .genshi_support import render_genshi_template
@@ -35,7 +36,7 @@ class Widget(object):
     def __init__(self, **kwargs):
         self.context = None
         self._template = None
-        for key in kwargs.keys():
+        for key in tuple(kwargs.keys()):
             if key.startswith('_'):
                 raise ValueError("Must not override private attribute '%s'" % key)
             if not hasattr(self, key):
@@ -52,7 +53,7 @@ class Widget(object):
                 # we can't detect that before...
                 pass
         if kwargs:
-            first_key = kwargs.keys()[0]
+            first_key = tuple(kwargs.keys())[0]
             raise TypeError("__init__() got an unexpected keyword argument '%s'" % first_key)
         if self.context is None:
             # for more complex widgets '.new_context()' might depend on class
@@ -166,6 +167,12 @@ class Widget(object):
     def __html__(self):
         return self.display()
     __unicode__ = __html__
+
+    def __str__(self):
+        html = self.__html__()
+        if six.PY3:
+            return html
+        return html.encode('utf8')
 
     def is_field(self):
         """Return True if this widget is an input field which may contain a

@@ -6,6 +6,7 @@ import re
 
 from pycerberus.validators import StringValidator
 from pythonic_testcase import *
+import six
 
 from grumpyforms.fields import ListField, TextField
 from grumpywidgets.testhelpers import (assert_same_html, as_normalized_html,
@@ -87,7 +88,7 @@ class ListFieldRenderingTest(PythonicTestCase):
 
     def test_can_render_list_field_with_multiple_children(self):
         input_ = [{'start': 's1', 'end': 'e1'}, {'start': 's2', 'end': 'e2'}]
-        html = unicode(self.list_field.display(input_))
+        html = six.text_type(self.list_field.display(input_))
         first_child = '<li>' +\
                 '<div class="start-container widgetcontainer fieldcontainer">' + \
                     '<input type="text" name="foo-1.start" value="s1" />' + \

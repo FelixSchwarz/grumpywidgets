@@ -3,7 +3,7 @@
     {%- if self_.full_name(name) %} name="{{ self_.full_name(name) }}"{% endif %}
     {%- if css_classes %} class="{{ css_classes }}"{% endif %}
     {%- if attrs -%}
-        {%- for key, value in attrs.iteritems() %} {{ key }}="{{ value }}" {% endfor -%}
+        {%- for key, value in attrs.items() %} {{ key }}="{{ value }}" {% endfor -%}
     {%- endif -%}>
 {% for option_value, option_display in options -%}
     <option value="{{ option_value }}"

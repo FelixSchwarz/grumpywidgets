@@ -12,7 +12,8 @@ from pythonic_testcase import *
 from grumpyforms.api import Form
 from grumpyforms.fields import ListField, TextField
 from grumpywidgets.api import Widget
-from grumpywidgets.testhelpers import as_normalized_html, assert_same_html, template_widget
+from grumpywidgets.testhelpers import (as_normalized_html, assert_same_html,
+    extract_classes, template_widget)
 from grumpywidgets.widgets import Label
 
 
@@ -105,7 +106,10 @@ class FormChildrenRenderingTest(PythonicTestCase):
 
     def test_container_contains_css_class_with_child_name(self):
         container_html = self.child_container_html(self.form.display({}))
-        self.assert_contains('class="number-container widgetcontainer fieldcontainer"', container_html)
+        self.assert_equals(
+            {'number-container', 'widgetcontainer', 'fieldcontainer'},
+            extract_classes(container_html)
+        )
 
     def test_can_render_view_only_children(self):
         self.form.children = [Label(value='foo'), ]
@@ -158,7 +162,7 @@ class FormChildrenRenderingTest(PythonicTestCase):
         # a stress test for pycerberus Error -> Exception conversion)
         assert_true(result.contains_errors())
         foo1 = result.children['foo'].items[0]
-        assert_equals(set(['id']), set(foo1.errors))
+        assert_equals({'id'}, set(foo1.errors))
         id_errors = foo1.errors['id']
         assert_length(1, id_errors)
         assert_equals('invalid_number', id_errors[0].details().key(),

@@ -43,7 +43,7 @@ class InputWidget(Widget):
         if self.validator is not None:
             try:
                 c.value = self.validator.process(value)
-            except InvalidDataError, e:
+            except InvalidDataError as e:
                 c.errors = (e, )
         else:
             c.value = value
@@ -126,7 +126,7 @@ class Form(InputWidget):
         try:
             schema = self.validation_schema()
             validated_values = schema.process(values)
-        except InvalidDataError, e:
+        except InvalidDataError as e:
             context.update(errors=e.unpack_errors())
         else:
             context.update(validated_values)

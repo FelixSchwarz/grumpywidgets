@@ -5,7 +5,7 @@
     {%- if rows %} rows="{{ rows }}"{% endif %}
     {%- if css_classes %} class="{{ css_classes }}"{% endif %}
     {%- if attrs -%}
-        {%- for key, value in attrs.iteritems() %} {{ key }}="{{ value }}" {% endfor -%}
+        {%- for key, value in attrs.items() %} {{ key }}="{{ value }}" {% endfor -%}
     {%- endif -%}>
     {%- if value %}{{ value }}{% endif -%}
 </textarea>

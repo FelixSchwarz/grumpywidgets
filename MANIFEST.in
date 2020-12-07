@@ -3,6 +3,7 @@ include LICENSE.txt
 include VERSION.txt
 include grumpywidgets/tests/*.py
 include grumpyforms/tests/*.py
+include grumpyforms/fields/tests/*.py
 
 recursive-include * *.genshi
 recursive-include * *.jinja2

@@ -1,7 +1,7 @@
 Changelog
 ******************************
 
-0.3.0 (...)
+0.3.0 (2020-12-07)
 ====================
 - widgets can use a custom template engine (current default is Jinja2)
 - added Genshi templates for all widgets

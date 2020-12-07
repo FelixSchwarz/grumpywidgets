@@ -7,6 +7,7 @@ from grumpywidgets.widget_list import widgets_in_module
 from grumpyforms.api import Form, InputWidget as _InputWidget
 import grumpyforms.fields
 
+
 # dynamically create Genshi variants of all widgets from grumpyforms.
 # That way Genshi users can import these variants conveniently via this module
 symbols_ = globals()
@@ -19,3 +20,7 @@ for name, _widget in widgets_in_module(grumpyforms.fields, _InputWidget):
 
 class GenshiForm(Form):
     template_engine = 'genshi'
+
+# users should not accidentally import a jinja-backed Form from this module
+del globals()['Form']
+

@@ -10,7 +10,6 @@ import copy
 from pycerberus.errors import InvalidDataError
 from pycerberus.lib.form_data import FieldData, FormData
 from pycerberus.schema import SchemaValidator
-from pythonic_testcase import assert_isinstance
 
 from grumpywidgets.api import Widget
 from grumpywidgets.widgets import Label
@@ -189,5 +188,5 @@ class Form(InputWidget):
         return context
 
     def set_context(self, context):
-        assert_isinstance(context, FormData)
+        assert isinstance(context, FormData)
         self.context = context

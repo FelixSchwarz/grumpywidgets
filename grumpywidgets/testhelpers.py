@@ -4,8 +4,6 @@
 
 from xml.etree import ElementTree
 
-from pythonic_testcase import assert_equals
-
 
 __all__ = ['as_normalized_html', 'assert_same_html', 'reconfigure_widget', 'template_widget']
 
@@ -16,7 +14,11 @@ def assert_same_html(expected, actual, message=None):
     # <foo/> variants (basically it assumes <foo>(other tags)</foo>)
     first_xml = as_normalized_html(expected)
     second_xml = as_normalized_html(actual)
-    assert_equals(first_xml, second_xml, message=message)
+    if first_xml != second_xml:
+        msg = '%r != %r' % (first_xml, second_xml)
+        if message:
+            msg += ': ' + message
+        raise AssertionError(msg)
 
 def as_normalized_html(input_):
     # ----------------------------------------------------------------------

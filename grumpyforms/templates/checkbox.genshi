@@ -2,6 +2,5 @@
 	type="checkbox"
 	id="${id}" name="${name}"
 	value="${option_value}"
-	readonly="${'readonly' if (readonly == True) else None}"
 	disabled="${'disabled' if (disabled == True) else None}"
 	checked="${'checked' if (value == True) else None}" class="${css_classes}" />

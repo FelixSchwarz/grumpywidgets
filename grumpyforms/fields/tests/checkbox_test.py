@@ -57,13 +57,6 @@ class CheckboxRenderingTest(PythonicTestCase):
         assert_same_html('<input type="checkbox" class="checkbox send" />',
                          self._checkbox(css_classes = ('checkbox', 'send')).display())
 
-    def test_can_render_input_as_readonly(self):
-        assert_same_html('<input type="checkbox" />', self._checkbox().display())
-        assert_same_html('<input type="checkbox" />',
-                         self._checkbox(readonly=False).display())
-        assert_same_html('<input type="checkbox" readonly="readonly" />',
-                         self._checkbox(readonly=True).display())
-
     def test_can_render_input_as_disabled(self):
         assert_same_html('<input type="checkbox" />', self._checkbox().display())
         assert_same_html('<input type="checkbox" />',

@@ -1,6 +1,10 @@
 Changelog
 ******************************
 
+0.4.? (????-??-??)
+====================
+- remove "readonly" attribute for Checkbox widget as it does not work as expected
+
 0.4.1 (2020-12-07)
 ====================
 - add extra "testhelpers" to declare additional runtime dependencies when

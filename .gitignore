@@ -6,3 +6,4 @@
 /*.egg-info
 /build-and-sign-release.sh
 /TODO.txt
+/venv*

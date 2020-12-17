@@ -1,7 +1,7 @@
 Changelog
 ******************************
 
-0.4.? (????-??-??)
+0.4.2 (2020-12-17)
 ====================
 - remove "readonly" attribute for Checkbox widget as it does not work as expected
 
